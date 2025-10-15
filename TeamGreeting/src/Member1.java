@@ -7,8 +7,8 @@
  *
  * @author kookie
  */
-public class Main {
+public class Member1 {
     public static void main(String[] args) {
-        Member1.main(args);
+        System.out.println("Hello from Member 1!");
     }
 }
