@@ -1,7 +1,4 @@
 /TeamGreeting/nbproject/private/
 /TeamGreeting/build/
-
-# NetBeans private configuration files
-*/nbproject/private/
-*/build/
-*/dist/
+/DigitalUniversitySystem/nbproject/private/
+/DigitalUniversitySystem/build/
