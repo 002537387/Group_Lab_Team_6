@@ -28,6 +28,10 @@ public class UserAccount {
     public String getPersonId(){
         return profile.getPerson().getPersonId();
     }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
     
     public String getUserLoginName(){
         return username;
@@ -43,6 +47,8 @@ public class UserAccount {
         else return false;      
     }
     
+    
+    
     public String getRole(){
         return profile.getRole();
     }
@@ -54,7 +60,7 @@ public class UserAccount {
     @Override
         public String toString(){
             
-            return getUserLoginName();
+            return getPersonId();
         }
         
 }

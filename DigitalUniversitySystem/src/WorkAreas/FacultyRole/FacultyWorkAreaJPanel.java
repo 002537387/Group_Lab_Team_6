@@ -7,7 +7,7 @@ package WorkAreas.FacultyRole;
 
 import Business.Business;
 import Business.Profiles.FacultyProfile;
-import WorkAreas.AdminRole.ManagePersonsJPanel;
+import WorkAreas.AdminRole.PersonRegistrationJPanel;
 import javax.swing.JPanel;
 
 /**
@@ -166,7 +166,7 @@ public class FacultyWorkAreaJPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         CardSequencePanel.removeAll();
 
-        ManagePersonsJPanel aos = new ManagePersonsJPanel(business, CardSequencePanel);
+        PersonRegistrationJPanel aos = new PersonRegistrationJPanel(business, CardSequencePanel);
 
         CardSequencePanel.add("Manage Persons", aos);
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
