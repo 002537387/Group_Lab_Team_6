@@ -14,15 +14,13 @@ import java.util.ArrayList;
  *
  * @author Ing-Ruei
  */
-public class StudentDirectory {
 
+public class StudentDirectory {
 
     ArrayList<StudentProfile> studentlist;
 
     public StudentDirectory() {
-
-     studentlist = new ArrayList();
-
+        studentlist = new ArrayList();
     }
 
     public StudentProfile newStudentProfile(Person p) {
