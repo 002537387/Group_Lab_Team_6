@@ -5,7 +5,10 @@
  */
 package Business.Profiles;
 
+import Business.CourseSchedule.CourseLoad;
 import Business.Person.Person;
+import Business.CourseSchedule.SeatAssignment;
+import java.util.ArrayList;
 
 /**
  *
@@ -14,10 +17,20 @@ import Business.Person.Person;
 public class StudentProfile extends Profile {
 
     Person person;
+    ArrayList<SeatAssignment> courseList;
+    CourseLoad courseLoad;
 
     public StudentProfile(Person p) {
         super(p);
+        courseList = new ArrayList<>();
+    }
 
+    public CourseLoad getCurrentCourseLoad() {
+        return courseLoad;
+    }
+
+    public ArrayList<SeatAssignment> getCourseList() {
+        return courseList;
     }
 
     @Override
