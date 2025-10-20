@@ -4,10 +4,10 @@
  */
 
 package WorkAreas.StudentRole;
-
 import Business.Business;
 import Business.Profiles.StudentProfile;
 import javax.swing.JPanel;
+import WorkAreas.StudentRole.CourseworkmanagementJPanel;
 
 /**
  *
@@ -177,7 +177,9 @@ public class StudentWorkAreaJPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton4IdentifyResourceAssetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4IdentifyResourceAssetsActionPerformed
-        
+    CourseworkmanagementJPanel panel = new CourseworkmanagementJPanel(CardSequencePanel, student);
+    CardSequencePanel.add("Courseworkmanagement", panel);
+    ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
 
     }//GEN-LAST:event_jButton4IdentifyResourceAssetsActionPerformed
 
