@@ -31,15 +31,11 @@ class Configure {
         // Create Persons
         PersonDirectory persondirectory = business.getPersonDirectory();
         // person representing sales organization        
-        Person person001 = persondirectory.newPerson("John");
-        Person person002 = persondirectory.newPerson("Gina");
-        Person person003 = persondirectory.newPerson("Adam"); 
-        Person person005 = persondirectory.newPerson("Jim");
-        Person person006 = persondirectory.newPerson("Anna");
-        Person person007 = persondirectory.newPerson("Laura");
-        Person person008 = persondirectory.newPerson("Jack");
-        Person person009 = persondirectory.newPerson("Fidelity"); //we use this as customer
-
+        Person person001 = persondirectory.newPerson("1");
+        Person person002 = persondirectory.newPerson("2");
+        Person person003 = persondirectory.newPerson("3"); 
+        Person person005 = persondirectory.newPerson("4");
+        
         // Create Admins to manage the business
         EmployeeDirectory employeedirectory = business.getEmployeeDirectory();
         EmployeeProfile employeeprofile0 = employeedirectory.newEmployeeProfile(person001);
