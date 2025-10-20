@@ -194,7 +194,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="24" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="My Faculty Profie"/>
+        <Property name="text" type="java.lang.String" value="My Faculty Profile"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="jButton7">
