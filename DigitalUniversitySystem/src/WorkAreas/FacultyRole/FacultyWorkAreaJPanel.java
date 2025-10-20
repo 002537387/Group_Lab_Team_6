@@ -43,7 +43,7 @@ public class FacultyWorkAreaJPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         btnCourseMng = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
+        btnStudentMng = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -65,17 +65,17 @@ public class FacultyWorkAreaJPanel extends javax.swing.JPanel {
             }
         });
 
-        jButton10.setBackground(new java.awt.Color(102, 153, 255));
-        jButton10.setFont(getFont());
-        jButton10.setForeground(new java.awt.Color(255, 255, 255));
-        jButton10.setText("Student Management");
-        jButton10.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jButton10.setMaximumSize(new java.awt.Dimension(200, 40));
-        jButton10.setMinimumSize(new java.awt.Dimension(20, 20));
-        jButton10.setPreferredSize(new java.awt.Dimension(240, 25));
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
+        btnStudentMng.setBackground(new java.awt.Color(102, 153, 255));
+        btnStudentMng.setFont(getFont());
+        btnStudentMng.setForeground(new java.awt.Color(255, 255, 255));
+        btnStudentMng.setText("Student Management");
+        btnStudentMng.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnStudentMng.setMaximumSize(new java.awt.Dimension(200, 40));
+        btnStudentMng.setMinimumSize(new java.awt.Dimension(20, 20));
+        btnStudentMng.setPreferredSize(new java.awt.Dimension(240, 25));
+        btnStudentMng.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
+                btnStudentMngActionPerformed(evt);
             }
         });
 
@@ -139,7 +139,7 @@ public class FacultyWorkAreaJPanel extends javax.swing.JPanel {
                             .addComponent(btnCourseMng, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
                         .addGap(72, 72, 72)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnStudentMng, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(551, Short.MAX_VALUE))
         );
@@ -151,7 +151,7 @@ public class FacultyWorkAreaJPanel extends javax.swing.JPanel {
                 .addGap(76, 76, 76)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCourseMng, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnStudentMng, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -173,11 +173,11 @@ public class FacultyWorkAreaJPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_btnCourseMngIdentifyResourceAssetsActionPerformed
 
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+    private void btnStudentMngActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStudentMngActionPerformed
         // TODO add your handling code here:
 
   
-    }//GEN-LAST:event_jButton10ActionPerformed
+    }//GEN-LAST:event_btnStudentMngActionPerformed
 
     private void jButton6IdentifyEventsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6IdentifyEventsActionPerformed
         // TODO add your handling code here:
@@ -201,7 +201,7 @@ public class FacultyWorkAreaJPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCourseMng;
-    private javax.swing.JButton jButton10;
+    private javax.swing.JButton btnStudentMng;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
