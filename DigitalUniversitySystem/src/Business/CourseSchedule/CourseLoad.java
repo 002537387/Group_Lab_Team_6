@@ -35,15 +35,78 @@ public class CourseLoad {
         seatassignments.add(sa);
     }
     
-    public float getSemesterScore(){ //total score for a full semeter
-        float sum = 0;
-        for (SeatAssignment sa: seatassignments){
-            sum = sum + sa.GetCourseStudentScore();
-        }
-        return sum;
+    public double getSemesterScore(){  
+    double sum = 0;                
+    for (SeatAssignment sa: seatassignments){
+        sum = sum + sa.GetCourseStudentScore();
     }
+    return sum;
+}
         public ArrayList<SeatAssignment> getSeatAssignments(){
             return seatassignments;
         }
+        
+        /**
+     * 取得课程清单
+     */
+    public ArrayList<CourseOffer> getCourseOfferList() {
+        ArrayList<CourseOffer> list = new ArrayList<>();
+        for (SeatAssignment sa : seatassignments) {
+            list.add(sa.getCourseOffer());
+        }
+        return list;
+    }
+    /**
+     * 计算学费总额
+     */
+    public double getTuitionFee() {
+        double sum = 0;
+        for (SeatAssignment sa : seatassignments) {
+            sum += sa.getCourseOffer().getTuitionFee();
+        }
+        return sum;
+    }
             
+    /**
+     * 计算平均 GPA
+     */
+    public String getAverageGPA() {
+        double sum = 0;
+        int totalCredits = 0;
+        for (SeatAssignment sa : seatassignments) {
+            sum += sa.getGPA() * sa.getCreditHours();
+            totalCredits += sa.getCreditHours();
+        }
+        if (totalCredits == 0) return "0.00";
+        return String.format("%.2f", sum / totalCredits);
+    }
+    /**
+     * 计算总学分
+     */
+    public int getTotalCredits() {
+        int sum = 0;
+        for (SeatAssignment sa : seatassignments) {
+            sum += sa.getCreditHours();
+        }
+        return sum;
+    }
+    
+    /**
+     * 取得学期名称
+     */
+    public String getSemester() {
+        return semester;
+    }
+    
+    /**
+     * 退课
+     */
+    public void dropCourse(SeatAssignment sa) {
+        seatassignments.remove(sa);
+    }
+    
+    @Override
+    public String toString() {
+     return semester;
+    }
 }

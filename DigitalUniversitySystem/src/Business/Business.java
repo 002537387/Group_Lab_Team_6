@@ -5,6 +5,7 @@
  */
 package Business;
 
+import Business.Department.Department;
 import Business.Directory.PersonDirectory;
 import Business.Directory.EmployeeDirectory;
 import Business.Directory.FacultyDirectory;
@@ -25,6 +26,7 @@ public class Business {
     StudentDirectory studentdirectory;
     FacultyDirectory facultyDirectory;
     RegistrarDirectory registrarDirectory;
+    //private Department department; 
 
 
     public Business(String n) {
@@ -38,6 +40,16 @@ public class Business {
         registrarDirectory = new RegistrarDirectory();
     }
 
+   /* public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+*/
+
+    
     public PersonDirectory getPersonDirectory() {
         return persondirectory;
     }

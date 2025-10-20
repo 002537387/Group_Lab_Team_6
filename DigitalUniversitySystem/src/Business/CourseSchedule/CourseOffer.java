@@ -38,7 +38,7 @@ public class CourseOffer {
         return course.getCOurseNumber();
     }
 
-    public void generatSeats(int n) {
+    public void generateSeats(int n) {
 
         for (int i = 0; i < n; i++) {
 
@@ -88,6 +88,46 @@ public class CourseOffer {
     }
     public int getCreditHours(){
         return course.getCredits();
+    }
+    /**
+     * 取得学费
+     */
+    public int getTuitionFee() {
+        return course.getCoursePrice();
+    }
+    
+    /**
+     * 取得教授名字
+     */
+    public String getFaculty() {
+        if (facultyassignment == null) return "TBA";
+        return facultyassignment.getFacultyProfile().getFacultyName();
+    }
+    
+    /**
+     * 取得剩余座位数
+     */
+    public int getTotalEmptySeat() {
+        int count = 0;
+        for (Seat s : seatlist) {
+            if (!s.isOccupied()) count++;
+        }
+            return count;
+        }
+    /**
+     * 取得已注册学生数
+     */
+    public int getTotalRegistedStudent() {
+        int count = 0;
+        for (Seat s : seatlist) {
+            if (s.isOccupied()) count++;
+        }
+        return count;
+    }
+    
+    @Override
+    public String toString() {
+        return course.getCOurseNumber();
     }
 
 }

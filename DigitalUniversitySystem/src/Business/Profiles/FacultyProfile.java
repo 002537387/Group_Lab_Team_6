@@ -22,5 +22,8 @@ public class FacultyProfile extends Profile {
     public String getRole() {
         return "Faculty";
     }
+    public String getFacultyName() {
+        return getPerson().getPersonId();
+    }
     
 }

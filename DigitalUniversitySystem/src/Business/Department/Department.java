@@ -17,6 +17,7 @@ import Business.Directory.PersonDirectory;
 import Business.Directory.StudentDirectory;
 import Business.Profiles.StudentProfile;
 import java.util.HashMap;
+import Business.Directory.UserAccountDirectory;  
 
 /**
  *
@@ -24,14 +25,13 @@ import java.util.HashMap;
  */
 public class Department {
 
-    String name;
+     String name;
     CourseCatalog coursecatalog;
     PersonDirectory persondirectory;
     StudentDirectory studentdirectory;
     FacultyDirectory facultydirectory;
-
+    UserAccountDirectory useraccountdirectory;  
     Degree degree;
-
     HashMap<String, CourseSchedule> mastercoursecatalog;
 
     public Department(String n) {
@@ -40,6 +40,8 @@ public class Department {
         coursecatalog = new CourseCatalog(this);
         studentdirectory = new StudentDirectory(); //pass the department object so it stays linked to it
         persondirectory = new PersonDirectory();
+        facultydirectory = new FacultyDirectory(); 
+        useraccountdirectory = new UserAccountDirectory();
         degree = new Degree("MSIS");
         
     }
@@ -106,5 +108,12 @@ public class Department {
 
         co.assignEmptySeat(cl);
 
+    }
+     public FacultyDirectory getFacultyDirectory() {
+        return facultydirectory;
+    }
+    
+    public UserAccountDirectory getUserAccountDirectory() {
+        return useraccountdirectory;
     }
 }
