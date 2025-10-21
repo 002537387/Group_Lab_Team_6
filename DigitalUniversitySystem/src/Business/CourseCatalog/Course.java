@@ -36,5 +36,8 @@ public class Course {
         return credits;
     
 }
+    public String getCourseName() {
+        return name;
+    }
     
 }
