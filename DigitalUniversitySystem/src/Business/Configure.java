@@ -138,7 +138,7 @@ class Configure {
         student1.setBalance(14400);  
         student2.setBalance(14400);
         
-        //business.setDepartment(department);
+        business.setDepartment(department);
         
         return business;
     }

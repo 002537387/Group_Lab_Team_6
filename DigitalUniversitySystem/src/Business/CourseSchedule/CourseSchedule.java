@@ -57,5 +57,25 @@ public class CourseSchedule {
         }
         return sum;
     }
+     /**
+     * 獲取所有課程
+     */
+    public ArrayList<CourseOffer> getCourseOffers() {
+        return schedule;
+    }
+    
+    /**
+     * 根據課程代碼獲取課程（別名方法）
+     */
+    public CourseOffer getCourseOffer(String courseNumber) {
+        return getCourseOfferByNumber(courseNumber);
+    }
+    
+    /**
+     * 獲取學期名稱
+     */
+    public String getSemester() {
+        return semester;
+    }
 
 }
