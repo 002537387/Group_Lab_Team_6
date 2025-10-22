@@ -124,6 +124,19 @@ public class CourseOffer {
         }
         return count;
     }
+    /**
+     * 獲取剩餘座位數（別名方法）
+     */
+    public int getSeatsRemaining() {
+        return getTotalEmptySeat();
+    }
+    
+    /**
+     * 獲取總座位數
+     */
+    public int getTotalSeats() {
+        return seatlist.size();
+    }
     
     @Override
     public String toString() {
