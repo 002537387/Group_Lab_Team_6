@@ -39,8 +39,19 @@ public class UserAccountDirectory {
                 return ua;
             }
         }
-            return null; //not found after going through the whole list
+            return null; 
     }
+    
+    public ArrayList<UserAccount> findStudentAccount() {
+        ArrayList<UserAccount> studentList = new ArrayList();
+        for (UserAccount ua : useraccountlist) {
+            if (ua.getRole().equals("Student")) {
+                studentList.add(ua);
+            }
+        }
+            return studentList; 
+    }
+    
     public UserAccount AuthenticateUser(String un, String pw) {
 
        for (UserAccount ua : useraccountlist) {
