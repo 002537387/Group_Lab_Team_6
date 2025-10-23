@@ -18,6 +18,7 @@ import Business.Directory.StudentDirectory;
 import Business.Profiles.StudentProfile;
 import java.util.HashMap;
 import Business.Directory.UserAccountDirectory;  
+import java.util.ArrayList;
 
 /**
  *
@@ -45,6 +46,11 @@ public class Department {
         degree = new Degree("MSIS");
         
     }
+
+    public String getName() {
+        return name;
+    }
+    
     public void addCoreCourse(Course c){
         degree.addCoreCourse(c);
         
@@ -115,5 +121,9 @@ public class Department {
     
     public UserAccountDirectory getUserAccountDirectory() {
         return useraccountdirectory;
+    }
+
+    public ArrayList<Business.Person.Person> searchPersons() {
+        return persondirectory.getPersons();
     }
 }

@@ -118,6 +118,10 @@ public class CreateUserAccount extends javax.swing.JPanel {
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         // TODO add your handling code here:
+        if (txtName.getText().isEmpty() || txtPass.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Username and Password cannot be empty!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
        UserAccountDirectory uadirectory = business.getUserAccountDirectory();
        UserAccount acc = uadirectory.findUserAccount(profile.getPerson().getPersonId());
        acc.setUsername(txtName.getText());
