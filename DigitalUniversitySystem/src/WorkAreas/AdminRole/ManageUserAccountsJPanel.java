@@ -61,14 +61,13 @@ import javax.swing.table.DefaultTableModel;
     private void initComponents() {
 
         Back = new javax.swing.JButton();
-        btnNext = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         UserAccountTable = new javax.swing.JTable();
         btnDelete = new javax.swing.JButton();
-
-        setLayout(null);
+        btnCreate = new javax.swing.JButton();
 
         Back.setText("<< Back");
         Back.addActionListener(new java.awt.event.ActionListener() {
@@ -76,27 +75,19 @@ import javax.swing.table.DefaultTableModel;
                 BackActionPerformed(evt);
             }
         });
-        add(Back);
-        Back.setBounds(30, 300, 74, 23);
 
-        btnNext.setText("Next >>");
-        btnNext.addActionListener(new java.awt.event.ActionListener() {
+        btnUpdate.setText("Update ");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNextActionPerformed(evt);
+                btnUpdateActionPerformed(evt);
             }
         });
-        add(btnNext);
-        btnNext.setBounds(500, 300, 80, 23);
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel1.setText("User Accounts");
-        add(jLabel1);
-        jLabel1.setBounds(30, 90, 190, 19);
+        jLabel1.setText("Profile");
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel2.setText("Manage User Accounts");
-        add(jLabel2);
-        jLabel2.setBounds(21, 20, 550, 28);
 
         UserAccountTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -116,17 +107,62 @@ import javax.swing.table.DefaultTableModel;
         });
         jScrollPane1.setViewportView(UserAccountTable);
 
-        add(jScrollPane1);
-        jScrollPane1.setBounds(30, 110, 550, 130);
-
         btnDelete.setText("Delete");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteActionPerformed(evt);
             }
         });
-        add(btnDelete);
-        btnDelete.setBounds(30, 250, 72, 23);
+
+        btnCreate.setText("Create");
+        btnCreate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(btnCreate)
+                .addGap(308, 308, 308)
+                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(Back))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jLabel2)
+                .addGap(42, 42, 42)
+                .addComponent(jLabel1)
+                .addGap(1, 1, 1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnDelete)
+                        .addComponent(btnCreate))
+                    .addComponent(btnUpdate))
+                .addGap(27, 27, 27)
+                .addComponent(Back))
+        );
     }// </editor-fold>//GEN-END:initComponents
 
     private void BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackActionPerformed
@@ -135,13 +171,24 @@ import javax.swing.table.DefaultTableModel;
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
     }//GEN-LAST:event_BackActionPerformed
 
-    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
+        int size = UserAccountTable.getRowCount();
+        int selectedrow = UserAccountTable.getSelectionModel().getLeadSelectionIndex();
+
+        if (selectedrow < 0 || selectedrow > size - 1) {
+            JOptionPane.showMessageDialog(null,"Please select a row from the table first","Warning", JOptionPane.WARNING_MESSAGE );
+            return;
+        }
         if(selecteduseraccount == null) return;
+        if(selecteduseraccount.getUserLoginName() == null){
+            JOptionPane.showMessageDialog(null,"Please create an account first","Warning", JOptionPane.WARNING_MESSAGE );
+            return;
+        }
         ManageUserAccount mppd = new ManageUserAccount(selecteduseraccount, CardSequencePanel);
         CardSequencePanel.add(mppd);
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
-    }//GEN-LAST:event_btnNextActionPerformed
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void UserAccountTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UserAccountTableMousePressed
         // Extracts the row (uaser account) in the table that is selected by the user
@@ -160,18 +207,46 @@ import javax.swing.table.DefaultTableModel;
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-          business.getUserAccountDirectory().removeAccount(selecteduseraccount);
-          refreshTable();
-          System.out.println(selecteduseraccount);
+        int size = UserAccountTable.getRowCount();
+        int selectedrow = UserAccountTable.getSelectionModel().getLeadSelectionIndex();
+
+        if (selectedrow < 0 || selectedrow > size - 1) {
+            JOptionPane.showMessageDialog(null,"Please select a row from the table first","Warning", JOptionPane.WARNING_MESSAGE );
+            return;
+        }
+        int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the selected Account?", "Warning", JOptionPane.WARNING_MESSAGE);
+        if(dialogResult == JOptionPane.YES_NO_OPTION){
+            business.getUserAccountDirectory().removeAccount(selecteduseraccount);
+            refreshTable();
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
+        // TODO add your handling code here:
+        int size = UserAccountTable.getRowCount();
+        int selectedrow = UserAccountTable.getSelectionModel().getLeadSelectionIndex();
+
+        if (selectedrow < 0 || selectedrow > size - 1) {
+            JOptionPane.showMessageDialog(null,"Please select a row from the table first","Warning", JOptionPane.WARNING_MESSAGE );
+            return;
+        }
+        if (selecteduseraccount.getUserLoginName() != null){
+            JOptionPane.showMessageDialog(null,"This profile already has an account","Warning", JOptionPane.WARNING_MESSAGE );
+            return;
+        }  
+        CreateUserAccount cua = new CreateUserAccount(business,CardSequencePanel, selecteduseraccount.getAssociatedPersonProfile());
+        CardSequencePanel.add(cua);
+        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
+    }//GEN-LAST:event_btnCreateActionPerformed
     
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Back;
     private javax.swing.JTable UserAccountTable;
+    private javax.swing.JButton btnCreate;
     private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnNext;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;

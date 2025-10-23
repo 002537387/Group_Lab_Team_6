@@ -55,13 +55,15 @@ public class PersonRegistrationJPanel extends javax.swing.JPanel {
 
         Back = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        txtName = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         cbxRole = new javax.swing.JComboBox<>();
-        jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         lblID = new javax.swing.JLabel();
         btnCreate = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        txtEmail = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        txtContact = new javax.swing.JTextField();
 
         Back.setText("<< Back");
         Back.addActionListener(new java.awt.event.ActionListener() {
@@ -77,8 +79,6 @@ public class PersonRegistrationJPanel extends javax.swing.JPanel {
 
         cbxRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Faculty", "Student", "Registrar" }));
 
-        jLabel4.setText("UserName");
-
         jLabel5.setText("University ID");
 
         btnCreate.setText("Create");
@@ -88,6 +88,10 @@ public class PersonRegistrationJPanel extends javax.swing.JPanel {
             }
         });
 
+        jLabel6.setText("Email");
+
+        jLabel7.setText("Contact");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -95,52 +99,58 @@ public class PersonRegistrationJPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Back, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(70, 70, 70))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGap(57, 57, 57)))
+                        .addGap(167, 167, 167)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(Back, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(57, 57, 57)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtName, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                            .addComponent(lblID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(btnCreate)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(70, 70, 70)
-                            .addComponent(cbxRole, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(21, 21, 21))
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(57, 57, 57)
+                                .addComponent(lblID, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(btnCreate)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(70, 70, 70)
+                                        .addComponent(cbxRole, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(70, 70, 70)
+                                        .addComponent(txtEmail))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(70, 70, 70)
+                                        .addComponent(txtContact, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                .addGap(21, 91, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblID))
-                .addGap(39, 39, 39)
+                .addGap(30, 30, 30)
+                .addComponent(Back)
+                .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtName)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(38, 38, 38)
+                    .addComponent(lblID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE))
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addComponent(cbxRole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(57, 57, 57)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Back)
-                    .addComponent(btnCreate))
-                .addContainerGap(366, Short.MAX_VALUE))
+                .addGap(39, 39, 39)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtEmail)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(38, 38, 38)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtContact)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(61, 61, 61)
+                .addComponent(btnCreate)
+                .addContainerGap(259, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -154,31 +164,46 @@ public class PersonRegistrationJPanel extends javax.swing.JPanel {
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         // TODO add your handling code here:
+        // inspect
+        
+        if(txtEmail.getText().isBlank() || txtContact.getText().isBlank()){
+           JOptionPane.showMessageDialog(null, "Fill out the info !", "Error", JOptionPane.ERROR_MESSAGE); 
+           return;
+        }
+        // Create Person that link  
         PersonDirectory persondirectory = business.getPersonDirectory();
-        Person person = persondirectory.newPerson(lblID.getText()); 
+        Person person = persondirectory.newPerson(lblID.getText());         
         // Create User accounts that link to specific profiles
         UserAccountDirectory uadirectory = business.getUserAccountDirectory();
-        // Create Admins to manage the business
+        // Create Profile to manage the business
         switch(cbxRole.getSelectedItem().toString()){
             case "Admin":
                 EmployeeDirectory employeedirectory = business.getEmployeeDirectory();
                 EmployeeProfile employeeprofile = employeedirectory.newEmployeeProfile(person);
-                uadirectory.newUserAccount(employeeprofile, txtName.getText(), "****"); 
+                employeeprofile.setEmail(txtEmail.getText());
+                employeeprofile.setContact(txtContact.getText());
+                uadirectory.newUserAccount(employeeprofile, null, null); 
                 break;
             case "Faculty":               
                 FacultyDirectory facultyDirectory = business.getFacultyDirectory();
                 FacultyProfile facultyprofile = facultyDirectory.newFacultyProfile(person);
-                uadirectory.newUserAccount(facultyprofile, txtName.getText(), "****"); 
+                facultyprofile.setEmail(txtEmail.getText());
+                facultyprofile.setContact(txtContact.getText());
+                uadirectory.newUserAccount(facultyprofile, null, null); 
                 break;
             case "Registrar":
                 RegistrarDirectory registrarDirectory = business.getRegistrarDirectory();
                 RegistrarProfile registrarprofile = registrarDirectory.newRegistrarProfile(person);
-                uadirectory.newUserAccount(registrarprofile, txtName.getText(), "****"); 
+                registrarprofile.setEmail(txtEmail.getText());
+                registrarprofile.setContact(txtContact.getText());
+                uadirectory.newUserAccount(registrarprofile, null, null); 
                 break;
             default:                
                 StudentDirectory studentdirectory = business.getStudentDirectory();
                 StudentProfile studentprofile = studentdirectory.newStudentProfile(person);
-                uadirectory.newUserAccount(studentprofile, txtName.getText(), "****"); 
+                studentprofile.setEmail(txtEmail.getText());
+                studentprofile.setContact(txtContact.getText());
+                uadirectory.newUserAccount(studentprofile, null, null); 
         }
    
         JOptionPane.showMessageDialog(null, "Successfully Create a Profile", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -194,10 +219,12 @@ public class PersonRegistrationJPanel extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> cbxRole;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel lblID;
-    private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtContact;
+    private javax.swing.JTextField txtEmail;
     // End of variables declaration//GEN-END:variables
 
 }
