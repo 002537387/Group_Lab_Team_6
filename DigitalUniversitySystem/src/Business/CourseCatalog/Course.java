@@ -15,6 +15,8 @@ public class Course {
     String name;
     int credits;
     int price = 1500; //per credit hour
+    private String description;
+    private String syllabus;
 
     public Course(String n, String numb, int ch) {
         name = n;
@@ -38,6 +40,26 @@ public class Course {
 }
     public String getCourseName() {
         return name;
+    }
+    
+    public void setCourseName(String courseName) {
+        this.name = courseName;
+    }
+    
+    public String getDescription() {
+        return description;
+    
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    public String getSyllabus() {
+        return syllabus;
+    }
+    
+    public void setSyllabus(String syllabus) {
+        this.syllabus = syllabus;
     }
     
 }

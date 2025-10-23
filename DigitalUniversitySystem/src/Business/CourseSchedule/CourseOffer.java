@@ -19,6 +19,8 @@ public class CourseOffer {
     Course course;
     ArrayList<Seat> seatlist;
     FacultyAssignment facultyassignment;
+    private String schedule;  // "Mon/Wed 9:00-10:30"
+    private boolean enrollmentOpen = true;  // 默认开放注册
 
     public CourseOffer(Course c) {
         course = c;
@@ -136,6 +138,89 @@ public class CourseOffer {
      */
     public int getTotalSeats() {
         return seatlist.size();
+    }
+    
+    public String getSchedule() {
+        return schedule;
+    }
+    
+    public void setSchedule(String schedule) {
+        this.schedule = schedule;
+    }
+    
+    /**
+    * 获取注册状态
+    */
+    public boolean isEnrollmentOpen() {
+        return enrollmentOpen;
+    }
+
+    /**
+    * 开放注册
+    */
+    public void openEnrollment() {
+        this.enrollmentOpen = true;
+    }
+
+    /**
+    * 关闭注册
+    */
+    public void closeEnrollment() {
+        this.enrollmentOpen = false;
+    }
+
+    /**
+    * 设置注册状态
+    */
+    public void setEnrollmentOpen(boolean open) {
+        this.enrollmentOpen = open;
+    }
+
+    /**
+    * 修改容量
+    * @param newCapacity 新容量
+    * @return 是否成功
+    */
+    public boolean updateCapacity(int newCapacity) {
+        int currentEnrolled = getTotalRegistedStudent();
+    
+        // 验证：新容量不能小于已注册学生数
+        if (newCapacity < currentEnrolled) {
+            return false;
+        }
+    
+        int currentCapacity = seatlist.size();
+    
+        if (newCapacity > currentCapacity) {
+            // 增加座位
+            for (int i = currentCapacity; i < newCapacity; i++) {
+                seatlist.add(new Seat(this, i));
+            }
+        } else if (newCapacity < currentCapacity) {
+            // 减少座位 - 只移除空座位
+            for (int i = seatlist.size() - 1; i >= newCapacity; i--) {
+                if (!seatlist.get(i).isOccupied()) {
+                    seatlist.remove(i);
+                } else {
+                    return false; // 不能移除已占用的座位
+                }
+            }
+        }
+    
+        return true;
+    }
+
+    /**
+    * 获取所有已注册学生的SeatAssignment
+    */
+    public ArrayList<SeatAssignment> getEnrolledSeatAssignments() {
+        ArrayList<SeatAssignment> enrolled = new ArrayList<>();
+        for (Seat s : seatlist) {
+            if (s.isOccupied()) {
+                enrolled.add(s.getSeatAssignment());  // ⚠️ 需要Seat有这个方法
+            }
+        }
+        return enrolled;
     }
     
     @Override

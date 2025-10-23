@@ -164,11 +164,8 @@ public class FacultyWorkAreaJPanel extends javax.swing.JPanel {
 
     private void btnCourseMngIdentifyResourceAssetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCourseMngIdentifyResourceAssetsActionPerformed
         // TODO add your handling code here:
-        CardSequencePanel.removeAll();
-
-        PersonRegistrationJPanel aos = new PersonRegistrationJPanel(business, CardSequencePanel);
-
-        CardSequencePanel.add("Manage Persons", aos);
+        CourseManagementJPanel panel = new CourseManagementJPanel(business, faculty, CardSequencePanel);
+        CardSequencePanel.add("CourseManagement", panel);
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
 
     }//GEN-LAST:event_btnCourseMngIdentifyResourceAssetsActionPerformed
@@ -181,12 +178,12 @@ public class FacultyWorkAreaJPanel extends javax.swing.JPanel {
 
     private void btnProfileMngIdentifyEventsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfileMngIdentifyEventsActionPerformed
         // TODO add your handling code here:
-        CardSequencePanel.removeAll();
+        // CardSequencePanel.removeAll();
         //    IdentifyEventTypes iet= new IdentifyEventTypes(businessunit, CardSequencePanel);
 
         //    CardSequencePanel.add("IdentifyEventTypes", iet);
-        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
-        //((java.awt.CardLayout)CardSequencePanel.getLayout()).show(CardSequencePanel, "IdentifyEventTypes");
+        //  ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
+
 }//GEN-LAST:event_btnProfileMngIdentifyEventsActionPerformed
 
     private void btnPerformanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPerformanceActionPerformed
