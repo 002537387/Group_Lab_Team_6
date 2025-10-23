@@ -26,9 +26,9 @@ public class PersonDirectory {
         return personlist;
     }
       
-    public Person newPerson(String id) {
+    public Person newPerson(String id, String name) {
 
-        Person p = new Person(id);
+        Person p = new Person(id, name);
         personlist.add(p);
         return p;
     }
@@ -43,5 +43,25 @@ public class PersonDirectory {
         }
             return null; //not found after going through the whole list
          }
+
+    public ArrayList<Person> searchByName(String name) {
+        ArrayList<Person> searchResults = new ArrayList<>();
+        for (Person p : personlist) {
+            if (p.getName().equalsIgnoreCase(name)) {
+                searchResults.add(p);
+            }
+        }
+        return searchResults;
+    }
+
+    public ArrayList<Person> searchByID(String id) {
+        ArrayList<Person> searchResults = new ArrayList<>();
+        for (Person p : personlist) {
+            if (p.getPersonId().equalsIgnoreCase(id)) {
+                searchResults.add(p);
+            }
+        }
+        return searchResults;
+    }
     
 }

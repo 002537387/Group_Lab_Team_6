@@ -66,12 +66,12 @@ class Configure {
         // ========== 4. 建立 Person ==========
         PersonDirectory persondirectory = department.getPersonDirectory();
         
-        Person adminPerson = persondirectory.newPerson("Admin");
-        Person student1Person = persondirectory.newPerson("Adam Smith");
-        Person student2Person = persondirectory.newPerson("Betty Johnson");
-        Person faculty1Person = persondirectory.newPerson("Prof. Anderson");
-        Person faculty2Person = persondirectory.newPerson("Prof. Brown");
-        Person registrarPerson = persondirectory.newPerson("Registrar");
+        Person adminPerson = persondirectory.newPerson("1","Admin");
+        Person student1Person = persondirectory.newPerson("2","Adam Smith");
+        Person student2Person = persondirectory.newPerson("3","Betty Johnson");
+        Person faculty1Person = persondirectory.newPerson("4","Prof. Anderson");
+        Person faculty2Person = persondirectory.newPerson("5","Prof. Brown");
+        Person registrarPerson = persondirectory.newPerson("6","Registrar");
         
         // ========== 5. 建立 Profile ==========
         

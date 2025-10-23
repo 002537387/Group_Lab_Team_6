@@ -44,6 +44,10 @@ public class UserAccount {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public void setAssociatedPersonProfile(Profile profile) {
+        this.profile = profile;
+    }
     
     public boolean isMatch(String id){
         if(getPersonId().equals(id)) return true;

@@ -11,12 +11,35 @@ package Business.Person;
  */
 public class Person {
 
-    String id;
+        String id;
 
-    public Person(String id) {
+        String name;
 
-        this.id = id;
-    }
+    
+
+        public Person(String id, String name) {
+
+            this.id = id;
+
+            this.name = name;
+
+        }
+
+    
+
+        public String getName() {
+
+            return name;
+
+        }
+
+    
+
+        public void setName(String name) {
+
+            this.name = name;
+
+        }
 
     public String getPersonId() {
         return id;
