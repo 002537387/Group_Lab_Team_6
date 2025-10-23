@@ -38,4 +38,8 @@ public class Seat {
     public int getCourseCredits(){
         return courseoffer.getCreditHours();
     }
+    
+    public SeatAssignment getSeatAssignment() {
+        return seatassignment;
+    }
 }
