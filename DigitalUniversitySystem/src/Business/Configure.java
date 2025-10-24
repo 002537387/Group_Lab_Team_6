@@ -68,28 +68,74 @@ class Configure {
         PersonDirectory persondirectory = department.getPersonDirectory();
         
         Person adminPerson = persondirectory.newPerson("1","Admin");
-        Person student1Person = persondirectory.newPerson("2","Adam Smith");
-        Person student2Person = persondirectory.newPerson("3","Betty Johnson");
-        Person faculty1Person = persondirectory.newPerson("4","Prof. Anderson");
-        Person faculty2Person = persondirectory.newPerson("5","Prof. Brown");
-        Person registrarPerson = persondirectory.newPerson("6","Registrar");
+        Person student1Person = persondirectory.newPerson("2", "Adam Smith");
+        Person student2Person = persondirectory.newPerson("3", "Betty Johnson");
+        Person student3Person = persondirectory.newPerson("4", "Charlie Davis");
+        Person student4Person = persondirectory.newPerson("5", "Diana Evans");
+        Person student5Person = persondirectory.newPerson("6", "Ethan Foster");
+        Person student6Person = persondirectory.newPerson("7", "Fiona Green");
+        Person student7Person = persondirectory.newPerson("8", "George Harris");
+        Person student8Person = persondirectory.newPerson("9", "Hannah Irving");
+        Person student9Person = persondirectory.newPerson("10", "Isaac Jones");
+        Person student10Person = persondirectory.newPerson("11", "Julia King");
+
+        // Faculties (10)
+        Person faculty1Person = persondirectory.newPerson("12", "Prof. Anderson");
+        Person faculty2Person = persondirectory.newPerson("13", "Prof. Brown");
+        Person faculty3Person = persondirectory.newPerson("14", "Prof. Chen");
+        Person faculty4Person = persondirectory.newPerson("15", "Prof. Davis");
+        Person faculty5Person = persondirectory.newPerson("16", "Prof. Evans");
+        Person faculty6Person = persondirectory.newPerson("17", "Prof. Fisher");
+        Person faculty7Person = persondirectory.newPerson("18", "Prof. Garcia");
+        Person faculty8Person = persondirectory.newPerson("19", "Prof. Hughes");
+        Person faculty9Person = persondirectory.newPerson("20", "Prof. Ivanov");
+        Person faculty10Person = persondirectory.newPerson("21", "Prof. Jackson");
+
+        // Registrar (1)
+        Person registrarPerson = persondirectory.newPerson("22", "Registrar");
+
+        // Other staff (8 more to reach 30 total)
+        Person staff1Person = persondirectory.newPerson("23", "Staff Member 1");
+        Person staff2Person = persondirectory.newPerson("24", "Staff Member 2");
+        Person staff3Person = persondirectory.newPerson("25", "Staff Member 3");
+        Person staff4Person = persondirectory.newPerson("26", "Staff Member 4");
+        Person staff5Person = persondirectory.newPerson("27", "Staff Member 5");
+        Person staff6Person = persondirectory.newPerson("28", "Staff Member 6");
+        Person staff7Person = persondirectory.newPerson("29", "Staff Member 7");
+        Person staff8Person = persondirectory.newPerson("30", "Staff Member 8");
         
         // ========== 5. 建立 Profile ==========
         
         // Admin
         EmployeeDirectory employeedirectory = business.getEmployeeDirectory();
         EmployeeProfile adminProfile = employeedirectory.newEmployeeProfile(adminPerson);
-        
-        // Student
+
+        // Students (10)
         StudentDirectory studentdirectory = department.getStudentDirectory();
         StudentProfile student1 = studentdirectory.newStudentProfile(student1Person);
         StudentProfile student2 = studentdirectory.newStudentProfile(student2Person);
-        
-        // Faculty
+        StudentProfile student3 = studentdirectory.newStudentProfile(student3Person);
+        StudentProfile student4 = studentdirectory.newStudentProfile(student4Person);
+        StudentProfile student5 = studentdirectory.newStudentProfile(student5Person);
+        StudentProfile student6 = studentdirectory.newStudentProfile(student6Person);
+        StudentProfile student7 = studentdirectory.newStudentProfile(student7Person);
+        StudentProfile student8 = studentdirectory.newStudentProfile(student8Person);
+        StudentProfile student9 = studentdirectory.newStudentProfile(student9Person);
+        StudentProfile student10 = studentdirectory.newStudentProfile(student10Person);
+
+        // Faculties (10)
         FacultyDirectory facultydirectory = department.getFacultyDirectory();
         FacultyProfile faculty1 = facultydirectory.newFacultyProfile(faculty1Person);
         FacultyProfile faculty2 = facultydirectory.newFacultyProfile(faculty2Person);
-        
+        FacultyProfile faculty3 = facultydirectory.newFacultyProfile(faculty3Person);
+        FacultyProfile faculty4 = facultydirectory.newFacultyProfile(faculty4Person);
+        FacultyProfile faculty5 = facultydirectory.newFacultyProfile(faculty5Person);
+        FacultyProfile faculty6 = facultydirectory.newFacultyProfile(faculty6Person);
+        FacultyProfile faculty7 = facultydirectory.newFacultyProfile(faculty7Person);
+        FacultyProfile faculty8 = facultydirectory.newFacultyProfile(faculty8Person);
+        FacultyProfile faculty9 = facultydirectory.newFacultyProfile(faculty9Person);
+        FacultyProfile faculty10 = facultydirectory.newFacultyProfile(faculty10Person);
+
         // Registrar
         RegistrarDirectory registrardirectory = business.getRegistrarDirectory();
         RegistrarProfile registrar = registrardirectory.newRegistrarProfile(registrarPerson);
@@ -171,6 +217,38 @@ class Configure {
         sa3.setGrade("A-");
         sa4.setGrade("B");
         
+        
+        CourseLoad student3Fall2023 = student3.newCourseLoad("Fall2023");
+        SeatAssignment sa5 = info5100offer.assignEmptySeat(student3Fall2023);
+        sa5.setGrade("B+");  
+
+        CourseLoad student4Fall2023 = student4.newCourseLoad("Fall2023");
+        SeatAssignment sa6 = info6205offer.assignEmptySeat(student4Fall2023);
+        sa6.setGrade("A");  
+
+        CourseLoad student5Fall2023 = student5.newCourseLoad("Fall2023");
+        SeatAssignment sa7 = damg7245offer.assignEmptySeat(student5Fall2023);
+        sa7.setGrade("B");  
+
+        CourseLoad student6Fall2023 = student6.newCourseLoad("Fall2023");
+        SeatAssignment sa8 = info5001offer.assignEmptySeat(student6Fall2023);
+        sa8.setGrade("A-");  
+
+        CourseLoad student7Fall2023 = student7.newCourseLoad("Fall2023");
+        SeatAssignment sa9 = csye6225offer.assignEmptySeat(student7Fall2023);
+        sa9.setGrade("B+"); 
+
+        CourseLoad student8Fall2023 = student8.newCourseLoad("Fall2023");
+        SeatAssignment sa10 = info5100offer.assignEmptySeat(student8Fall2023);
+        sa10.setGrade("A");  
+
+        CourseLoad student9Fall2023 = student9.newCourseLoad("Fall2023");
+        SeatAssignment sa11 = info6205offer.assignEmptySeat(student9Fall2023);
+        sa11.setGrade("B");  
+        CourseLoad student10Fall2023 = student10.newCourseLoad("Fall2023");
+        SeatAssignment sa12 = damg7245offer.assignEmptySeat(student10Fall2023);
+        sa12.setGrade("A-");  
+        
         // ========== 9. 建立 UserAccount ==========
         UserAccountDirectory uadirectory = business.getUserAccountDirectory();
         uadirectory.newUserAccount(adminProfile, "admin", "****");
@@ -182,6 +260,14 @@ class Configure {
         // ========== 10. 设定财务余额 ==========
         student1.setBalance(0);  
         student2.setBalance(0);
+        student3.setBalance(0);
+        student4.setBalance(0);
+        student5.setBalance(0);
+        student6.setBalance(0);
+        student7.setBalance(0);
+        student8.setBalance(0);
+        student9.setBalance(0);
+        student10.setBalance(0);
         
         business.setDepartment(department);
         
