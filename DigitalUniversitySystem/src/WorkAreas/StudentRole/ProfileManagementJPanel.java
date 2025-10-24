@@ -35,7 +35,7 @@ public class ProfileManagementJPanel extends javax.swing.JPanel {
         Person person = student.getPerson();
     
     // 姓名和學號都是用 getPersonId()
-    txtName.setText(person.getPersonId());
+    txtName.setText(person.getName());
     txtStudentID.setText(person.getPersonId());
     
     // 專業/系所
