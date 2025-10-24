@@ -13,6 +13,13 @@ import javax.swing.JOptionPane;
 
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
+import Business.Utils.SwingStyleUtil;
 
 /**
  *
@@ -24,11 +31,14 @@ import javax.swing.table.DefaultTableModel;
     Business business;
     UserAccount selecteduseraccount;
     
+
+    
     public ManageUserAccountsJPanel(Business bz, JPanel jp) {
         CardSequencePanel = jp;
         business = bz;
         initComponents();
         refreshTable();
+        refreshProfileTable();
     }
 
     public void refreshTable() {
@@ -39,14 +49,32 @@ import javax.swing.table.DefaultTableModel;
             ((DefaultTableModel) UserAccountTable.getModel()).removeRow(i);
         }
 
-        UserAccountDirectory uad = business.getUserAccountDirectory();
+        UserAccountDirectory uad = business.getDepartment().getUserAccountDirectory();
      
-        for (UserAccount ua : uad.getUserAccountList()) {
+        for (UserAccount ua : uad.getUserAccountList().stream().filter(s -> s.getUserLoginName() != null).toList()) {
             Object[] row = new Object[3];
             row[0] = ua;
             row[1] = ua.getUserLoginName();
             row[2] = ua.getRole();
             ((DefaultTableModel) UserAccountTable.getModel()).addRow(row);
+        }
+    }
+    
+     public void refreshProfileTable() {
+
+        int rc = ProfileTable.getRowCount();
+        int i;
+        for (i = rc - 1; i >= 0; i--) {
+            ((DefaultTableModel) ProfileTable.getModel()).removeRow(i);
+        }
+
+        UserAccountDirectory uad = business.getDepartment().getUserAccountDirectory();
+     
+        for (UserAccount ua : uad.getUserAccountList().stream().filter(s -> s.getUserLoginName() == null).toList()) {
+            Object[] row = new Object[2];
+            row[0] = ua;
+            row[1] = ua.getRole();
+            ((DefaultTableModel) ProfileTable.getModel()).addRow(row);
         }
     }
 
@@ -68,7 +96,12 @@ import javax.swing.table.DefaultTableModel;
         UserAccountTable = new javax.swing.JTable();
         btnDelete = new javax.swing.JButton();
         btnCreate = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        ProfileTable = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
+        btnDelete1 = new javax.swing.JButton();
 
+        SwingStyleUtil.styleButton(Back, new Color(70, 130, 180), Color.WHITE); // SteelBlue
         Back.setText("<< Back");
         Back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -76,6 +109,7 @@ import javax.swing.table.DefaultTableModel;
             }
         });
 
+        SwingStyleUtil.styleButton(btnUpdate, new Color(70, 130, 180), Color.WHITE); // SteelBlue
         btnUpdate.setText("Update ");
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -107,6 +141,7 @@ import javax.swing.table.DefaultTableModel;
         });
         jScrollPane1.setViewportView(UserAccountTable);
 
+        SwingStyleUtil.styleButton(btnDelete, new Color(220, 20, 60), Color.WHITE); // Crimson
         btnDelete.setText("Delete");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -114,10 +149,48 @@ import javax.swing.table.DefaultTableModel;
             }
         });
 
+        SwingStyleUtil.styleButton(btnCreate, new Color(60, 179, 113), Color.WHITE); // MediumSeaGreen
         btnCreate.setText("Create");
         btnCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCreateActionPerformed(evt);
+            }
+        });
+
+        ProfileTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "ID", "Role"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        ProfileTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                ProfileTableMousePressed(evt);
+            }
+        });
+        jScrollPane2.setViewportView(ProfileTable);
+
+        jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel3.setText("Profile");
+
+        SwingStyleUtil.styleButton(btnDelete1, new Color(220, 20, 60), Color.WHITE); // Crimson
+        btnDelete1.setText("Delete");
+        btnDelete1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDelete1ActionPerformed(evt);
             }
         });
 
@@ -138,14 +211,22 @@ import javax.swing.table.DefaultTableModel;
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Back))
-                        .addGap(306, 306, 306)
-                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(71, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(btnDelete1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(Back)
+                                    .addGap(476, 476, 476))
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(10, 10, 10)
+                                    .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(515, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,16 +236,22 @@ import javax.swing.table.DefaultTableModel;
                 .addGap(42, 42, 42)
                 .addComponent(jLabel1)
                 .addGap(1, 1, 1)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnDelete)
-                        .addComponent(btnCreate))
+                    .addComponent(btnDelete)
                     .addComponent(btnUpdate))
-                .addGap(27, 27, 27)
+                .addGap(28, 28, 28)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCreate)
+                    .addComponent(btnDelete1))
+                .addGap(19, 19, 19)
                 .addComponent(Back)
-                .addContainerGap(180, Short.MAX_VALUE))
+                .addGap(14, 14, 14))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -219,16 +306,16 @@ import javax.swing.table.DefaultTableModel;
         }
         int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the selected Account?", "Warning", JOptionPane.WARNING_MESSAGE);
         if(dialogResult == JOptionPane.YES_NO_OPTION){
-            business.getUserAccountDirectory().removeAccount(selecteduseraccount);
+            business.getDepartment().getUserAccountDirectory().removeAccount(selecteduseraccount);
             refreshTable();
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         // TODO add your handling code here:
-        int size = UserAccountTable.getRowCount();
-        int selectedrow = UserAccountTable.getSelectionModel().getLeadSelectionIndex();
-
+        int size = ProfileTable.getRowCount();
+        int selectedrow = ProfileTable.getSelectionModel().getLeadSelectionIndex();
+        selecteduseraccount = (UserAccount) ProfileTable.getValueAt(selectedrow, 0);
         if (selectedrow < 0 || selectedrow > size - 1) {
             JOptionPane.showMessageDialog(null,"Please select a row from the table first","Warning", JOptionPane.WARNING_MESSAGE );
             return;
@@ -241,17 +328,53 @@ import javax.swing.table.DefaultTableModel;
         CardSequencePanel.add(cua);
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
     }//GEN-LAST:event_btnCreateActionPerformed
+
+    private void ProfileTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProfileTableMousePressed
+        // TODO add your handling code here:
+        // Extracts the row (uaser account) in the table that is selected by the user
+        int size = ProfileTable.getRowCount();
+        int selectedrow = ProfileTable.getSelectionModel().getLeadSelectionIndex();
+
+        if (selectedrow < 0 || selectedrow > size - 1) {
+            JOptionPane.showMessageDialog(null,"Please select a row from the table first","Warning", JOptionPane.WARNING_MESSAGE );
+            return;
+        }
+        selecteduseraccount = (UserAccount) ProfileTable.getValueAt(selectedrow, 0);
+        if (selecteduseraccount == null) {
+            return;
+        }
+    }//GEN-LAST:event_ProfileTableMousePressed
+
+    private void btnDelete1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelete1ActionPerformed
+        // TODO add your handling code here:
+        int size = ProfileTable.getRowCount();
+        int selectedrow = ProfileTable.getSelectionModel().getLeadSelectionIndex();
+
+        if (selectedrow < 0 || selectedrow > size - 1) {
+            JOptionPane.showMessageDialog(null,"Please select a row from the table first","Warning", JOptionPane.WARNING_MESSAGE );
+            return;
+        }
+        int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the selected Account?", "Warning", JOptionPane.WARNING_MESSAGE);
+        if(dialogResult == JOptionPane.YES_NO_OPTION){
+            business.getDepartment().getUserAccountDirectory().removeAccount(selecteduseraccount);
+            refreshProfileTable();
+        }
+    }//GEN-LAST:event_btnDelete1ActionPerformed
     
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Back;
+    private javax.swing.JTable ProfileTable;
     private javax.swing.JTable UserAccountTable;
     private javax.swing.JButton btnCreate;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnDelete1;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }

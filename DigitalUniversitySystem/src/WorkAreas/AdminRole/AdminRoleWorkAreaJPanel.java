@@ -8,6 +8,8 @@ package WorkAreas.AdminRole;
 import Business.Business;
 
 import javax.swing.JPanel;
+import Business.Utils.SwingStyleUtil;
+import java.awt.Color;
 
 /**
  *
@@ -49,9 +51,7 @@ public class AdminRoleWorkAreaJPanel extends javax.swing.JPanel {
 
         setForeground(new java.awt.Color(51, 51, 51));
 
-        jButton4.setBackground(new java.awt.Color(102, 153, 255));
-        jButton4.setFont(getFont());
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        SwingStyleUtil.styleButton(jButton4, new Color(70, 130, 180), Color.WHITE); // SteelBlue
         jButton4.setText("Manage User Accounts");
         jButton4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton4.setMaximumSize(new java.awt.Dimension(200, 40));
@@ -63,9 +63,7 @@ public class AdminRoleWorkAreaJPanel extends javax.swing.JPanel {
             }
         });
 
-        jButton9.setBackground(new java.awt.Color(102, 153, 255));
-        jButton9.setFont(getFont());
-        jButton9.setForeground(new java.awt.Color(255, 255, 255));
+        SwingStyleUtil.styleButton(jButton9, new Color(70, 130, 180), Color.WHITE); // SteelBlue
         jButton9.setText("Manage Faculty");
         jButton9.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton9.setMaximumSize(new java.awt.Dimension(200, 40));
@@ -77,9 +75,7 @@ public class AdminRoleWorkAreaJPanel extends javax.swing.JPanel {
             }
         });
 
-        jButton10.setBackground(new java.awt.Color(102, 153, 255));
-        jButton10.setFont(getFont());
-        jButton10.setForeground(new java.awt.Color(255, 255, 255));
+        SwingStyleUtil.styleButton(jButton10, new Color(70, 130, 180), Color.WHITE); // SteelBlue
         jButton10.setText("Register  Person");
         jButton10.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton10.setMaximumSize(new java.awt.Dimension(200, 40));
@@ -91,9 +87,7 @@ public class AdminRoleWorkAreaJPanel extends javax.swing.JPanel {
             }
         });
 
-        jButton6.setBackground(new java.awt.Color(102, 153, 255));
-        jButton6.setFont(getFont());
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
+        SwingStyleUtil.styleButton(jButton6, new Color(70, 130, 180), Color.WHITE); // SteelBlue
         jButton6.setText("My Profile");
         jButton6.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton6.setMaximumSize(new java.awt.Dimension(145, 40));
@@ -105,9 +99,7 @@ public class AdminRoleWorkAreaJPanel extends javax.swing.JPanel {
             }
         });
 
-        jButton8.setBackground(new java.awt.Color(102, 153, 255));
-        jButton8.setFont(getFont());
-        jButton8.setForeground(new java.awt.Color(255, 255, 255));
+        SwingStyleUtil.styleButton(jButton8, new Color(70, 130, 180), Color.WHITE); // SteelBlue
         jButton8.setText("Manage Students");
         jButton8.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton8.setMaximumSize(new java.awt.Dimension(200, 40));
@@ -119,9 +111,7 @@ public class AdminRoleWorkAreaJPanel extends javax.swing.JPanel {
             }
         });
 
-        jButton7.setBackground(new java.awt.Color(102, 153, 255));
-        jButton7.setFont(getFont());
-        jButton7.setForeground(new java.awt.Color(255, 255, 255));
+        SwingStyleUtil.styleButton(jButton7, new Color(70, 130, 180), Color.WHITE); // SteelBlue
         jButton7.setText("University-Level Analytics");
         jButton7.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton7.setMaximumSize(new java.awt.Dimension(145, 40));
@@ -133,9 +123,7 @@ public class AdminRoleWorkAreaJPanel extends javax.swing.JPanel {
             }
         });
 
-        jButton11.setBackground(new java.awt.Color(102, 153, 255));
-        jButton11.setFont(getFont());
-        jButton11.setForeground(new java.awt.Color(255, 255, 255));
+        SwingStyleUtil.styleButton(jButton11, new Color(70, 130, 180), Color.WHITE); // SteelBlue
         jButton11.setText("Manage Registrar");
         jButton11.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton11.setMaximumSize(new java.awt.Dimension(200, 40));
@@ -217,6 +205,9 @@ public class AdminRoleWorkAreaJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton6IdentifyEventsActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        ManageFacultyJPanel mf = new ManageFacultyJPanel(business, CardSequencePanel);
+        CardSequencePanel.add("ms", mf);
+        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton7IdentifyEventsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7IdentifyEventsActionPerformed
@@ -225,6 +216,9 @@ public class AdminRoleWorkAreaJPanel extends javax.swing.JPanel {
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         // TODO add your handling code here:
+        ManageRegistrarJPanel mr = new ManageRegistrarJPanel(business, CardSequencePanel);
+        CardSequencePanel.add("ms", mr);
+        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
     }//GEN-LAST:event_jButton11ActionPerformed
 
 

@@ -41,7 +41,7 @@ public class UserAccountDirectory {
         }
             return null; 
     }
-    
+        
     public ArrayList<UserAccount> findStudentAccount() {
         ArrayList<UserAccount> studentList = new ArrayList();
         for (UserAccount ua : useraccountlist) {
@@ -50,6 +50,26 @@ public class UserAccountDirectory {
             }
         }
             return studentList; 
+    }
+    
+    public ArrayList<UserAccount> findFacultyAccount() {
+        ArrayList<UserAccount> facultyList = new ArrayList();
+        for (UserAccount ua : useraccountlist) {
+            if (ua.getRole().equals("Faculty")) {
+                facultyList.add(ua);
+            }
+        }
+            return facultyList; 
+    }
+    
+    public ArrayList<UserAccount> findRegistrarAccount() {
+        ArrayList<UserAccount> registrarList = new ArrayList();
+        for (UserAccount ua : useraccountlist) {
+            if (ua.getRole().equals("Registrar")) {
+                registrarList.add(ua);
+            }
+        }
+            return registrarList; 
     }
     
     public UserAccount AuthenticateUser(String un, String pw) {

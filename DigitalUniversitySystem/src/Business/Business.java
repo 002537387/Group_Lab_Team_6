@@ -33,7 +33,7 @@ public class Business {
         name = n;
 
         persondirectory = new PersonDirectory();
-        employeedirectory = new EmployeeDirectory(this);
+        employeedirectory = new EmployeeDirectory();
         useraccountdirectory = new UserAccountDirectory();
         studentdirectory = new StudentDirectory();
         facultyDirectory = new FacultyDirectory();
@@ -48,29 +48,4 @@ public class Business {
         this.department = department;
     }
 
-
-    
-    public PersonDirectory getPersonDirectory() {
-        return persondirectory;
-    }
-
-    public UserAccountDirectory getUserAccountDirectory() {
-        return useraccountdirectory;
-    }
-
-    public EmployeeDirectory getEmployeeDirectory() {
-        return employeedirectory;
-    }
-
-    public StudentDirectory getStudentDirectory(){
-        return studentdirectory;
-    }
-
-    public FacultyDirectory getFacultyDirectory(){
-        return facultyDirectory;
-    }
-    
-    public RegistrarDirectory getRegistrarDirectory(){
-        return registrarDirectory;
-    }
 }

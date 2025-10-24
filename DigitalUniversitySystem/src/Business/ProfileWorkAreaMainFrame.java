@@ -132,8 +132,8 @@ public class ProfileWorkAreaMainFrame extends javax.swing.JFrame {
 
         String un = UserNameTextField.getText();
         String pw = PasswordTextField.getText();
-
-        UserAccountDirectory uad = business.getUserAccountDirectory();
+        System.out.println(un);
+        UserAccountDirectory uad = business.getDepartment().getUserAccountDirectory();
         UserAccount useraccount = uad.AuthenticateUser(un, pw);
         
         if (useraccount == null) {

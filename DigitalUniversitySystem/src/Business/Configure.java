@@ -107,7 +107,7 @@ class Configure {
         // ========== 5. 建立 Profile ==========
         
         // Admin
-        EmployeeDirectory employeedirectory = business.getEmployeeDirectory();
+        EmployeeDirectory employeedirectory = department.getEmployeeDirectory();
         EmployeeProfile adminProfile = employeedirectory.newEmployeeProfile(adminPerson);
 
         // Students (10)
@@ -137,7 +137,7 @@ class Configure {
         FacultyProfile faculty10 = facultydirectory.newFacultyProfile(faculty10Person);
 
         // Registrar
-        RegistrarDirectory registrardirectory = business.getRegistrarDirectory();
+        RegistrarDirectory registrardirectory = department.getRegistrarDirectory();
         RegistrarProfile registrar = registrardirectory.newRegistrarProfile(registrarPerson);
         
         // ========== 6. 指派教授 ==========
@@ -250,11 +250,28 @@ class Configure {
         sa12.setGrade("A-");  
         
         // ========== 9. 建立 UserAccount ==========
-        UserAccountDirectory uadirectory = business.getUserAccountDirectory();
+        UserAccountDirectory uadirectory = department.getUserAccountDirectory();
         uadirectory.newUserAccount(adminProfile, "admin", "****");
         uadirectory.newUserAccount(student1, "student", "****");
         uadirectory.newUserAccount(student2, "student2", "****");
+        uadirectory.newUserAccount(student3, "student3", "****");
+        uadirectory.newUserAccount(student4, "student4", "****");
+        uadirectory.newUserAccount(student5, "student5", "****");
+        uadirectory.newUserAccount(student6, "student6", "****");
+        uadirectory.newUserAccount(student7, "student7", "****");
+        uadirectory.newUserAccount(student8, "student8", "****");
+        uadirectory.newUserAccount(student9, "student9", "****");
+        uadirectory.newUserAccount(student10, "student10", "****");
         uadirectory.newUserAccount(faculty1, "faculty", "****");
+        uadirectory.newUserAccount(faculty2, "faculty2", "****");
+        uadirectory.newUserAccount(faculty3, "faculty3", "****");
+        uadirectory.newUserAccount(faculty4, "faculty4", "****");
+        uadirectory.newUserAccount(faculty5, "faculty5", "****");
+        uadirectory.newUserAccount(faculty6, "faculty6", "****");
+        uadirectory.newUserAccount(faculty7, "faculty7", "****");
+        uadirectory.newUserAccount(faculty8, "faculty8", "****");
+        uadirectory.newUserAccount(faculty9, "faculty9", "****");
+        uadirectory.newUserAccount(faculty10, "faculty10", "****");
         uadirectory.newUserAccount(registrar, "registrar", "****");
         
         // ========== 10. 设定财务余额 ==========
