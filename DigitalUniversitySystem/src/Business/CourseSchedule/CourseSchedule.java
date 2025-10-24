@@ -78,4 +78,17 @@ public class CourseSchedule {
         return semester;
     }
 
+    
+        /**
+    //新增功能
+    public ArrayList<CourseOffer> getCourseOffers() {
+    return schedule;
+   }
+   *  */
+    
+    public String getTerm() {
+    return semester;
+   }
+
+   
 }

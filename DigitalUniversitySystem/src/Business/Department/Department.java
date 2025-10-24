@@ -19,6 +19,7 @@ import Business.Profiles.StudentProfile;
 import java.util.HashMap;
 import Business.Directory.UserAccountDirectory;  
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  *
@@ -59,6 +60,17 @@ public class Department {
         degree.addElectiveCourse(c);
         
     }
+    
+    public ArrayList<Course> getCoreCourses(){
+        
+        return degree.getCorelist();
+    }
+    
+    public ArrayList<Course> getElectiveCourses(){
+        
+        return degree.getElectives();
+    }
+    
     public PersonDirectory getPersonDirectory() {
 
         return persondirectory;
@@ -79,6 +91,12 @@ public class Department {
     public CourseSchedule getCourseSchedule(String semester) {
 
         return mastercoursecatalog.get(semester);
+
+    }
+    
+    public Collection<CourseSchedule> getAllCourseSchedule() {
+
+        return mastercoursecatalog.values();
 
     }
 
@@ -115,6 +133,7 @@ public class Department {
         co.assignEmptySeat(cl);
 
     }
+    
      public FacultyDirectory getFacultyDirectory() {
         return facultydirectory;
     }
