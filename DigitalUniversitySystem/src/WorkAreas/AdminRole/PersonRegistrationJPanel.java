@@ -21,6 +21,8 @@ import javax.swing.JOptionPane;
 
 
 import javax.swing.JPanel;
+import Business.Utils.SwingStyleUtil;
+import java.awt.Color;
 
 /**
  *
@@ -39,8 +41,9 @@ public class PersonRegistrationJPanel extends javax.swing.JPanel {
         CardSequencePanel = jp;
         this.business = bz;
         initComponents();
-        PersonDirectory pd = business.getPersonDirectory();
+        PersonDirectory pd = business.getDepartment().getPersonDirectory();
         lblID.setText(Integer.toString(pd.getPersons().size()+1));
+        System.out.print(pd.getPersons().size());
     }
 
 
@@ -67,6 +70,7 @@ public class PersonRegistrationJPanel extends javax.swing.JPanel {
         txtName = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
 
+        SwingStyleUtil.styleButton(Back, new Color(70, 130, 180), Color.WHITE); // SteelBlue
         Back.setText("<< Back");
         Back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -76,6 +80,7 @@ public class PersonRegistrationJPanel extends javax.swing.JPanel {
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel2.setText("Person Registration");
+        SwingStyleUtil.centerLabel(jLabel2);
 
         jLabel3.setText("Role");
 
@@ -83,6 +88,7 @@ public class PersonRegistrationJPanel extends javax.swing.JPanel {
 
         jLabel5.setText("University ID");
 
+        SwingStyleUtil.styleButton(btnCreate, new Color(60, 179, 113), Color.WHITE); // MediumSeaGreen
         btnCreate.setText("Create");
         btnCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -183,35 +189,35 @@ public class PersonRegistrationJPanel extends javax.swing.JPanel {
            return;
         }
         // Create Person that link  
-        PersonDirectory persondirectory = business.getPersonDirectory();
+        PersonDirectory persondirectory = business.getDepartment().getPersonDirectory();
         Person person = persondirectory.newPerson(lblID.getText(), txtName.getName());         
         // Create User accounts that link to specific profiles
-        UserAccountDirectory uadirectory = business.getUserAccountDirectory();
+        UserAccountDirectory uadirectory = business.getDepartment().getUserAccountDirectory();
         // Create Profile to manage the business
         switch(cbxRole.getSelectedItem().toString()){
             case "Admin":
-                EmployeeDirectory employeedirectory = business.getEmployeeDirectory();
+                EmployeeDirectory employeedirectory = business.getDepartment().getEmployeeDirectory();
                 EmployeeProfile employeeprofile = employeedirectory.newEmployeeProfile(person);
                 employeeprofile.setEmail(txtEmail.getText());
                 employeeprofile.setContact(txtContact.getText());
                 uadirectory.newUserAccount(employeeprofile, null, null); 
                 break;
             case "Faculty":               
-                FacultyDirectory facultyDirectory = business.getFacultyDirectory();
+                FacultyDirectory facultyDirectory = business.getDepartment().getFacultyDirectory();
                 FacultyProfile facultyprofile = facultyDirectory.newFacultyProfile(person);
                 facultyprofile.setEmail(txtEmail.getText());
                 facultyprofile.setContact(txtContact.getText());
                 uadirectory.newUserAccount(facultyprofile, null, null); 
                 break;
             case "Registrar":
-                RegistrarDirectory registrarDirectory = business.getRegistrarDirectory();
+                RegistrarDirectory registrarDirectory = business.getDepartment().getRegistrarDirectory();
                 RegistrarProfile registrarprofile = registrarDirectory.newRegistrarProfile(person);
                 registrarprofile.setEmail(txtEmail.getText());
                 registrarprofile.setContact(txtContact.getText());
                 uadirectory.newUserAccount(registrarprofile, null, null); 
                 break;
             default:                
-                StudentDirectory studentdirectory = business.getStudentDirectory();
+                StudentDirectory studentdirectory = business.getDepartment().getStudentDirectory();
                 StudentProfile studentprofile = studentdirectory.newStudentProfile(person);
                 studentprofile.setEmail(txtEmail.getText());
                 studentprofile.setContact(txtContact.getText());

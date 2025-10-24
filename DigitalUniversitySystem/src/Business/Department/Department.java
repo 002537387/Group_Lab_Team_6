@@ -11,14 +11,17 @@ import Business.CourseSchedule.CourseLoad;
 import Business.CourseSchedule.CourseOffer;
 import Business.CourseSchedule.CourseSchedule;
 import Business.Degree.Degree;
+import Business.Directory.EmployeeDirectory;
 
 import Business.Directory.FacultyDirectory;
 import Business.Directory.PersonDirectory;
+import Business.Directory.RegistrarDirectory;
 import Business.Directory.StudentDirectory;
 import Business.Profiles.StudentProfile;
 import java.util.HashMap;
 import Business.Directory.UserAccountDirectory;  
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  *
@@ -32,8 +35,10 @@ public class Department {
     StudentDirectory studentdirectory;
     FacultyDirectory facultydirectory;
     UserAccountDirectory useraccountdirectory;  
+    EmployeeDirectory employeeDirectory;
+    RegistrarDirectory registrarDirectory;
     Degree degree;
-    HashMap<String, CourseSchedule> mastercoursecatalog;
+    public HashMap<String, CourseSchedule> mastercoursecatalog;
 
     public Department(String n) {
         name = n;
@@ -42,6 +47,8 @@ public class Department {
         studentdirectory = new StudentDirectory(); //pass the department object so it stays linked to it
         persondirectory = new PersonDirectory();
         facultydirectory = new FacultyDirectory(); 
+        employeeDirectory = new EmployeeDirectory();
+        registrarDirectory = new RegistrarDirectory();
         useraccountdirectory = new UserAccountDirectory();
         degree = new Degree("MSIS");
         
@@ -59,6 +66,17 @@ public class Department {
         degree.addElectiveCourse(c);
         
     }
+    
+    public ArrayList<Course> getCoreCourses(){
+        
+        return degree.getCorelist();
+    }
+    
+    public ArrayList<Course> getElectiveCourses(){
+        
+        return degree.getElectives();
+    }
+    
     public PersonDirectory getPersonDirectory() {
 
         return persondirectory;
@@ -79,6 +97,12 @@ public class Department {
     public CourseSchedule getCourseSchedule(String semester) {
 
         return mastercoursecatalog.get(semester);
+
+    }
+    
+    public Collection<CourseSchedule> getAllCourseSchedule() {
+
+        return mastercoursecatalog.values();
 
     }
 
@@ -115,12 +139,21 @@ public class Department {
         co.assignEmptySeat(cl);
 
     }
+    
      public FacultyDirectory getFacultyDirectory() {
         return facultydirectory;
     }
     
     public UserAccountDirectory getUserAccountDirectory() {
         return useraccountdirectory;
+    }
+    
+    public EmployeeDirectory getEmployeeDirectory() {
+        return employeeDirectory;
+    }
+   
+    public RegistrarDirectory getRegistrarDirectory(){
+        return registrarDirectory;
     }
     public Degree getDegree() {
     return degree;

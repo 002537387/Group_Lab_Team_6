@@ -16,7 +16,7 @@ import java.awt.Color;
  * @author Ing-Ruei
  */
 
-public class UpdateStudentAccount extends javax.swing.JPanel {
+public class UpdateFacultyAccount extends javax.swing.JPanel {
 
     /**
      * Creates new form ManageSuppliersJPanel
@@ -24,7 +24,7 @@ public class UpdateStudentAccount extends javax.swing.JPanel {
     JPanel CardSequencePanel;
     UserAccount selecteduseraccount;
 
-    public UpdateStudentAccount(UserAccount ua, JPanel jp) {
+    public UpdateFacultyAccount(UserAccount ua, JPanel jp) {
 
         CardSequencePanel = jp;
         selecteduseraccount= ua;
@@ -66,7 +66,7 @@ public class UpdateStudentAccount extends javax.swing.JPanel {
         });
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        jLabel2.setText("Modify Student Account");
+        jLabel2.setText("Modify Faculty Account");
         SwingStyleUtil.centerLabel(jLabel2);
 
         SwingStyleUtil.styleButton(btnBack, new Color(70, 130, 180), Color.WHITE); // SteelBlue
@@ -170,8 +170,8 @@ public class UpdateStudentAccount extends javax.swing.JPanel {
         CardSequencePanel.remove(this);
         Component[] panelStack = CardSequencePanel.getComponents();
         JPanel lastPanel = (JPanel) panelStack[panelStack.length - 1];
-        ManageStudentJPanel msj = (ManageStudentJPanel) lastPanel;
-        msj.refreshTable();
+        ManageFacultyJPanel mfj = (ManageFacultyJPanel) lastPanel;
+        mfj.refreshTable();
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
     }//GEN-LAST:event_btnBackActionPerformed
 

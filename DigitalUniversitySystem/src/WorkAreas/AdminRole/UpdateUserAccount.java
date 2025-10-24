@@ -16,6 +16,8 @@ import java.awt.Component;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import Business.Utils.SwingStyleUtil;
+import java.awt.Color;
 
 /**
  * @author Ing-Ruei
@@ -58,6 +60,7 @@ public class UpdateUserAccount extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         cmbRole = new javax.swing.JComboBox<>();
 
+        SwingStyleUtil.styleButton(btnUpdate, new Color(70, 130, 180), Color.WHITE); // SteelBlue
         btnUpdate.setText("Update");
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -67,7 +70,9 @@ public class UpdateUserAccount extends javax.swing.JPanel {
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel2.setText("Modify User Account");
+        SwingStyleUtil.centerLabel(jLabel2);
 
+        SwingStyleUtil.styleButton(btnBack, new Color(70, 130, 180), Color.WHITE); // SteelBlue
         btnBack.setText("<< Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -182,8 +187,16 @@ public class UpdateUserAccount extends javax.swing.JPanel {
         CardSequencePanel.remove(this);
         Component[] panelStack = CardSequencePanel.getComponents();
         JPanel lastPanel = (JPanel) panelStack[panelStack.length - 1];
-        ManageUserAccountsJPanel maj = (ManageUserAccountsJPanel) lastPanel;
-        maj.refreshTable();
+        
+        if (lastPanel instanceof WorkAreas.AdminRole.ManageStudentJPanel) {
+            WorkAreas.AdminRole.ManageStudentJPanel msj = (WorkAreas.AdminRole.ManageStudentJPanel) lastPanel;
+            msj.refreshTable();
+        } else if (lastPanel instanceof WorkAreas.AdminRole.ManageUserAccountsJPanel) {
+            WorkAreas.AdminRole.ManageUserAccountsJPanel maj = (WorkAreas.AdminRole.ManageUserAccountsJPanel) lastPanel;
+            maj.refreshTable();
+        }
+        // Add other ManageXPanels here if needed
+        
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
     }//GEN-LAST:event_btnBackActionPerformed
 

@@ -36,6 +36,14 @@ public class Degree {
 
     }
 
+    public ArrayList<Course> getCorelist() {
+        return corelist;
+    }
+
+    public ArrayList<Course> getElectives() {
+        return electives;
+    }
+
     public boolean isStudentReadyToGraduate(StudentProfile sp) {
 
         //Extract transcript from studentprofile

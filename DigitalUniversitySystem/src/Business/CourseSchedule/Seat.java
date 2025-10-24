@@ -42,4 +42,8 @@ public class Seat {
     public SeatAssignment getSeatAssignment() {
         return seatassignment;
     }
+    public void releaseSeat() {
+        this.occupied = false;
+        this.seatassignment = null;
+    }
 }

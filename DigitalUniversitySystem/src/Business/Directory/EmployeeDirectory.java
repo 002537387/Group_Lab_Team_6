@@ -20,11 +20,9 @@ public class EmployeeDirectory {
     Business business;
     ArrayList<EmployeeProfile> employeelist;
 
-    public EmployeeDirectory(Business d) {
+    public EmployeeDirectory() {
 
-        business = d;
         employeelist = new ArrayList();
-
     }
 
     public EmployeeProfile newEmployeeProfile(Person p) {

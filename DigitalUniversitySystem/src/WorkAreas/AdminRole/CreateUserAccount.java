@@ -12,6 +12,8 @@ import Business.UserAccounts.UserAccount;
 import java.awt.Component;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import Business.Utils.SwingStyleUtil;
+import java.awt.Color;
 
 /**
  * @author Ing-Ruei
@@ -44,9 +46,12 @@ public class CreateUserAccount extends javax.swing.JPanel {
         btnBack = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        txtPass = new javax.swing.JTextField();
+        SwingStyleUtil.styleTextField(txtName);
 
+        txtPass = new javax.swing.JTextField();
+        SwingStyleUtil.styleTextField(txtPass);
+
+        SwingStyleUtil.styleButton(btnCreate, new Color(60, 179, 113), Color.WHITE); // MediumSeaGreen
         btnCreate.setText("Create");
         btnCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -56,7 +61,9 @@ public class CreateUserAccount extends javax.swing.JPanel {
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel2.setText("Create User Account");
+        SwingStyleUtil.centerLabel(jLabel2);
 
+        SwingStyleUtil.styleButton(btnBack, new Color(70, 130, 180), Color.WHITE); // SteelBlue
         btnBack.setText("<< Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -64,8 +71,10 @@ public class CreateUserAccount extends javax.swing.JPanel {
             }
         });
 
+        SwingStyleUtil.styleLabel(jLabel1);
         jLabel1.setText("UserName");
 
+        SwingStyleUtil.styleLabel(jLabel3);
         jLabel3.setText("Password");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -122,7 +131,7 @@ public class CreateUserAccount extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Username and Password cannot be empty!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
-       UserAccountDirectory uadirectory = business.getUserAccountDirectory();
+       UserAccountDirectory uadirectory = business.getDepartment().getUserAccountDirectory();
        UserAccount acc = uadirectory.findUserAccount(profile.getPerson().getPersonId());
        acc.setUsername(txtName.getText());
        acc.setPassword(txtPass.getText());
@@ -136,6 +145,7 @@ public class CreateUserAccount extends javax.swing.JPanel {
         JPanel lastPanel = (JPanel) panelStack[panelStack.length - 1];
         ManageUserAccountsJPanel maj = (ManageUserAccountsJPanel) lastPanel;
         maj.refreshTable();
+        maj.refreshProfileTable();
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
     }//GEN-LAST:event_btnBackActionPerformed
 

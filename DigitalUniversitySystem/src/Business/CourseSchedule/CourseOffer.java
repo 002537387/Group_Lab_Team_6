@@ -23,6 +23,7 @@ public class CourseOffer {
     private boolean enrollmentOpen = true;  // 默认开放注册
 
     public CourseOffer(Course c) {
+        
         course = c;
         seatlist = new ArrayList();
     }
