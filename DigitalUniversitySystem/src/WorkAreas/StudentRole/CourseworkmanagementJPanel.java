@@ -53,20 +53,20 @@ public class CourseworkmanagementJPanel extends javax.swing.JPanel {
         add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, 220, -1));
 
         lblCourse.setText("Course:");
-        add(lblCourse, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, -1, -1));
+        add(lblCourse, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, 90, -1));
 
         cmbCourse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbCourseActionPerformed(evt);
             }
         });
-        add(cmbCourse, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 80, -1, -1));
+        add(cmbCourse, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 80, 130, -1));
 
         lblAverage.setText("Average:0%");
-        add(lblAverage, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 170, -1, -1));
+        add(lblAverage, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 170, 100, -1));
 
         lblProgress.setText("Progress:0/0");
-        add(lblProgress, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 130, -1, -1));
+        add(lblProgress, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 130, 90, -1));
 
         tblCourse.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -169,28 +169,36 @@ public class CourseworkmanagementJPanel extends javax.swing.JPanel {
     
     private void submitAssignment() {
         int row = tblCourse.getSelectedRow();
-        if (row < 0) {
-            JOptionPane.showMessageDialog(this, "Please select an assignment!");
-            return;
-        }
+    if (row < 0) {
+        JOptionPane.showMessageDialog(this, "Please select an assignment!");
+        return;
+    }
+    
+    int index = cmbCourse.getSelectedIndex();
+    SeatAssignment sa = student.getCurrentCourseLoad().getSeatAssignments().get(index);
+    Assignment a = sa.getAssignments().get(row);
+    
+    if (a.isSubmitted()) {
+        JOptionPane.showMessageDialog(this, "Already submitted!");
+        return;
+    }
+    
+    String content = JOptionPane.showInputDialog(this, 
+        "Enter submission for: " + a.getTitle());
+    
+    if (content != null && !content.trim().isEmpty()) {
+        a.submit(content);
         
-        int index = cmbCourse.getSelectedIndex();
-        SeatAssignment sa = student.getCurrentCourseLoad().getSeatAssignments().get(index);
-        Assignment a = sa.getAssignments().get(row);
+        // 系統自動評分
+        int autoScore = 80 + (int)(Math.random() * 21);
+        a.setScore(autoScore);
         
-        if (a.isSubmitted()) {
-            JOptionPane.showMessageDialog(this, "Already submitted!");
-            return;
-        }
+        JOptionPane.showMessageDialog(this, 
+            "Submitted successfully!\n" +
+            "System Auto-graded Score: " + autoScore + "/" + a.getMaxScore());
         
-        String content = JOptionPane.showInputDialog(this, "Enter submission for: " + a.getTitle());
-        
-        if (content != null && !content.trim().isEmpty()) {
-            a.submit(content);
-            a.setScore(80 + (int)(Math.random() * 21));
-            JOptionPane.showMessageDialog(this, "Submitted successfully!");
-            loadAssignments();
-        }
+        loadAssignments();
+    }
     }
     
 

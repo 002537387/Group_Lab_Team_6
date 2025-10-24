@@ -194,7 +194,9 @@ public class StudentWorkAreaJPanel extends javax.swing.JPanel {
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         // TODO add your handling code here:
-
+GraduationAuditJPanel panel = new GraduationAuditJPanel(business, student, CardSequencePanel);
+    CardSequencePanel.add("GraduationAudit", panel);
+    ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
 
     }//GEN-LAST:event_jButton10ActionPerformed
 

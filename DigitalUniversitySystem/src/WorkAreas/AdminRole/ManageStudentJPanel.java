@@ -148,7 +148,7 @@ import javax.swing.table.DefaultTableModel;
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
         // TODO add your handling code here:
         if(selecteduseraccount == null) return;
-        ManageUserAccount mppd = new ManageUserAccount(selecteduseraccount, CardSequencePanel);
+        UpdateUserAccount mppd = new UpdateUserAccount(selecteduseraccount, CardSequencePanel);
         CardSequencePanel.add(mppd);
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
     }//GEN-LAST:event_btnNextActionPerformed

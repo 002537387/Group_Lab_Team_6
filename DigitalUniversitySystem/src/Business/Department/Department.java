@@ -122,6 +122,9 @@ public class Department {
     public UserAccountDirectory getUserAccountDirectory() {
         return useraccountdirectory;
     }
+    public Degree getDegree() {
+    return degree;
+}
 
     public ArrayList<Business.Person.Person> searchPersons() {
         return persondirectory.getPersons();

@@ -116,7 +116,7 @@ public class ProfileWorkAreaMainFrame extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel3.setText("Digtal University System Group 6");
+        jLabel3.setText("Digital University System Group 6");
         CardSequencePanel.add(jLabel3, "card2");
 
         SplitHomeArea.setRightComponent(CardSequencePanel);
