@@ -520,15 +520,24 @@ public class CourseManagementJPanel extends javax.swing.JPanel {
             return;
         }
         
+        // Get new values from form
+        String newDescription = txtCourseDescription.getText();
+        String newSchedule = txtCourseSchedule.getText();
+        String newSyllabus = txtSyllabus.getText();
+        int newCapacity = (Integer) spinnerCapacity.getValue();
+        String enrollmentStatus = (String) cmbEnrollmentStatus.getSelectedItem();
+        
+        // Validate input
+        if (newDescription.isEmpty() || newSchedule.isEmpty() || newSyllabus.isEmpty()) {
+            JOptionPane.showMessageDialog(this, 
+                "All fields cannot be empty!",
+                "Validation Error",
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         try {
             Course course = selectedCourseOffer.getSubjectCourse();
-            
-            // Get new values from form
-            String newDescription = txtCourseDescription.getText();
-            String newSchedule = txtCourseSchedule.getText();
-            String newSyllabus = txtSyllabus.getText();
-            int newCapacity = (Integer) spinnerCapacity.getValue();
-            String enrollmentStatus = (String) cmbEnrollmentStatus.getSelectedItem();
             
             // Validate capacity
             int currentEnrolled = selectedCourseOffer.getTotalRegistedStudent();
