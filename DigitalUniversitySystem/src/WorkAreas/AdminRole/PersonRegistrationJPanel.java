@@ -39,8 +39,9 @@ public class PersonRegistrationJPanel extends javax.swing.JPanel {
         CardSequencePanel = jp;
         this.business = bz;
         initComponents();
-        PersonDirectory pd = business.getPersonDirectory();
+        PersonDirectory pd = business.getDepartment().getPersonDirectory();
         lblID.setText(Integer.toString(pd.getPersons().size()+1));
+        System.out.print(pd.getPersons().size());
     }
 
 

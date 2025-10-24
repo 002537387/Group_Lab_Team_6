@@ -5,6 +5,7 @@
  */
 package Business.Profiles;
 
+import Business.Business;
 import Business.Person.Person;
 import Business.Person.Transcript;
 import Business.CourseSchedule.CourseLoad;
@@ -89,6 +90,8 @@ public class StudentProfile extends Profile {
         if (balance < 0) balance = 0;
     }
     
+   
+    
     // ========== Override 方法 ==========
     
     @Override
@@ -104,5 +107,7 @@ public class StudentProfile extends Profile {
     public boolean isMatch(String id) {
         return person.getPersonId().equals(id);
     }
+    
+   
 
 }
