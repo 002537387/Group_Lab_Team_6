@@ -37,6 +37,7 @@ public class CourseManagementJPanel extends javax.swing.JPanel {
         
         initComponents();
         
+        setDetailsDisabled();
         populateSemesters();
         populateEnrollmentStatus();
         clearTable();
@@ -331,6 +332,17 @@ public class CourseManagementJPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Disable detail fields
+     */
+    private void setDetailsDisabled() {
+        txtCourseNumber.setEnabled(false);
+        txtCourseName.setEnabled(false);
+        txtCurrentCapacity.setEnabled(false);
+        txtEnrolled.setEnabled(false);
+        txtAvailable.setEnabled(false);
+    }
+    
     // 自动生成已有的semester？
     private void populateSemesters() {
         cmbSemester.removeAllItems();
@@ -563,7 +575,7 @@ public class CourseManagementJPanel extends javax.swing.JPanel {
             
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, 
-                "Error updating course: " + e.getMessage(),
+                "Error updating course!",
                 "Error",
                 JOptionPane.ERROR_MESSAGE);
         }

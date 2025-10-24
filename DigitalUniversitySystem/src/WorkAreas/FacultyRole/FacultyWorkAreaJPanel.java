@@ -179,10 +179,9 @@ public class FacultyWorkAreaJPanel extends javax.swing.JPanel {
     private void btnProfileMngIdentifyEventsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfileMngIdentifyEventsActionPerformed
         // TODO add your handling code here:
         // CardSequencePanel.removeAll();
-        //    IdentifyEventTypes iet= new IdentifyEventTypes(businessunit, CardSequencePanel);
-
-        //    CardSequencePanel.add("IdentifyEventTypes", iet);
-        //  ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
+        FacultyProfileManagementJPanel panel = new FacultyProfileManagementJPanel(business, faculty, CardSequencePanel);
+        CardSequencePanel.add("FacultyProfileManagementJPanel", panel);
+        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
 
 }//GEN-LAST:event_btnProfileMngIdentifyEventsActionPerformed
 
