@@ -343,18 +343,25 @@ public class CourseManagementJPanel extends javax.swing.JPanel {
         txtAvailable.setEnabled(false);
     }
     
-    // 自动生成已有的semester？
+    // 自动生成已有的semester
     private void populateSemesters() {
         cmbSemester.removeAllItems();
-        cmbSemester.addItem("Fall2023");
-        cmbSemester.addItem("Spring2024");
-        cmbSemester.addItem("Fall2024");
-        cmbSemester.addItem("Spring2025");
-        cmbSemester.addItem("Fall2025");
-        cmbSemester.addItem("Spring2026");
         
-        // Department department = business.getDepartment();
-        // ArrayList<String> semesters = new ArrayList<>(department.mastercoursecatalog.keySet());
+        Department department = business.getDepartment();
+        if (department == null) {
+            JOptionPane.showMessageDialog(this, "Department not found!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        ArrayList<String> semesters = new ArrayList<>(department.mastercoursecatalog.keySet());
+        if (semesters.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No semesters found!", "Info", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        
+        for (String semester : semesters) {
+            cmbSemester.addItem(semester);
+        }
     }
     
     private void populateEnrollmentStatus() {
