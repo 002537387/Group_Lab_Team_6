@@ -22,13 +22,13 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Ing-Ruei
  */
-    public class ManageStudentJPanel extends javax.swing.JPanel {
+    public class ManageFacultyJPanel extends javax.swing.JPanel {
 
     JPanel CardSequencePanel;
     Business business;
     UserAccount selecteduseraccount;
     
-    public ManageStudentJPanel(Business bz, JPanel jp) {
+    public ManageFacultyJPanel(Business bz, JPanel jp) {
         CardSequencePanel = jp;
         business = bz;
         initComponents();
@@ -36,7 +36,7 @@ import javax.swing.table.DefaultTableModel;
     }
 
     public void refreshTable() {
-        refreshTable(business.getDepartment().getUserAccountDirectory().findStudentAccount());
+        refreshTable(business.getDepartment().getUserAccountDirectory().findFacultyAccount());
     }
 
     public void refreshTable(ArrayList<UserAccount> userAccounts) {
@@ -96,11 +96,11 @@ import javax.swing.table.DefaultTableModel;
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel1.setText("Student Profile");
+        SwingStyleUtil.styleLabel(jLabel1);
+        jLabel1.setText("Faculty Profile");
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        jLabel2.setText("Manage Student");
+        jLabel2.setText("Manage Faculty");
         SwingStyleUtil.centerLabel(jLabel2);
 
         UserAccountTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -138,6 +138,8 @@ import javax.swing.table.DefaultTableModel;
             }
         });
 
+        txtSearchQuery = new javax.swing.JTextField();
+        SwingStyleUtil.styleTextField(txtSearchQuery);
         cmbSearchType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Name", "Department" }));
 
         btnSearch.setText("Search");
@@ -211,8 +213,8 @@ import javax.swing.table.DefaultTableModel;
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
         if(selecteduseraccount == null) return;
-        UpdateStudentAccount usa = new UpdateStudentAccount(selecteduseraccount, CardSequencePanel);
-        CardSequencePanel.add(usa);
+        UpdateFacultyAccount ufa = new UpdateFacultyAccount(selecteduseraccount, CardSequencePanel);
+        CardSequencePanel.add(ufa);
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
     }//GEN-LAST:event_btnUpdateActionPerformed
 
@@ -268,7 +270,7 @@ import javax.swing.table.DefaultTableModel;
                     ArrayList<Person> personsByID = business.getDepartment().getPersonDirectory().searchByID(searchQuery);
                     for (Person p : personsByID) {
                         UserAccount ua = uad.findUserAccount(p.getPersonId());
-                        if (ua != null && ua.getRole().equals("Student")) {
+                        if (ua != null && ua.getRole().equals("Faculty")) {
                             searchResults.add(ua);
                         }
                     }
@@ -278,7 +280,7 @@ import javax.swing.table.DefaultTableModel;
                     ArrayList<Person> personsByName = business.getDepartment().getPersonDirectory().searchByName(searchQuery);
                     for (Person p : personsByName) {
                         UserAccount ua = uad.findUserAccount(p.getPersonId());
-                        if (ua != null && ua.getRole().equals("Student")) {
+                        if (ua != null && ua.getRole().equals("Faculty")) {
                             searchResults.add(ua);
                         }
                     }
@@ -289,7 +291,7 @@ import javax.swing.table.DefaultTableModel;
                     // Since UserAccountTable already filters for students, we just need to filter by department name.
                     // The current department's name is business.getDepartment().getName()
                     if (business.getDepartment().getName().equalsIgnoreCase(searchQuery)) {
-                        for (UserAccount ua : uad.findStudentAccount()) {
+                        for (UserAccount ua : uad.findFacultyAccount()) {
                             searchResults.add(ua);
                         }
                     }

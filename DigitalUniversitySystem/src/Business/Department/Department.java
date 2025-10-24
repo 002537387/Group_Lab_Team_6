@@ -11,9 +11,11 @@ import Business.CourseSchedule.CourseLoad;
 import Business.CourseSchedule.CourseOffer;
 import Business.CourseSchedule.CourseSchedule;
 import Business.Degree.Degree;
+import Business.Directory.EmployeeDirectory;
 
 import Business.Directory.FacultyDirectory;
 import Business.Directory.PersonDirectory;
+import Business.Directory.RegistrarDirectory;
 import Business.Directory.StudentDirectory;
 import Business.Profiles.StudentProfile;
 import java.util.HashMap;
@@ -33,8 +35,10 @@ public class Department {
     StudentDirectory studentdirectory;
     FacultyDirectory facultydirectory;
     UserAccountDirectory useraccountdirectory;  
+    EmployeeDirectory employeeDirectory;
+    RegistrarDirectory registrarDirectory;
     Degree degree;
-    HashMap<String, CourseSchedule> mastercoursecatalog;
+    public HashMap<String, CourseSchedule> mastercoursecatalog;
 
     public Department(String n) {
         name = n;
@@ -43,6 +47,8 @@ public class Department {
         studentdirectory = new StudentDirectory(); //pass the department object so it stays linked to it
         persondirectory = new PersonDirectory();
         facultydirectory = new FacultyDirectory(); 
+        employeeDirectory = new EmployeeDirectory();
+        registrarDirectory = new RegistrarDirectory();
         useraccountdirectory = new UserAccountDirectory();
         degree = new Degree("MSIS");
         
@@ -140,6 +146,14 @@ public class Department {
     
     public UserAccountDirectory getUserAccountDirectory() {
         return useraccountdirectory;
+    }
+    
+    public EmployeeDirectory getEmployeeDirectory() {
+        return employeeDirectory;
+    }
+   
+    public RegistrarDirectory getRegistrarDirectory(){
+        return registrarDirectory;
     }
     public Degree getDegree() {
     return degree;
