@@ -150,11 +150,11 @@ public class FinancialManagementJPanel extends javax.swing.JPanel {
                 btnBackActionPerformed(evt);
             }
         });
-        add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, -1, -1));
+        add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, -1, -1));
 
         lblFinancialManagement.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
         lblFinancialManagement.setText("Financial Management");
-        add(lblFinancialManagement, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 50, 250, -1));
+        add(lblFinancialManagement, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 20, 250, -1));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new java.awt.BorderLayout());
@@ -173,12 +173,12 @@ public class FinancialManagementJPanel extends javax.swing.JPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(lblAccountSummary)
-                .addContainerGap(387, Short.MAX_VALUE))
+                .addContainerGap(367, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(31, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblAccountSummary)
                 .addGap(40, 40, 40))
         );
@@ -203,7 +203,7 @@ public class FinancialManagementJPanel extends javax.swing.JPanel {
                     .addComponent(lblSemesterTuition)
                     .addComponent(lblCurrentSemester)
                     .addComponent(lblCurrentBalance))
-                .addContainerGap(434, Short.MAX_VALUE))
+                .addContainerGap(414, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -214,14 +214,14 @@ public class FinancialManagementJPanel extends javax.swing.JPanel {
                 .addComponent(lblCurrentSemester)
                 .addGap(26, 26, 26)
                 .addComponent(lblSemesterTuition)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jSplitPane2.setRightComponent(jPanel2);
 
         jPanel1.add(jSplitPane2, java.awt.BorderLayout.CENTER);
 
-        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 100, 610, 240));
+        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 590, -1));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setLayout(new java.awt.BorderLayout());
@@ -240,7 +240,7 @@ public class FinancialManagementJPanel extends javax.swing.JPanel {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(lblMakePayment, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(310, Short.MAX_VALUE))
+                .addContainerGap(390, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -274,7 +274,7 @@ public class FinancialManagementJPanel extends javax.swing.JPanel {
                 .addComponent(txtPaymentAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(60, 60, 60)
                 .addComponent(btnMakePayment)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(103, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -291,7 +291,7 @@ public class FinancialManagementJPanel extends javax.swing.JPanel {
 
         jPanel4.add(jSplitPane1, java.awt.BorderLayout.CENTER);
 
-        add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 410, 510, 170));
+        add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, 590, 170));
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setLayout(new java.awt.BorderLayout());
@@ -310,7 +310,7 @@ public class FinancialManagementJPanel extends javax.swing.JPanel {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addComponent(jLabel8)
-                .addContainerGap(389, Short.MAX_VALUE))
+                .addContainerGap(379, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -348,14 +348,14 @@ public class FinancialManagementJPanel extends javax.swing.JPanel {
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -363,7 +363,7 @@ public class FinancialManagementJPanel extends javax.swing.JPanel {
 
         jPanel7.add(jSplitPane3, java.awt.BorderLayout.CENTER);
 
-        add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 600, 600, 280));
+        add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 450, 590, 210));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -398,6 +398,13 @@ public class FinancialManagementJPanel extends javax.swing.JPanel {
         }
         
         double currentBalance = student.getBalance();
+        if (currentBalance <= 0) {
+    JOptionPane.showMessageDialog(this,
+        "No balance to pay. Your account is current.",
+        "No Balance",
+        JOptionPane.INFORMATION_MESSAGE);
+    return;
+}
         if (amount > currentBalance) {
             JOptionPane.showMessageDialog(this, 
                 "Payment amount cannot exceed current balance ($" + 

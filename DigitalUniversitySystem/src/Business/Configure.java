@@ -8,6 +8,7 @@ package Business;
 
 import Business.CourseCatalog.Course;
 import Business.CourseCatalog.CourseCatalog;
+import Business.CourseSchedule.Assignment;
 import Business.CourseSchedule.CourseLoad;
 import Business.CourseSchedule.CourseOffer;
 import Business.CourseSchedule.CourseSchedule;
@@ -118,6 +119,50 @@ class Configure {
         sa1.setGrade("A");
         sa2.setGrade("B+");
         
+        //為 INFO5100 創建作業
+        java.util.Date now = new java.util.Date();
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        
+        // Assignment 1 - 已完成
+        cal.set(2023, 9, 30);  // 10/30
+        Assignment a1 = sa1.addAssignment(
+            "Midterm Exam", 
+            "Application design midterm examination", 
+            cal.getTime(), 
+            100
+        );
+        a1.setScore(85);
+        a1.submit("Completed midterm exam");
+        
+        // Assignment 2 - 已完成
+        cal.set(2023, 10, 6);  // 11/06
+        Assignment a2 = sa1.addAssignment(
+            "Final Project", 
+            "Build a full-stack university system", 
+            cal.getTime(), 
+            100
+        );
+        a2.setScore(90);
+        a2.submit("Submitted final project");
+        
+        // Assignment 3 - 待完成
+        cal.set(2023, 10, 13);  // 11/13
+        sa1.addAssignment(
+            "Homework 3", 
+            "Database schema design", 
+            cal.getTime(), 
+            100
+        );
+        
+        // Assignment 4 - 待完成
+        cal.set(2023, 10, 20);  // 11/20
+        sa1.addAssignment(
+            "Lab Assignment 5", 
+            "React components implementation", 
+            cal.getTime(), 
+            100
+        );
+        
         // Student 2 (Betty) - Fall 2023
         CourseLoad student2Fall2023 = student2.newCourseLoad("Fall2023");
         SeatAssignment sa3 = info5100offer.assignEmptySeat(student2Fall2023);
@@ -135,8 +180,8 @@ class Configure {
         uadirectory.newUserAccount(registrar, "registrar", "****");
         
         // ========== 10. 设定财务余额 ==========
-        student1.setBalance(14400);  
-        student2.setBalance(14400);
+        student1.setBalance(0);  
+        student2.setBalance(0);
         
         business.setDepartment(department);
         

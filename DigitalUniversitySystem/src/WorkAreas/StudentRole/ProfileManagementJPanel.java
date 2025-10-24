@@ -8,6 +8,7 @@ import Business.CourseSchedule.SeatAssignment;
 import Business.Person.Person;
 import Business.Profiles.StudentProfile;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 /**
  *
@@ -43,6 +44,10 @@ public class ProfileManagementJPanel extends javax.swing.JPanel {
     // 主修
     txtMajor.setText("MSIS");
     
+     // ========== Contact Information ========== 
+    txtEmail.setText(student.getEmail() != null ? student.getEmail() : "");
+    txtPhone.setText(student.getContact() != null ? student.getContact() : "");
+    
     // ========== Academic Status ==========
     
     // 計算總學分和 GPA
@@ -67,6 +72,29 @@ public class ProfileManagementJPanel extends javax.swing.JPanel {
     // 註冊狀態
     String status = totalCredits > 0 ? "Active" : "New Student";
     txtEnrollment.setText(status);
+}
+    private void saveProfile() {
+    // 獲取用戶輸入
+    String email = txtEmail.getText().trim();
+    String phone = txtPhone.getText().trim();
+    
+    // Email 驗證
+    if (!email.isEmpty() && !email.contains("@")) {
+        JOptionPane.showMessageDialog(this,
+            "Please enter a valid email address.",
+            "Invalid Email",
+            JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    // 保存更改
+    student.setEmail(email);
+    student.setContact(phone);
+    
+    JOptionPane.showMessageDialog(this,
+        "Profile updated successfully!",
+        "Success",
+        JOptionPane.INFORMATION_MESSAGE);
 }
 
     /**
@@ -104,12 +132,18 @@ public class ProfileManagementJPanel extends javax.swing.JPanel {
         txtTotalCredits = new javax.swing.JTextField();
         txtGPA = new javax.swing.JTextField();
         txtEnrollment = new javax.swing.JTextField();
+        contactInfoPanel = new javax.swing.JPanel();
+        lblEmail = new javax.swing.JLabel();
+        txtEmail = new javax.swing.JTextField();
+        lblPhone = new javax.swing.JLabel();
+        txtPhone = new javax.swing.JTextField();
+        btnSave = new javax.swing.JButton();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblStudentProfile.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
         lblStudentProfile.setText("Student Profile");
-        add(lblStudentProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 40, 140, -1));
+        add(lblStudentProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 20, 140, -1));
 
         btnBack.setText("<< Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -117,7 +151,7 @@ public class ProfileManagementJPanel extends javax.swing.JPanel {
                 btnBackActionPerformed(evt);
             }
         });
-        add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, -1, -1));
+        add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, -1, -1));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new java.awt.BorderLayout());
@@ -136,7 +170,7 @@ public class ProfileManagementJPanel extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(53, 53, 53)
                 .addComponent(lblPersonalInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(358, Short.MAX_VALUE))
+                .addContainerGap(468, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -158,6 +192,18 @@ public class ProfileManagementJPanel extends javax.swing.JPanel {
 
         lblMajor.setText("Major:");
 
+        txtName.setEditable(false);
+        txtName.setBackground(new java.awt.Color(204, 204, 204));
+
+        txtStudentID.setEditable(false);
+        txtStudentID.setBackground(new java.awt.Color(204, 204, 204));
+
+        txtDepartment.setEditable(false);
+        txtDepartment.setBackground(new java.awt.Color(204, 204, 204));
+
+        txtMajor.setEditable(false);
+        txtMajor.setBackground(new java.awt.Color(204, 204, 204));
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -167,15 +213,15 @@ public class ProfileManagementJPanel extends javax.swing.JPanel {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblStudentID, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblMajor, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(202, 202, 202)
+                    .addComponent(lblMajor, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(111, 111, 111)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtMajor, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtStudentID, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(200, Short.MAX_VALUE))
+                .addContainerGap(310, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -196,14 +242,14 @@ public class ProfileManagementJPanel extends javax.swing.JPanel {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblMajor)
                     .addComponent(txtMajor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         jSplitPane1.setRightComponent(jPanel3);
 
         jPanel2.add(jSplitPane1, java.awt.BorderLayout.CENTER);
 
-        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, 700, 280));
+        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, 810, 270));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setLayout(new java.awt.BorderLayout());
@@ -222,12 +268,12 @@ public class ProfileManagementJPanel extends javax.swing.JPanel {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(57, 57, 57)
                 .addComponent(lblAcademicStatus)
-                .addContainerGap(459, Short.MAX_VALUE))
+                .addContainerGap(569, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(37, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblAcademicStatus)
                 .addGap(34, 34, 34))
         );
@@ -241,6 +287,15 @@ public class ProfileManagementJPanel extends javax.swing.JPanel {
         lblEnrollmentStatus.setText("Enrollment Status:");
 
         lblGPA.setText("Cumulative GPA:");
+
+        txtTotalCredits.setEditable(false);
+        txtTotalCredits.setBackground(new java.awt.Color(204, 204, 204));
+
+        txtGPA.setEditable(false);
+        txtGPA.setBackground(new java.awt.Color(204, 204, 204));
+
+        txtEnrollment.setEditable(false);
+        txtEnrollment.setBackground(new java.awt.Color(204, 204, 204));
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -257,7 +312,7 @@ public class ProfileManagementJPanel extends javax.swing.JPanel {
                     .addComponent(txtTotalCredits)
                     .addComponent(txtGPA)
                     .addComponent(txtEnrollment, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE))
-                .addContainerGap(183, Short.MAX_VALUE))
+                .addContainerGap(293, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -266,7 +321,7 @@ public class ProfileManagementJPanel extends javax.swing.JPanel {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTotalCredits)
                     .addComponent(txtTotalCredits, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblGPA)
                     .addComponent(txtGPA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -281,7 +336,59 @@ public class ProfileManagementJPanel extends javax.swing.JPanel {
 
         jPanel4.add(jSplitPane3, java.awt.BorderLayout.CENTER);
 
-        add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 390, 700, 310));
+        add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 520, 810, 250));
+
+        contactInfoPanel.setBackground(new java.awt.Color(255, 255, 255));
+        contactInfoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Contact Information"));
+
+        lblEmail.setText("Email:");
+
+        lblPhone.setText("Phone:");
+
+        btnSave.setText("Save");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout contactInfoPanelLayout = new javax.swing.GroupLayout(contactInfoPanel);
+        contactInfoPanel.setLayout(contactInfoPanelLayout);
+        contactInfoPanelLayout.setHorizontalGroup(
+            contactInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(contactInfoPanelLayout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addGroup(contactInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblPhone, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+                    .addComponent(lblEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(contactInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtEmail)
+                    .addComponent(txtPhone, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE))
+                .addGap(128, 128, 128)
+                .addComponent(btnSave)
+                .addContainerGap(273, Short.MAX_VALUE))
+        );
+        contactInfoPanelLayout.setVerticalGroup(
+            contactInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(contactInfoPanelLayout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addGroup(contactInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblEmail)
+                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(contactInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(contactInfoPanelLayout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addGroup(contactInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblPhone)
+                            .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(contactInfoPanelLayout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(btnSave)))
+                .addContainerGap(66, Short.MAX_VALUE))
+        );
+
+        add(contactInfoPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 340, 810, 170));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -290,9 +397,16 @@ public class ProfileManagementJPanel extends javax.swing.JPanel {
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).previous(CardSequencePanel);
     }//GEN-LAST:event_btnBackActionPerformed
 
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        // TODO add your handling code here:
+         saveProfile();
+    }//GEN-LAST:event_btnSaveActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnSave;
+    private javax.swing.JPanel contactInfoPanel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -303,19 +417,23 @@ public class ProfileManagementJPanel extends javax.swing.JPanel {
     private javax.swing.JSplitPane jSplitPane3;
     private javax.swing.JLabel lblAcademicStatus;
     private javax.swing.JLabel lblDepartment;
+    private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblEnrollmentStatus;
     private javax.swing.JLabel lblGPA;
     private javax.swing.JLabel lblMajor;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblPersonalInformation;
+    private javax.swing.JLabel lblPhone;
     private javax.swing.JLabel lblStudentID;
     private javax.swing.JLabel lblStudentProfile;
     private javax.swing.JLabel lblTotalCredits;
     private javax.swing.JTextField txtDepartment;
+    private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtEnrollment;
     private javax.swing.JTextField txtGPA;
     private javax.swing.JTextField txtMajor;
     private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtPhone;
     private javax.swing.JTextField txtStudentID;
     private javax.swing.JTextField txtTotalCredits;
     // End of variables declaration//GEN-END:variables

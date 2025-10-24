@@ -179,75 +179,80 @@ Business business;
     
     private void handleRegisterCourse(int row) {
         String selectedSemester = (String) cmbSemester.getSelectedItem();
-        String courseCode = (String) tblAvailableCourses.getValueAt(row, 0);
-        String action = (String) tblAvailableCourses.getValueAt(row, 5);
+    String courseCode = (String) tblAvailableCourses.getValueAt(row, 0);
+    String action = (String) tblAvailableCourses.getValueAt(row, 5);
+    
+    // 檢查是否已註冊或已滿
+    if (action.equals("Registered")) {
+        JOptionPane.showMessageDialog(this,
+            "You are already registered for this course.",
+            "Already Registered",
+            JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    if (action.equals("Full")) {
+        JOptionPane.showMessageDialog(this,
+            "This course is full. No seats available.",
+            "Course Full",
+            JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+    // 獲取課程
+    CourseSchedule schedule = department.getCourseSchedule(selectedSemester);
+    CourseOffer offer = schedule.getCourseOffer(courseCode);
+    
+    if (offer == null) {
+        JOptionPane.showMessageDialog(this,
+            "Course not found.",
+            "Error",
+            JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+    // 檢查學分限制（最多 8 學分）
+    CourseLoad currentLoad = student.getCourseLoadBySemester(selectedSemester);
+    int currentCredits = 0;
+    if (currentLoad != null) {
+        currentCredits = currentLoad.getTotalCredits();
+    }
+    
+    int newCredits = currentCredits + offer.getCreditHours();
+    if (newCredits > 8) {
+        JOptionPane.showMessageDialog(this,
+            "Cannot register. This would exceed the maximum credit limit (8).\n" +
+            "Current credits: " + currentCredits + "\n" +
+            "Course credits: " + offer.getCreditHours(),
+            "Credit Limit Exceeded",
+            JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    // 註冊課程
+    if (currentLoad == null) {
+        currentLoad = student.newCourseLoad(selectedSemester);
+    }
+    
+    SeatAssignment sa = offer.assignEmptySeat(currentLoad);
+    
+    if (sa != null) {
+        // ← 添加學費到餘額
+        double tuitionFee = offer.getTuitionFee();
+        student.setBalance(student.getBalance() + tuitionFee);
         
-        // 檢查是否已註冊或已滿
-        if (action.equals("Registered")) {
-            JOptionPane.showMessageDialog(this,
-                "You are already registered for this course.",
-                "Already Registered",
-                JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        if (action.equals("Full")) {
-            JOptionPane.showMessageDialog(this,
-                "This course is full. No seats available.",
-                "Course Full",
-                JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        // 獲取課程
-        CourseSchedule schedule = department.getCourseSchedule(selectedSemester);
-        CourseOffer offer = schedule.getCourseOffer(courseCode);
-        
-        if (offer == null) {
-            JOptionPane.showMessageDialog(this,
-                "Course not found.",
-                "Error",
-                JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        // 檢查學分限制（假設最多20學分）
-        CourseLoad currentLoad = student.getCourseLoadBySemester(selectedSemester);
-        int currentCredits = 0;
-        if (currentLoad != null) {
-            currentCredits = currentLoad.getTotalCredits();
-        }
-        
-        int newCredits = currentCredits + offer.getCreditHours();
-        if (newCredits > 20) {
-            JOptionPane.showMessageDialog(this,
-                "Cannot register. This would exceed the maximum credit limit (20).\n" +
-                "Current credits: " + currentCredits + "\n" +
-                "Course credits: " + offer.getCreditHours(),
-                "Credit Limit Exceeded",
-                JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        // 註冊課程
-        if (currentLoad == null) {
-            currentLoad = student.newCourseLoad(selectedSemester);
-        }
-        
-        SeatAssignment sa = offer.assignEmptySeat(currentLoad);
-        
-        if (sa != null) {
-            JOptionPane.showMessageDialog(this,
-                "Successfully registered for " + courseCode + "!",
-                "Registration Successful",
-                JOptionPane.INFORMATION_MESSAGE);
-            refreshCourses();
-        } else {
-            JOptionPane.showMessageDialog(this,
-                "Registration failed. Course may be full.",
-                "Registration Failed",
-                JOptionPane.ERROR_MESSAGE);
-        }
+        JOptionPane.showMessageDialog(this,
+            "Successfully registered for " + courseCode + "!\n" +
+            "Tuition fee $" + String.format("%.2f", tuitionFee) + " has been added to your balance.",
+            "Registration Successful",
+            JOptionPane.INFORMATION_MESSAGE);
+        refreshCourses();
+    } else {
+        JOptionPane.showMessageDialog(this,
+            "Registration failed. Course may be full.",
+            "Registration Failed",
+            JOptionPane.ERROR_MESSAGE);
+    }
     }
     
     private void handleDropCourse(int row) {
@@ -274,16 +279,128 @@ Business business;
                 break;
             }
         }
-        
         if (toRemove != null) {
-            courseLoad.dropCourse(toRemove);
             
-            JOptionPane.showMessageDialog(this,
-                "Successfully dropped " + courseCode + ".",
-                "Drop Successful",
-                JOptionPane.INFORMATION_MESSAGE);
+            CourseOffer droppedCourse = toRemove.getCourseOffer();
+            double tuitionFee = droppedCourse.getTuitionFee();
+            courseLoad.dropCourse(toRemove);
+            student.refundForDroppedCourse(droppedCourse); 
+            
+            JOptionPane.showMessageDialog(this,"Successfully dropped " + courseCode + ".\n" +"Tuition fee $" + tuitionFee + " has been refunded.","Drop Successful",JOptionPane.INFORMATION_MESSAGE);
             refreshCourses();
         }
+    }
+      private void searchCourses() {
+        String searchText = txtSearch.getText().trim().toLowerCase();
+        
+        if (searchText.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                "Please enter search text.",
+                "Search Required",
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        DefaultTableModel model = (DefaultTableModel) tblAvailableCourses.getModel();
+        model.setRowCount(0);
+        
+        String selectedSemester = (String) cmbSemester.getSelectedItem();
+        if (selectedSemester == null) return;
+        
+        CourseSchedule schedule = department.getCourseSchedule(selectedSemester);
+        if (schedule == null) return;
+        
+        // 獲取學生已註冊的課程
+        ArrayList<String> registeredCourseNumbers = new ArrayList<>();
+        CourseLoad currentLoad = student.getCourseLoadBySemester(selectedSemester);
+        if (currentLoad != null) {
+            for (SeatAssignment sa : currentLoad.getSeatAssignments()) {
+                registeredCourseNumbers.add(sa.getCourseOffer().getCourseNumber());
+            }
+        }
+        
+        // 根據選擇的搜索類型進行搜索
+        ArrayList<CourseOffer> courseOffers = schedule.getCourseOffers();
+        int resultCount = 0;
+        
+        for (CourseOffer offer : courseOffers) {
+            boolean matchFound = false;
+            
+            // 判斷搜索類型
+            if (rbCourseId.isSelected()) {
+                // 按 Course ID 搜索
+                String courseCode = offer.getCourseNumber().toLowerCase();
+                if (courseCode.contains(searchText)) {
+                    matchFound = true;
+                }
+            } else if (rbTeacher.isSelected()) {
+                // 按 Teacher 搜索
+                String professor = "TBA";
+                FacultyProfile faculty = offer.getFacultyProfile();
+                if (faculty != null) {
+                    professor = faculty.getPerson().getPersonId().toLowerCase();
+                }
+                if (professor.contains(searchText)) {
+                    matchFound = true;
+                }
+            } else if (rbCourseName.isSelected()) {
+                // 按 Course Name 搜索
+                String courseName = offer.getSubjectCourse().getCourseName().toLowerCase();
+                if (courseName.contains(searchText)) {
+                    matchFound = true;
+                }
+            }
+            
+            // 如果找到匹配，添加到表格
+            if (matchFound) {
+                resultCount++;
+                String courseCode = offer.getCourseNumber();
+                String courseName = offer.getSubjectCourse().getCourseName();
+                int credits = offer.getCreditHours();
+                
+                String professor = "TBA";
+                FacultyProfile faculty = offer.getFacultyProfile();
+                if (faculty != null) {
+                    professor = faculty.getPerson().getPersonId();
+                }
+                
+                int seatsRemaining = offer.getSeatsRemaining();
+                int totalSeats = offer.getTotalSeats();
+                String seats = seatsRemaining + "/" + totalSeats;
+                
+                String action;
+                if (registeredCourseNumbers.contains(courseCode)) {
+                    action = "Registered";
+                } else if (seatsRemaining <= 0) {
+                    action = "Full";
+                } else {
+                    action = "Register";
+                }
+                
+                model.addRow(new Object[]{
+                    courseCode,
+                    courseName,
+                    credits,
+                    professor,
+                    seats,
+                    action
+                });
+            }
+        }
+        
+        // 顯示搜索結果數量
+        if (resultCount == 0) {
+            model.addRow(new Object[]{
+                "No courses found matching: " + searchText,
+                "", "", "", "", ""
+            });
+        }
+    }
+    
+    private void clearSearch() {
+        txtSearch.setText("");
+        rbCourseId.setSelected(true);
+        refreshCourses();
     }
     
 
@@ -296,6 +413,7 @@ Business business;
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        searchButtonGroup = new javax.swing.ButtonGroup();
         btnBack = new javax.swing.JButton();
         lblTitle = new javax.swing.JLabel();
         lblSelectSemester = new javax.swing.JLabel();
@@ -316,6 +434,13 @@ Business business;
         tblMyCourses = new javax.swing.JTable();
         btnRefresh = new javax.swing.JButton();
         lblTotalCredits = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        rbCourseId = new javax.swing.JRadioButton();
+        rbTeacher = new javax.swing.JRadioButton();
+        rbCourseName = new javax.swing.JRadioButton();
+        txtSearch = new javax.swing.JTextField();
+        btnSearch = new javax.swing.JButton();
+        btnClearSearch = new javax.swing.JButton();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -362,7 +487,7 @@ Business business;
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(33, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29))
         );
@@ -415,7 +540,7 @@ Business business;
 
         jPanel2.add(jSplitPane1, java.awt.BorderLayout.CENTER);
 
-        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 930, 250));
+        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 930, 220));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setLayout(new java.awt.BorderLayout());
@@ -439,7 +564,7 @@ Business business;
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(45, Short.MAX_VALUE)
+                .addContainerGap(18, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addGap(32, 32, 32))
         );
@@ -485,14 +610,14 @@ Business business;
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
         jSplitPane2.setRightComponent(jPanel6);
 
         jPanel4.add(jSplitPane2, java.awt.BorderLayout.CENTER);
 
-        add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 370, 930, 250));
+        add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 430, 930, 210));
 
         btnRefresh.setText("Refresh");
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
@@ -504,6 +629,39 @@ Business business;
 
         lblTotalCredits.setText("Total Credits:");
         add(lblTotalCredits, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 650, 220, -1));
+
+        jLabel1.setText("Search by:");
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(112, 110, 110, -1));
+
+        searchButtonGroup.add(rbCourseId);
+        rbCourseId.setSelected(true);
+        rbCourseId.setText("Course ID");
+        add(rbCourseId, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 130, -1, -1));
+
+        searchButtonGroup.add(rbTeacher);
+        rbTeacher.setText("Teacher");
+        add(rbTeacher, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 130, -1, -1));
+
+        searchButtonGroup.add(rbCourseName);
+        rbCourseName.setText("Course Name");
+        add(rbCourseName, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 130, -1, -1));
+        add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 160, 300, -1));
+
+        btnSearch.setText("Search");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
+        add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 160, 100, -1));
+
+        btnClearSearch.setText("Clear");
+        btnClearSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearSearchActionPerformed(evt);
+            }
+        });
+        add(btnClearSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 160, 110, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -543,11 +701,24 @@ Business business;
         handleDropCourse(row);
     }//GEN-LAST:event_tblMyCoursesMouseClicked
     }
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        // TODO add your handling code here:
+        searchCourses();
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void btnClearSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearSearchActionPerformed
+        // TODO add your handling code here:
+        clearSearch();
+    }//GEN-LAST:event_btnClearSearchActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnClearSearch;
     private javax.swing.JButton btnRefresh;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JComboBox<String> cmbSemester;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
@@ -563,7 +734,12 @@ Business business;
     private javax.swing.JLabel lblSelectSemester;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblTotalCredits;
+    private javax.swing.JRadioButton rbCourseId;
+    private javax.swing.JRadioButton rbCourseName;
+    private javax.swing.JRadioButton rbTeacher;
+    private javax.swing.ButtonGroup searchButtonGroup;
     private javax.swing.JTable tblAvailableCourses;
     private javax.swing.JTable tblMyCourses;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }
