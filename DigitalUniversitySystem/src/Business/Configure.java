@@ -161,6 +161,16 @@ class Configure {
         info5100offer2.generateSeats(10);
         csye6225offer2.generateSeats(10);
         
+        // ========== 8.新增timeschedule ==========
+        info5100offer.setSchedule("Mon/Wed 9:00-10:30");
+        info6205offer.setSchedule("Tue/Thu 10:00-11:30");
+        damg7245offer.setSchedule("Mon/Wed 14:00-15:30");
+        info5001offer.setSchedule("Tue/Thu 14:00-15:30");
+        csye6225offer.setSchedule("Fri 9:00-12:00");
+        info5100offer2.setSchedule("Mon/Wed 13:00-14:30");
+        csye6225offer2.setSchedule("Fri 13:00-16:00");
+
+        
         // ========== 8. 学生选课==========
         
         // Student 1 (Adam) - Fall 2023

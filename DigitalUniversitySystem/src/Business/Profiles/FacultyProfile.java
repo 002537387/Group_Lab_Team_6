@@ -23,7 +23,7 @@ public class FacultyProfile extends Profile {
         return "Faculty";
     }
     public String getFacultyName() {
-        return getPerson().getPersonId();
+        return getPerson().getName();
     }
     
 }
