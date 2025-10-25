@@ -201,6 +201,10 @@ public class RegistrarWorkAreaJPanel extends javax.swing.JPanel {
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         // TODO add your handling code here:
+        ReportingAndAnalysisJPanel  managePanel = new ReportingAndAnalysisJPanel (business, CardSequencePanel);
+        CardSequencePanel.add("manageCourseOffers", managePanel);
+        ((CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
+        //CardSequencePanel.removeAll();
     }//GEN-LAST:event_jButton12ActionPerformed
 
 
