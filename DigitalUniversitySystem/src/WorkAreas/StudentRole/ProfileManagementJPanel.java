@@ -39,7 +39,7 @@ public class ProfileManagementJPanel extends javax.swing.JPanel {
     txtStudentID.setText(person.getPersonId());
     
     // 專業/系所
-    txtDepartment.setText("Information Systems");
+    txtDepartment.setText(business.getDepartment().getName());
     
     // 主修
     txtMajor.setText("MSIS");
