@@ -44,11 +44,11 @@
                                   <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="txtCredit" min="-2" pref="105" max="-2" attributes="0"/>
-                                  <Component id="txtFaculty" min="-2" pref="105" max="-2" attributes="0"/>
-                                  <Component id="txtCourseName" alignment="0" min="-2" pref="105" max="-2" attributes="0"/>
-                                  <Component id="txtCourseNumber" alignment="0" min="-2" pref="105" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="txtCredit" pref="105" max="32767" attributes="0"/>
+                                  <Component id="txtCourseName" alignment="0" pref="105" max="32767" attributes="0"/>
+                                  <Component id="txtCourseNumber" alignment="0" pref="105" max="32767" attributes="0"/>
+                                  <Component id="ComboBoxFaculty" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -105,9 +105,9 @@
                   <Component id="txtCredit" min="-2" pref="23" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="txtFaculty" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                  <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                  <Component id="ComboBoxFaculty" min="-2" pref="23" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -136,13 +136,7 @@
     <Component class="javax.swing.JComboBox" name="ComboBoxSemester">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="5">
-            <StringItem index="0" value="Fall2023"/>
-            <StringItem index="1" value="Spring2024"/>
-            <StringItem index="2" value="Fall2024"/>
-            <StringItem index="3" value="Spring2025"/>
-            <StringItem index="4" value=" "/>
-          </StringArray>
+          <StringArray count="0"/>
         </Property>
       </Properties>
       <AuxValues>
@@ -268,8 +262,6 @@
         <Property name="text" type="java.lang.String" value="Enrollment Capacity:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtFaculty">
-    </Component>
     <Component class="javax.swing.JTextField" name="txtEnrollmentCapacity">
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtEnrollmentCapacityActionPerformed"/>
@@ -289,6 +281,16 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpdateActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="ComboBoxFaculty">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

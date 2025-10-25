@@ -45,30 +45,47 @@ public class CreateCourseJPanel extends javax.swing.JPanel {
         }
       });
         
+        
+        
     }
+   
     
    /**
      * 填充表格数据
      */
     private void populateTable() {
+        
         DefaultTableModel model = (DefaultTableModel) tblCourse.getModel();
         model.setRowCount(0);
     
         Department department = business.getDepartment();
         Collection<CourseSchedule> schedules = department.getAllCourseSchedule();
         
+         // 填充學期下拉框
+        if (schedules == null || schedules.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                "No semesters available!",
+                "Warning",
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
         for (CourseSchedule schedule : schedules) {
-            String semester = schedule.getTerm();
-            ArrayList<CourseOffer> offers = schedule.getCourseOffers();
-          
-                
+            ComboBoxSemester.addItem(schedule.getSemester());
+        }
+       
+        
+        for (CourseSchedule schedule : schedules) {
+            //String semester = schedule.getTerm();
+             
+            ArrayList<CourseOffer> offers = schedule.getCourseOffers();    
             for (CourseOffer offer : offers) {
                 Course course = offer.getSubjectCourse();
                 FacultyProfile fp = offer.getFacultyProfile();
-                
+                ComboBoxFaculty.addItem(fp.getFacultyName());
                 
                 Object[] row = new Object[7];
-                row[0] = semester;
+                row[0] = schedule.getSemester();
                 row[1] = course.getCOurseNumber();
                 row[2] = course.getCourseName();
                 row[3] = course.getCredits();
@@ -93,7 +110,7 @@ public class CreateCourseJPanel extends javax.swing.JPanel {
             txtCourseNumber.setText(model.getValueAt(selectedRow, 1).toString());
             txtCourseName.setText(model.getValueAt(selectedRow, 2).toString());
             txtCredit.setText(model.getValueAt(selectedRow, 3).toString());
-            txtFaculty.setText(model.getValueAt(selectedRow, 4).toString());
+            ComboBoxFaculty.setSelectedItem(model.getValueAt(selectedRow, 4).toString());
             txtEnrollmentCapacity.setText(model.getValueAt(selectedRow, 5).toString());
             txtSRoomSchedule.setText(model.getValueAt(selectedRow, 6).toString());
         }
@@ -124,13 +141,11 @@ public class CreateCourseJPanel extends javax.swing.JPanel {
         btnBack = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtFaculty = new javax.swing.JTextField();
         txtEnrollmentCapacity = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txtSRoomSchedule = new javax.swing.JTextField();
         btnUpdate = new javax.swing.JButton();
-
-        ComboBoxSemester.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fall2023", "Spring2024", "Fall2024", "Spring2025", " " }));
+        ComboBoxFaculty = new javax.swing.JComboBox<>();
 
         lblCredit.setText("Credit:");
 
@@ -220,11 +235,11 @@ public class CreateCourseJPanel extends javax.swing.JPanel {
                                     .addComponent(lblCourseName)
                                     .addComponent(jLabel3))
                                 .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtCredit, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtFaculty, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtCourseName, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtCourseNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtCredit, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                                    .addComponent(txtCourseName, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                                    .addComponent(txtCourseNumber, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                                    .addComponent(ComboBoxFaculty, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(18, 18, 18)
@@ -266,9 +281,9 @@ public class CreateCourseJPanel extends javax.swing.JPanel {
                     .addComponent(lblCredit)
                     .addComponent(txtCredit, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtFaculty, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(ComboBoxFaculty, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -291,7 +306,7 @@ public class CreateCourseJPanel extends javax.swing.JPanel {
         String courseNumber = txtCourseNumber.getText();
         String courseName = txtCourseName.getText();
         String credit = txtCredit.getText();
-        String faculty = txtFaculty.getText();
+        String faculty = ComboBoxFaculty.getSelectedItem().toString();
         String capacity = txtEnrollmentCapacity.getText();
         String schedule = txtSRoomSchedule.getText();
     
@@ -355,14 +370,20 @@ public class CreateCourseJPanel extends javax.swing.JPanel {
     
     // 4. 添加到表格
         model.addRow(row);
-    
+        
         txtCourseNumber.setText("");
         txtCourseName.setText("");
         txtCredit.setText("");
-        txtFaculty.setText("");
         txtEnrollmentCapacity.setText("");
         txtSRoomSchedule.setText("");
-    
+        
+         // 6. 显示成功消息
+        JOptionPane.showMessageDialog(this, 
+            "Course Created Successfully!", 
+            "Success", 
+            JOptionPane.INFORMATION_MESSAGE);
+                                             
+        
     }//GEN-LAST:event_btnCreateActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -394,7 +415,7 @@ public class CreateCourseJPanel extends javax.swing.JPanel {
         String courseNumber = txtCourseNumber.getText().trim();
         String courseName = txtCourseName.getText().trim();
         String credit = txtCredit.getText().trim();
-        String faculty = txtFaculty.getText().trim();
+        String faculty = ComboBoxFaculty.getSelectedItem().toString();
         String capacity = txtEnrollmentCapacity.getText().trim();
         String schedule = txtSRoomSchedule.getText().trim();
         
@@ -430,7 +451,7 @@ public class CreateCourseJPanel extends javax.swing.JPanel {
         txtCourseNumber.setText("");
         txtCourseName.setText("");
         txtCredit.setText("");
-        txtFaculty.setText("");
+        //txtFaculty.setText("");
         txtEnrollmentCapacity.setText("");
         txtSRoomSchedule.setText("");
     
@@ -440,11 +461,12 @@ public class CreateCourseJPanel extends javax.swing.JPanel {
             "Course Updated Successfully!", 
             "Success", 
             JOptionPane.INFORMATION_MESSAGE);
-    //GEN-LAST:event_btnUpdateActionPerformed
+                                             
     }//GEN-LAST:event_btnUpdateActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> ComboBoxFaculty;
     private javax.swing.JComboBox<String> ComboBoxSemester;
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnCreate;
@@ -463,7 +485,6 @@ public class CreateCourseJPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txtCourseNumber;
     private javax.swing.JTextField txtCredit;
     private javax.swing.JTextField txtEnrollmentCapacity;
-    private javax.swing.JTextField txtFaculty;
     private javax.swing.JTextField txtSRoomSchedule;
     // End of variables declaration//GEN-END:variables
 }
