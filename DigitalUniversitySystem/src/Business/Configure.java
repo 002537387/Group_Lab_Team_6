@@ -57,12 +57,15 @@ class Configure {
         
         // ========== 3. 建立学期课表 ==========
         CourseSchedule fall2023 = department.newCourseSchedule("Fall2023");
+        CourseSchedule spring2024 = department.newCourseSchedule("Spring2024");
         
         CourseOffer info5100offer = fall2023.newCourseOffer("INFO5100");
         CourseOffer info6205offer = fall2023.newCourseOffer("INFO6205");
         CourseOffer damg7245offer = fall2023.newCourseOffer("DAMG7245");
         CourseOffer info5001offer = fall2023.newCourseOffer("INFO5001");
         CourseOffer csye6225offer = fall2023.newCourseOffer("CSYE6225");
+        CourseOffer info5100offer2 = spring2024.newCourseOffer("INFO5100");
+        CourseOffer csye6225offer2 = spring2024.newCourseOffer("CSYE6225");
         
         // ========== 4. 建立 Person ==========
         PersonDirectory persondirectory = department.getPersonDirectory();
@@ -146,6 +149,8 @@ class Configure {
         damg7245offer.AssignAsTeacher(faculty1);
         info5001offer.AssignAsTeacher(faculty2);
         csye6225offer.AssignAsTeacher(faculty1);
+        info5100offer2.AssignAsTeacher(faculty1);
+        csye6225offer2.AssignAsTeacher(faculty1);
         
         // ========== 7. 产生座位 ==========
         info5100offer.generateSeats(25);
@@ -153,6 +158,8 @@ class Configure {
         damg7245offer.generateSeats(25);
         info5001offer.generateSeats(25);
         csye6225offer.generateSeats(25);
+        info5100offer2.generateSeats(10);
+        csye6225offer2.generateSeats(10);
         
         // ========== 8. 学生选课==========
         
@@ -162,7 +169,7 @@ class Configure {
         SeatAssignment sa2 = info6205offer.assignEmptySeat(student1Fall2023);
         
         // 设定成绩
-        // 若不手动设定，会自动根据作业成绩算出，需要这门课至少有一个作业且作业已提交和已被评分
+        // 若不手动设定，会自动根据作业成绩算出，需要这门课至少有一个作业
         sa1.setGrade("A");
         sa2.setGrade("B+");
         
@@ -235,20 +242,57 @@ class Configure {
         SeatAssignment sa8 = info5001offer.assignEmptySeat(student6Fall2023);
         sa8.setGrade("A-");  
 
-        CourseLoad student7Fall2023 = student7.newCourseLoad("Fall2023");
-        SeatAssignment sa9 = csye6225offer.assignEmptySeat(student7Fall2023);
-        sa9.setGrade("B+"); 
+        // Student 7 - Spring 2024
+        CourseLoad student7Spring2024 = student7.newCourseLoad("Spring2024");
+        SeatAssignment sa9 = csye6225offer2.assignEmptySeat(student7Spring2024);
+        SeatAssignment sa10 = info5100offer2.assignEmptySeat(student7Spring2024);
+        
+        cal.set(2024, 2, 15);
+        Assignment a5 = sa9.addAssignment(
+            "Midterm Exam", 
+            "Application design midterm examination", 
+            cal.getTime(), 
+            100
+        );
+        a5.setScore(85);
+        a5.submit("Completed midterm exam");
+        
+        cal.set(2024, 3, 1);
+        Assignment a6 = sa9.addAssignment(
+            "Quiz1", 
+            "Quiz 1", 
+            cal.getTime(), 
+            50
+        );
+        a6.setScore(40);
+        a6.submit("Completed quiz 1");
+        
+        cal.set(2024, 2, 15);
+        Assignment a7 = sa10.addAssignment(
+            "Midterm Exam 1", 
+            "Midterm examination 1", 
+            cal.getTime(), 
+            100
+        );
 
+        cal.set(2024, 3, 15);
+        Assignment a8 = sa10.addAssignment(
+            "Quiz2", 
+            "Quiz 2", 
+            cal.getTime(), 
+            50
+        );
+        
         CourseLoad student8Fall2023 = student8.newCourseLoad("Fall2023");
-        SeatAssignment sa10 = info5100offer.assignEmptySeat(student8Fall2023);
-        sa10.setGrade("A");  
+        SeatAssignment sa11 = info5100offer.assignEmptySeat(student8Fall2023);
+        sa11.setGrade("A");  
 
         CourseLoad student9Fall2023 = student9.newCourseLoad("Fall2023");
-        SeatAssignment sa11 = info6205offer.assignEmptySeat(student9Fall2023);
-        sa11.setGrade("B");  
+        SeatAssignment sa12 = info6205offer.assignEmptySeat(student9Fall2023);
+        sa12.setGrade("B");  
         CourseLoad student10Fall2023 = student10.newCourseLoad("Fall2023");
-        SeatAssignment sa12 = damg7245offer.assignEmptySeat(student10Fall2023);
-        sa12.setGrade("A-");  
+        SeatAssignment sa13 = damg7245offer.assignEmptySeat(student10Fall2023);
+        sa13.setGrade("A-");  
         
         // ========== 9. 建立 UserAccount ==========
         UserAccountDirectory uadirectory = department.getUserAccountDirectory();
