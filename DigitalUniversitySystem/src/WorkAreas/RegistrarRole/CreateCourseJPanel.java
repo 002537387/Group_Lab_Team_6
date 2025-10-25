@@ -39,6 +39,11 @@ public class CreateCourseJPanel extends javax.swing.JPanel {
         
         populateTable();
        
+        tblCourse.getSelectionModel().addListSelectionListener(e -> {
+        if (!e.getValueIsAdjusting()) {
+        loadSelectedRow();
+        }
+      });
         
     }
     
@@ -133,7 +138,7 @@ public class CreateCourseJPanel extends javax.swing.JPanel {
 
         jLabel2.setText("Course Offering Management");
 
-        lblCourseNumber.setText("CourseNumber :");
+        lblCourseNumber.setText("Course Number :");
 
         lblCourseName.setText("Course Name :");
 
@@ -283,12 +288,12 @@ public class CreateCourseJPanel extends javax.swing.JPanel {
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         // TODO add your handling code here:
         String semester = ComboBoxSemester.getSelectedItem().toString();
-        String courseNumber = txtCourseNumber.getText().trim();
-        String courseName = txtCourseName.getText().trim();
-        String credit = txtCredit.getText().trim();
-        String faculty = txtFaculty.getText().trim();
-        String capacity = txtEnrollmentCapacity.getText().trim();
-        String schedule = txtSRoomSchedule.getText().trim();
+        String courseNumber = txtCourseNumber.getText();
+        String courseName = txtCourseName.getText();
+        String credit = txtCredit.getText();
+        String faculty = txtFaculty.getText();
+        String capacity = txtEnrollmentCapacity.getText();
+        String schedule = txtSRoomSchedule.getText();
     
         // 2. 验证必填字段
         if (courseNumber.isEmpty()) {
@@ -372,6 +377,70 @@ public class CreateCourseJPanel extends javax.swing.JPanel {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
+        
+         // 1. 检查是否选择了表格行
+        int selectedRow = tblCourse.getSelectedRow();
+        
+        if (selectedRow < 0) {
+            JOptionPane.showMessageDialog(this, 
+                "Please select a course from the table first!", 
+                "No Selection", 
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        // 2. 读取输入框的数据
+        String semester = ComboBoxSemester.getSelectedItem().toString().trim();
+        String courseNumber = txtCourseNumber.getText().trim();
+        String courseName = txtCourseName.getText().trim();
+        String credit = txtCredit.getText().trim();
+        String faculty = txtFaculty.getText().trim();
+        String capacity = txtEnrollmentCapacity.getText().trim();
+        String schedule = txtSRoomSchedule.getText().trim();
+        
+        // 3. 验证必填字段
+        if (courseNumber.isEmpty() || courseName.isEmpty()) {
+            JOptionPane.showMessageDialog(this, 
+                "Please enter Course Number and Course Name!", 
+                "Input Error", 
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if (capacity.isEmpty()) {
+            JOptionPane.showMessageDialog(this, 
+                "Please enter Enrollment Capacity!", 
+                "Input Error", 
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // 4. 更新表格中选中行的数据
+        DefaultTableModel model = (DefaultTableModel) tblCourse.getModel();
+        
+        model.setValueAt(semester, selectedRow, 0);
+        model.setValueAt(courseNumber, selectedRow, 1);
+        model.setValueAt(courseName, selectedRow, 2);
+        model.setValueAt(credit.isEmpty() ? "" : credit, selectedRow, 3);
+        model.setValueAt(faculty.isEmpty() ? "" : faculty, selectedRow, 4);
+        model.setValueAt(capacity.isEmpty() ? "" : capacity, selectedRow, 5);
+        model.setValueAt(schedule.isEmpty() ? "" : schedule, selectedRow, 6);
+        
+        // 5. 清空输入框
+        txtCourseNumber.setText("");
+        txtCourseName.setText("");
+        txtCredit.setText("");
+        txtFaculty.setText("");
+        txtEnrollmentCapacity.setText("");
+        txtSRoomSchedule.setText("");
+    
+        
+        // 6. 显示成功消息
+        JOptionPane.showMessageDialog(this, 
+            "Course Updated Successfully!", 
+            "Success", 
+            JOptionPane.INFORMATION_MESSAGE);
+    //GEN-LAST:event_btnUpdateActionPerformed
     }//GEN-LAST:event_btnUpdateActionPerformed
 
 
