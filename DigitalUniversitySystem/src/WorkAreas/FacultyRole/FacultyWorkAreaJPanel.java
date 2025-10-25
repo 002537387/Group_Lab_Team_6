@@ -172,8 +172,9 @@ public class FacultyWorkAreaJPanel extends javax.swing.JPanel {
 
     private void btnStudentMngActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStudentMngActionPerformed
         // TODO add your handling code here:
-
-  
+        StudentManagementJPanel panel = new StudentManagementJPanel(business, faculty, CardSequencePanel);
+        CardSequencePanel.add("StudentManagement", panel);
+        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
     }//GEN-LAST:event_btnStudentMngActionPerformed
 
     private void btnProfileMngIdentifyEventsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfileMngIdentifyEventsActionPerformed

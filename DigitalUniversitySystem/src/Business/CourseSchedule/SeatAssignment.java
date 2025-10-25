@@ -23,7 +23,7 @@ public class SeatAssignment {
     String grade; //(Letter grade mappings: A=4.0, A-=3.7, B+=3.3, B=3.0, )
     Seat seat;
     boolean like; //true means like and false means not like
-    CourseLoad courseload;
+    public CourseLoad courseload;
     Map<String, Double> gpa = new HashMap<>();
     private ArrayList<Assignment> assignments;
     
@@ -99,6 +99,7 @@ public class SeatAssignment {
         return assignments;
     }
      
+    // 目前交了几个作业
     public String getAssignmentProgress() {
         if (assignments.isEmpty()) return "0/0";
         int submitted = 0;
@@ -108,6 +109,7 @@ public class SeatAssignment {
         return submitted + "/" + assignments.size();
     }
     
+    // 所有作业的平均分，百分制
     public double getAssignmentAverageScore() {
         if (assignments.isEmpty()) return 0;
         double total = 0;
@@ -119,5 +121,32 @@ public class SeatAssignment {
         return total / assignments.size();
     }
     
-    
+    /**
+    * 根据作业平均分自动计算字母成绩
+    */
+    public String calculateFinalGrade() {
+        if (assignments.isEmpty()) {
+            return null;  // No assignments = no grade yet
+        }
+        
+        double avgScore = getAssignmentAverageScore();
+        if (avgScore >= 95) return "A";
+        if (avgScore >= 90) return "A-";
+        if (avgScore >= 87) return "B+";
+        if (avgScore >= 84) return "B";
+        if (avgScore >= 80) return "B-";
+        if (avgScore >= 77) return "C+";
+        if (avgScore >= 74) return "C";
+        if (avgScore >= 70) return "C-";
+        return "F";
+    }
+
+    /**
+    * 自动从作业成绩设置最终成绩
+    */
+    public void autoSetGradeFromAssignments() {
+        if (!assignments.isEmpty()) {
+            this.grade = calculateFinalGrade();
+        }
+    }
 }

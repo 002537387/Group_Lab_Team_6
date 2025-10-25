@@ -42,7 +42,9 @@ public class StudentProfile extends Profile {
     }
     
     public CourseLoad newCourseLoad(String semester) {
-        return transcript.newCourseLoad(semester);
+        CourseLoad cl = transcript.newCourseLoad(semester);
+        cl.setStudent(this);  // 
+        return cl;
     }
     
     public CourseLoad getCourseLoadBySemester(String semester) {
