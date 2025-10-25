@@ -22,30 +22,42 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Ing-Ruei
  */
-    public class ManageFacultyJPanel extends javax.swing.JPanel {
+    public class ManageUsersByTypeJPanel extends javax.swing.JPanel {
 
     JPanel CardSequencePanel;
     Business business;
     UserAccount selecteduseraccount;
+    String role;
     
-    public ManageFacultyJPanel(Business bz, JPanel jp) {
-        CardSequencePanel = jp;
-        business = bz;
+    public ManageUsersByTypeJPanel(Business bz, JPanel jp, String role) {
+        this.CardSequencePanel = jp;
+        this.business = bz;
+        this.role = role;
         initComponents();
+        lblTitle.setText("Manage " + role + "s");
         refreshTable();
     }
 
     public void refreshTable() {
-        refreshTable(business.getDepartment().getUserAccountDirectory().findFacultyAccount());
+        ArrayList<UserAccount> userAccounts = new ArrayList<>();
+        switch(role){
+            case "Faculty":
+                userAccounts = business.getDepartment().getUserAccountDirectory().findFacultyAccount();
+                break;
+            case "Registrar":
+                userAccounts = business.getDepartment().getUserAccountDirectory().findRegistrarAccount();
+                break;
+            case "Student":
+                userAccounts = business.getDepartment().getUserAccountDirectory().findStudentAccount();
+                break;
+        }
+        refreshTable(userAccounts);
     }
 
     public void refreshTable(ArrayList<UserAccount> userAccounts) {
 
-        int rc = UserAccountTable.getRowCount();
-        int i;
-        for (i = rc - 1; i >= 0; i--) {
-            ((DefaultTableModel) UserAccountTable.getModel()).removeRow(i);
-        }
+        DefaultTableModel model = (DefaultTableModel) UserAccountTable.getModel();
+        model.setRowCount(0);
         
         for (UserAccount ua : userAccounts) {
             Object[] row = new Object[6];
@@ -55,7 +67,7 @@ import javax.swing.table.DefaultTableModel;
             row[3] = ua.getRole();
             row[4] = ua.getAssociatedPersonProfile().getEmail();
             row[5] = ua.getAssociatedPersonProfile().getContact();
-            ((DefaultTableModel) UserAccountTable.getModel()).addRow(row);
+            model.addRow(row);
         }
     }
 
@@ -72,7 +84,7 @@ import javax.swing.table.DefaultTableModel;
         btnBack = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblTitle = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         UserAccountTable = new javax.swing.JTable();
         btnDelete = new javax.swing.JButton();
@@ -99,9 +111,9 @@ import javax.swing.table.DefaultTableModel;
         SwingStyleUtil.styleLabel(jLabel1);
         jLabel1.setText("Faculty Profile");
 
-        jLabel2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        jLabel2.setText("Manage Faculty");
-        SwingStyleUtil.centerLabel(jLabel2);
+        lblTitle.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        lblTitle.setText("Manage Faculty");
+        SwingStyleUtil.centerLabel(lblTitle);
 
         UserAccountTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -166,7 +178,7 @@ import javax.swing.table.DefaultTableModel;
                         .addComponent(btnBack))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(29, 29, 29)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -185,7 +197,7 @@ import javax.swing.table.DefaultTableModel;
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jLabel2)
+                .addComponent(lblTitle)
                 .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -213,8 +225,8 @@ import javax.swing.table.DefaultTableModel;
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
         if(selecteduseraccount == null) return;
-        UpdateFacultyAccount ufa = new UpdateFacultyAccount(selecteduseraccount, CardSequencePanel);
-        CardSequencePanel.add(ufa);
+        UpdateAccountInfoJPanel uaijp = new UpdateAccountInfoJPanel(selecteduseraccount, CardSequencePanel, this.role);
+        CardSequencePanel.add(uaijp);
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
     }//GEN-LAST:event_btnUpdateActionPerformed
 
@@ -270,7 +282,7 @@ import javax.swing.table.DefaultTableModel;
                     ArrayList<Person> personsByID = business.getDepartment().getPersonDirectory().searchByID(searchQuery);
                     for (Person p : personsByID) {
                         UserAccount ua = uad.findUserAccount(p.getPersonId());
-                        if (ua != null && ua.getRole().equals("Faculty")) {
+                        if (ua != null && ua.getRole().equals(this.role)) {
                             searchResults.add(ua);
                         }
                     }
@@ -280,7 +292,7 @@ import javax.swing.table.DefaultTableModel;
                     ArrayList<Person> personsByName = business.getDepartment().getPersonDirectory().searchByName(searchQuery);
                     for (Person p : personsByName) {
                         UserAccount ua = uad.findUserAccount(p.getPersonId());
-                        if (ua != null && ua.getRole().equals("Faculty")) {
+                        if (ua != null && ua.getRole().equals(this.role)) {
                             searchResults.add(ua);
                         }
                     }
@@ -291,7 +303,19 @@ import javax.swing.table.DefaultTableModel;
                     // Since UserAccountTable already filters for students, we just need to filter by department name.
                     // The current department's name is business.getDepartment().getName()
                     if (business.getDepartment().getName().equalsIgnoreCase(searchQuery)) {
-                        for (UserAccount ua : uad.findFacultyAccount()) {
+                        ArrayList<UserAccount> userAccounts = new ArrayList<>();
+                        switch(role){
+                            case "Faculty":
+                                userAccounts = business.getDepartment().getUserAccountDirectory().findFacultyAccount();
+                                break;
+                            case "Registrar":
+                                userAccounts = business.getDepartment().getUserAccountDirectory().findRegistrarAccount();
+                                break;
+                            case "Student":
+                                userAccounts = business.getDepartment().getUserAccountDirectory().findStudentAccount();
+                                break;
+                        }
+                        for (UserAccount ua : userAccounts) {
                             searchResults.add(ua);
                         }
                     }
@@ -299,7 +323,7 @@ import javax.swing.table.DefaultTableModel;
             }
 
             if (searchResults.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "No students found matching your criteria.", "Information", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "No " + this.role + "s found matching your criteria.", "Information", JOptionPane.INFORMATION_MESSAGE);
             }
             refreshTable(searchResults);
         } catch (Exception ex) {
@@ -320,7 +344,7 @@ import javax.swing.table.DefaultTableModel;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cmbSearchType;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel lblTitle;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txtSearchQuery;
     // End of variables declaration//GEN-END:variables

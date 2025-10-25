@@ -188,11 +188,8 @@ public class UpdateUserAccount extends javax.swing.JPanel {
         Component[] panelStack = CardSequencePanel.getComponents();
         JPanel lastPanel = (JPanel) panelStack[panelStack.length - 1];
         
-        if (lastPanel instanceof WorkAreas.AdminRole.ManageStudentJPanel) {
-            WorkAreas.AdminRole.ManageStudentJPanel msj = (WorkAreas.AdminRole.ManageStudentJPanel) lastPanel;
-            msj.refreshTable();
-        } else if (lastPanel instanceof WorkAreas.AdminRole.ManageUserAccountsJPanel) {
-            WorkAreas.AdminRole.ManageUserAccountsJPanel maj = (WorkAreas.AdminRole.ManageUserAccountsJPanel) lastPanel;
+        if (lastPanel instanceof WorkAreas.AdminRole.ManageUserAccountsJPanel) {
+            ManageUserAccountsJPanel maj = (ManageUserAccountsJPanel) lastPanel;
             maj.refreshTable();
         }
         // Add other ManageXPanels here if needed

@@ -45,6 +45,7 @@ public class CreateUserAccount extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         btnBack = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
         SwingStyleUtil.styleTextField(txtName);
 
@@ -145,7 +146,6 @@ public class CreateUserAccount extends javax.swing.JPanel {
         JPanel lastPanel = (JPanel) panelStack[panelStack.length - 1];
         ManageUserAccountsJPanel maj = (ManageUserAccountsJPanel) lastPanel;
         maj.refreshTable();
-        maj.refreshProfileTable();
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
     }//GEN-LAST:event_btnBackActionPerformed
 
