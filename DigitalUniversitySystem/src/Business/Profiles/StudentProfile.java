@@ -92,6 +92,57 @@ public class StudentProfile extends Profile {
         if (balance < 0) balance = 0;
     }
     
+    /**
+     * 计算所有学期的Overall GPA（只计算有letter grade的课程）
+     * Calculate overall GPA across all semesters (only includes graded courses)
+     * @return Overall GPA
+     */
+    public double calculateOverallGPA() {
+        double totalGradePoints = 0.0;
+        int totalCredits = 0;
+    
+        // 遍历所有学期
+        for (CourseLoad cl : transcript.getCourseloadlist().values()) {
+            for (SeatAssignment sa : cl.getSeatAssignments()) {
+                // 只计算有letter grade的课程
+                if (sa.getLetterGrade() != null) {
+                    totalGradePoints += sa.getGPA() * sa.getCreditHours();
+                    totalCredits += sa.getCreditHours();
+                }
+            }
+        }
+    
+        // 如果没有已评分课程，返回0.0
+        return totalCredits == 0 ? 0.0 : totalGradePoints / totalCredits;
+    }
+
+    /**
+     * 获取所有学期已评分的总学分数
+     * Get total graded credits across all semesters
+     */
+    public int getTotalGradedCredits() {
+        int credits = 0;
+        for (CourseLoad cl : transcript.getCourseloadlist().values()) {
+            for (SeatAssignment sa : cl.getSeatAssignments()) {
+                if (sa.getLetterGrade() != null) {
+                    credits += sa.getCreditHours();
+                }
+            }
+        }
+        return credits;
+    }
+
+    /**
+     * 获取特定学期的GPA
+     * Get GPA for a specific semester
+     * @param semester 学期名称
+     * @return 学期GPA
+     */
+    public double getSemesterGPA(String semester) {
+        CourseLoad cl = transcript.getCourseLoadBySemester(semester);
+        if (cl == null) return 0.0;
+        return cl.calculateSemesterGPA();
+    }
    
     
     // ========== Override 方法 ==========
