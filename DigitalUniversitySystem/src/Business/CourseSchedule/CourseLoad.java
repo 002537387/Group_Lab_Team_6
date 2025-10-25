@@ -121,6 +121,41 @@ public class CourseLoad {
         this.student = student;
     }
     
+    /**
+     * 计算本学期GPA（只计算有letter grade的课程）
+     * Calculate semester GPA (only includes courses with letter grades)
+     * @return 学期GPA，如果没有已评分课程则返回0.0
+     */
+    public double calculateSemesterGPA() {
+        double totalGradePoints = 0.0;
+        int totalCredits = 0;
+    
+        for (SeatAssignment sa : seatassignments) {
+            // 只计算有letter grade的课程
+            if (sa.getLetterGrade() != null) {
+                totalGradePoints += sa.getGPA() * sa.getCreditHours();
+                totalCredits += sa.getCreditHours();
+            }
+        }
+    
+        // 如果没有已评分课程，返回0.0
+        return totalCredits == 0 ? 0.0 : totalGradePoints / totalCredits;
+    }
+
+    /**
+     * 获取本学期已评分的学分数
+     * Get total graded credits for this semester
+     */
+    public int getGradedCredits() {
+        int credits = 0;
+        for (SeatAssignment sa : seatassignments) {
+            if (sa.getLetterGrade() != null) {
+                credits += sa.getCreditHours();
+            }
+        }
+        return credits;
+    }
+    
     @Override
     public String toString() {
      return semester;

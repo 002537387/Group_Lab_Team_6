@@ -188,11 +188,16 @@ public class FacultyWorkAreaJPanel extends javax.swing.JPanel {
 
     private void btnPerformanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPerformanceActionPerformed
         // TODO add your handling code here:
-
+        PerformanceReportingJPanel panel = new PerformanceReportingJPanel(business, faculty, CardSequencePanel);
+        CardSequencePanel.add("PerformanceReportingJPanel", panel);
+        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
 }//GEN-LAST:event_btnPerformanceActionPerformed
 
     private void btnTuitionIdentifyEventsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTuitionIdentifyEventsActionPerformed
         // TODO add your handling code here:
+        TuitionInsightJPanel panel = new TuitionInsightJPanel(business, faculty, CardSequencePanel);
+        CardSequencePanel.add("TuitionInsightJPanel", panel);
+        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
     }//GEN-LAST:event_btnTuitionIdentifyEventsActionPerformed
 
 

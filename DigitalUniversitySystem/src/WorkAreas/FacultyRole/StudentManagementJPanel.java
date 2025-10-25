@@ -134,7 +134,7 @@ public class StudentManagementJPanel extends javax.swing.JPanel {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Rank", "Student ID", "Name", "Avg Score", "Grade", "which GPA?"
+                "Rank", "Student ID", "Name", "Avg Score", "Grade", "Term GPA"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -209,7 +209,7 @@ public class StudentManagementJPanel extends javax.swing.JPanel {
             }
         });
 
-        btnSaveFinalGrade.setText("Save Final Grade");
+        btnSaveFinalGrade.setText("Set Final Grade");
         btnSaveFinalGrade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveFinalGradeActionPerformed(evt);
@@ -237,10 +237,25 @@ public class StudentManagementJPanel extends javax.swing.JPanel {
                         .addGap(101, 101, 101)
                         .addComponent(jLabel3)
                         .addGap(62, 62, 62)
-                        .addComponent(cmbCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cmbCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(410, 410, 410)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(95, 95, 95)
+                                .addComponent(jLabel4))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(173, 173, 173)
+                                .addComponent(btnViewDetails)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 34, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(87, 87, 87)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
                             .addGroup(layout.createSequentialGroup()
@@ -255,26 +270,17 @@ public class StudentManagementJPanel extends javax.swing.JPanel {
                                     .addComponent(txtStudentID)
                                     .addComponent(txtStudentName)
                                     .addComponent(txtCurrentGrade)
-                                    .addComponent(txtAssignmentAvg, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE))))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(173, 173, 173)
-                        .addComponent(btnViewDetails)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnGradeAssignment)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnAutoCalculateGrade)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSaveFinalGrade))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(338, 338, 338))
+                                    .addComponent(txtAssignmentAvg, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnGradeAssignment)
+                            .addGap(18, 18, 18)
+                            .addComponent(btnAutoCalculateGrade)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnSaveFinalGrade))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(288, 288, 288))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -300,8 +306,8 @@ public class StudentManagementJPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(60, 60, 60)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(68, 68, 68)
                         .addComponent(btnViewDetails))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -432,6 +438,8 @@ public class StudentManagementJPanel extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tblStudentList.getModel();
         model.setRowCount(0);
         
+        String currentSemester = (String) cmbSemester.getSelectedItem();
+        
         int rank = 1;
         for (SeatAssignment sa : students) {
             StudentProfile sp = sa.courseload.getStudent();
@@ -441,9 +449,11 @@ public class StudentManagementJPanel extends javax.swing.JPanel {
             String studentID = person.getPersonId();
             String studentName = person.getName();
             double avgScore = sa.getAssignmentAverageScore();
-            String grade = sa.getLetterGrade() != null ? sa.getLetterGrade() : "N/A";
-            // 如何计算该学生已有成绩的GPA？
-            String gpa = "等待实现";
+            String grade = sa.getLetterGrade() != null ? sa.getLetterGrade() : "Not Graded";
+            
+            // 获得该学生当前学期的GPA
+            double semesterGPA = sp.getSemesterGPA(currentSemester);
+            String gpa = String.format("%.2f", semesterGPA);
             
             Object[] row = {
                 rank++,
@@ -593,6 +603,17 @@ public class StudentManagementJPanel extends javax.swing.JPanel {
         }
         
         Assignment assignment = selectedStudentSeat.getAssignments().get(selectedRow);
+        
+        // 检查作业是否已提交
+        if (!assignment.isSubmitted()) {
+            JOptionPane.showMessageDialog(this, 
+                "Cannot grade this assignment!\n\n" +
+                "Reason: Student has not submitted this assignment yet.\n" +
+                "Status: " + assignment.getStatus(),
+                "Assignment Not Submitted", 
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         
         String scoreStr = JOptionPane.showInputDialog(this, 
             "Enter score for: " + assignment.getTitle() + "\n" +

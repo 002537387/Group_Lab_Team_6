@@ -9,6 +9,7 @@ import Business.CourseCatalog.Course;
 import Business.Profiles.FacultyAssignment;
 import Business.Profiles.FacultyProfile;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -266,6 +267,40 @@ public class CourseOffer {
         // Return average or 0 if no students have been graded yet
         return gradedStudentCount == 0 ? 0.0 : totalGPA / gradedStudentCount;
         }
+    
+    /**
+     * 获取成绩分布
+     * Get grade distribution for this course
+     * @return HashMap with grade as key and count as value
+     */
+    public HashMap<String, Integer> getGradeDistribution() {
+        HashMap<String, Integer> distribution = new HashMap<>();
+    
+        // 初始化所有可能的成绩
+        distribution.put("A", 0);
+        distribution.put("A-", 0);
+        distribution.put("B+", 0);
+        distribution.put("B", 0);
+        distribution.put("B-", 0);
+        distribution.put("C+", 0);
+        distribution.put("C", 0);
+        distribution.put("C-", 0);
+        distribution.put("F", 0);
+        distribution.put("Not Graded", 0);  // 未评分
+    
+        // 统计每个成绩的学生数
+        ArrayList<SeatAssignment> enrolled = getEnrolledSeatAssignments();
+        for (SeatAssignment sa : enrolled) {
+            String grade = sa.getLetterGrade();
+            if (grade != null) {
+                distribution.put(grade, distribution.get(grade) + 1);
+            } else {
+                distribution.put("Not Graded", distribution.get("Not Graded") + 1);
+            }
+        }
+    
+        return distribution;
+    }
     
     @Override
     public String toString() {
