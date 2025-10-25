@@ -92,7 +92,7 @@ Business business;
             String professor = "TBA";
             FacultyProfile faculty = offer.getFacultyProfile();
             if (faculty != null) {
-                professor = faculty.getPerson().getPersonId();
+                professor = faculty.getPerson().getName();
             }
             
             // 座位信息
@@ -145,7 +145,7 @@ Business business;
             String professor = "TBA";
             FacultyProfile faculty = offer.getFacultyProfile();
             if (faculty != null) {
-                professor = faculty.getPerson().getPersonId();
+                professor = faculty.getPerson().getName();
             }
             
             String status = "Enrolled";
@@ -338,7 +338,7 @@ Business business;
                 String professor = "TBA";
                 FacultyProfile faculty = offer.getFacultyProfile();
                 if (faculty != null) {
-                    professor = faculty.getPerson().getPersonId().toLowerCase();
+                    professor = faculty.getPerson().getName().toLowerCase();
                 }
                 if (professor.contains(searchText)) {
                     matchFound = true;
@@ -361,7 +361,7 @@ Business business;
                 String professor = "TBA";
                 FacultyProfile faculty = offer.getFacultyProfile();
                 if (faculty != null) {
-                    professor = faculty.getPerson().getPersonId();
+                    professor = faculty.getPerson().getName();
                 }
                 
                 int seatsRemaining = offer.getSeatsRemaining();
@@ -640,6 +640,11 @@ Business business;
 
         searchButtonGroup.add(rbTeacher);
         rbTeacher.setText("Teacher");
+        rbTeacher.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbTeacherActionPerformed(evt);
+            }
+        });
         add(rbTeacher, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 130, -1, -1));
 
         searchButtonGroup.add(rbCourseName);
@@ -710,6 +715,10 @@ Business business;
         // TODO add your handling code here:
         clearSearch();
     }//GEN-LAST:event_btnClearSearchActionPerformed
+
+    private void rbTeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbTeacherActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rbTeacherActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
