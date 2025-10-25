@@ -199,9 +199,9 @@ public class FacultyProfileManagementJPanel extends javax.swing.JPanel {
         String newContact = txtContact.getText();
         
         // Validate input
-        if (newName.isEmpty()) {
+        if (newName.isEmpty() || newEmail.isEmpty() || newContact.isEmpty()) {
             JOptionPane.showMessageDialog(this, 
-                "Name cannot be empty!",
+                "All fields cannot be empty!",
                 "Validation Error",
                 JOptionPane.ERROR_MESSAGE);
             return;

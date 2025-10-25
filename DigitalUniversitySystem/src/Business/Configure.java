@@ -162,6 +162,7 @@ class Configure {
         SeatAssignment sa2 = info6205offer.assignEmptySeat(student1Fall2023);
         
         // 设定成绩
+        // 若不手动设定，会自动根据作业成绩算出，需要这门课至少有一个作业且作业已提交和已被评分
         sa1.setGrade("A");
         sa2.setGrade("B+");
         

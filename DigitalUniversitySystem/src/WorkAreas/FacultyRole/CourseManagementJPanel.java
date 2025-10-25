@@ -343,18 +343,25 @@ public class CourseManagementJPanel extends javax.swing.JPanel {
         txtAvailable.setEnabled(false);
     }
     
-    // 自动生成已有的semester？
+    // 自动生成已有的semester
     private void populateSemesters() {
         cmbSemester.removeAllItems();
-        cmbSemester.addItem("Fall2023");
-        cmbSemester.addItem("Spring2024");
-        cmbSemester.addItem("Fall2024");
-        cmbSemester.addItem("Spring2025");
-        cmbSemester.addItem("Fall2025");
-        cmbSemester.addItem("Spring2026");
         
-        // Department department = business.getDepartment();
-        // ArrayList<String> semesters = new ArrayList<>(department.mastercoursecatalog.keySet());
+        Department department = business.getDepartment();
+        if (department == null) {
+            JOptionPane.showMessageDialog(this, "Department not found!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        ArrayList<String> semesters = new ArrayList<>(department.mastercoursecatalog.keySet());
+        if (semesters.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No semesters found!", "Info", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        
+        for (String semester : semesters) {
+            cmbSemester.addItem(semester);
+        }
     }
     
     private void populateEnrollmentStatus() {
@@ -520,15 +527,24 @@ public class CourseManagementJPanel extends javax.swing.JPanel {
             return;
         }
         
+        // Get new values from form
+        String newDescription = txtCourseDescription.getText();
+        String newSchedule = txtCourseSchedule.getText();
+        String newSyllabus = txtSyllabus.getText();
+        int newCapacity = (Integer) spinnerCapacity.getValue();
+        String enrollmentStatus = (String) cmbEnrollmentStatus.getSelectedItem();
+        
+        // Validate input
+        if (newDescription.isEmpty() || newSchedule.isEmpty() || newSyllabus.isEmpty()) {
+            JOptionPane.showMessageDialog(this, 
+                "All fields cannot be empty!",
+                "Validation Error",
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         try {
             Course course = selectedCourseOffer.getSubjectCourse();
-            
-            // Get new values from form
-            String newDescription = txtCourseDescription.getText();
-            String newSchedule = txtCourseSchedule.getText();
-            String newSyllabus = txtSyllabus.getText();
-            int newCapacity = (Integer) spinnerCapacity.getValue();
-            String enrollmentStatus = (String) cmbEnrollmentStatus.getSelectedItem();
             
             // Validate capacity
             int currentEnrolled = selectedCourseOffer.getTotalRegistedStudent();

@@ -224,6 +224,49 @@ public class CourseOffer {
         return enrolled;
     }
     
+    /**
+     * 获取按成绩排名的学生列表（从高到低）
+     */
+    public ArrayList<SeatAssignment> getRankedStudents() {
+        // Step 1: Get all enrolled students
+        ArrayList<SeatAssignment> allEnrolledStudents = getEnrolledSeatAssignments();
+    
+        // Step 2: Sort by assignment average score (highest to lowest)
+        // lambda表达式，需要改简单点！
+        allEnrolledStudents.sort((student1, student2) -> Double.compare(
+            student2.getAssignmentAverageScore(),  // Higher score first
+            student1.getAssignmentAverageScore()
+        ));
+    
+        return allEnrolledStudents;
+    }
+
+    /**
+     * 获取班级平均GPA
+     */
+    public double getClassAverageGPA() {
+        // Get all enrolled students
+        ArrayList<SeatAssignment> allEnrolledStudents = getEnrolledSeatAssignments();
+    
+        if (allEnrolledStudents.isEmpty()) {
+            return 0.0;
+        }
+    
+        double totalGPA = 0.0;
+        int gradedStudentCount = 0;
+    
+        // Sum up GPAs for students who have been graded
+        for (SeatAssignment student : allEnrolledStudents) {
+            if (student.getLetterGrade() != null) {  // Only count graded students
+                totalGPA += student.getGPA();
+                gradedStudentCount++;
+            }
+        }
+    
+        // Return average or 0 if no students have been graded yet
+        return gradedStudentCount == 0 ? 0.0 : totalGPA / gradedStudentCount;
+        }
+    
     @Override
     public String toString() {
         return course.getCOurseNumber();
