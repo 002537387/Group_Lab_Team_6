@@ -16,24 +16,27 @@ import java.awt.Color;
  * @author Ing-Ruei
  */
 
-public class UpdateStudentAccount extends javax.swing.JPanel {
+public class UpdateAccountInfoJPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form ManageSuppliersJPanel
      */
     JPanel CardSequencePanel;
     UserAccount selecteduseraccount;
+    String role;
 
-    public UpdateStudentAccount(UserAccount ua, JPanel jp) {
+    public UpdateAccountInfoJPanel(UserAccount ua, JPanel jp, String role) {
 
-        CardSequencePanel = jp;
-        selecteduseraccount= ua;
+        this.CardSequencePanel = jp;
+        this.selecteduseraccount= ua;
+        this.role = role;
         initComponents();
         //display user details here
         lblID.setText(ua.getPersonId());
         txtName.setText(ua.getAssociatedPersonProfile().getPerson().getName());
         txtEmail.setText(ua.getAssociatedPersonProfile().getEmail());
         txtContact.setText(ua.getAssociatedPersonProfile().getContact());
+        lblTitle.setText("Modify " + role + " Account");
     }
 
     /**
@@ -46,7 +49,7 @@ public class UpdateStudentAccount extends javax.swing.JPanel {
     private void initComponents() {
 
         btnUpdate = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        lblTitle = new javax.swing.JLabel();
         btnBack = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
@@ -65,9 +68,9 @@ public class UpdateStudentAccount extends javax.swing.JPanel {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        jLabel2.setText("Modify Student Account");
-        SwingStyleUtil.centerLabel(jLabel2);
+        lblTitle.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        lblTitle.setText("Modify Faculty Account");
+        SwingStyleUtil.centerLabel(lblTitle);
 
         SwingStyleUtil.styleButton(btnBack, new Color(70, 130, 180), Color.WHITE); // SteelBlue
         btnBack.setText("<< Back");
@@ -95,7 +98,7 @@ public class UpdateStudentAccount extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(21, 21, 21)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(37, 37, 37)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -126,7 +129,7 @@ public class UpdateStudentAccount extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jLabel2)
+                .addComponent(lblTitle)
                 .addGap(52, 52, 52)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -170,8 +173,8 @@ public class UpdateStudentAccount extends javax.swing.JPanel {
         CardSequencePanel.remove(this);
         Component[] panelStack = CardSequencePanel.getComponents();
         JPanel lastPanel = (JPanel) panelStack[panelStack.length - 1];
-        ManageStudentJPanel msj = (ManageStudentJPanel) lastPanel;
-        msj.refreshTable();
+        ManageUsersByTypeJPanel mujp = (ManageUsersByTypeJPanel) lastPanel;
+        mujp.refreshTable();
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
     }//GEN-LAST:event_btnBackActionPerformed
 
@@ -180,11 +183,11 @@ public class UpdateStudentAccount extends javax.swing.JPanel {
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel lblID;
+    private javax.swing.JLabel lblTitle;
     private javax.swing.JTextField txtContact;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtName;

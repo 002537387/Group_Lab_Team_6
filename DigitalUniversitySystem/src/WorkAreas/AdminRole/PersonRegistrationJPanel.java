@@ -190,7 +190,7 @@ public class PersonRegistrationJPanel extends javax.swing.JPanel {
         }
         // Create Person that link  
         PersonDirectory persondirectory = business.getDepartment().getPersonDirectory();
-        Person person = persondirectory.newPerson(lblID.getText(), txtName.getName());         
+        Person person = persondirectory.newPerson(lblID.getText(), txtName.getText());         
         // Create User accounts that link to specific profiles
         UserAccountDirectory uadirectory = business.getDepartment().getUserAccountDirectory();
         // Create Profile to manage the business

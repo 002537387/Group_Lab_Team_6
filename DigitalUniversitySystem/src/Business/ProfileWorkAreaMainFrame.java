@@ -11,6 +11,7 @@ import Business.Profiles.StudentProfile;
 
 import Business.UserAccounts.UserAccount;
 import Business.Directory.UserAccountDirectory;
+import Business.Profiles.EmployeeProfile;
 import Business.Profiles.RegistrarProfile;
 
 import WorkAreas.AdminRole.AdminRoleWorkAreaJPanel;
@@ -148,8 +149,8 @@ public class ProfileWorkAreaMainFrame extends javax.swing.JFrame {
 
 
         if (role.equals("Admin")) {
-
-            adminworkarea = new AdminRoleWorkAreaJPanel(business, CardSequencePanel);
+            EmployeeProfile employeeProfile = (EmployeeProfile) profile;
+            adminworkarea = new AdminRoleWorkAreaJPanel(business, employeeProfile, CardSequencePanel);
             CardSequencePanel.removeAll();
             CardSequencePanel.add("admin", adminworkarea);
             ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
