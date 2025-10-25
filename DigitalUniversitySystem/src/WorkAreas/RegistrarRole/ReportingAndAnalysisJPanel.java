@@ -35,7 +35,7 @@ public class ReportingAndAnalysisJPanel extends javax.swing.JPanel {
         business = bz;
         this.CardSequencePanel = jp;
         
-
+        
         initComponents();
         
         // 初始化下拉框

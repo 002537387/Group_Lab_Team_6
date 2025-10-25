@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author kal
+ * @author wanyu
  */
 public class RegistrarWorkAreaJPanel extends javax.swing.JPanel {
 
