@@ -119,8 +119,7 @@ public class TranscriptReviewJPanel extends javax.swing.JPanel {
                 courseName,                                 // Course Name
                 grade,                                      // Grade
                 credits,                                    // Credits
-                String.format("%.2f", courseGPAPoints),    // Term GPA Points
-                String.format("%.2f", cumulativeGPAPoints) // Overall GPA Points (累計)
+                String.format("%.2f", sa.getGPA()),    // Course GPA Points
             });
         }
         
@@ -132,12 +131,13 @@ public class TranscriptReviewJPanel extends javax.swing.JPanel {
             "",
             "",
             termTotalCredits,
-            String.format("%.2f", termTotalGradePoints),
-            ""
+            "",
+            String.format("%.2f", student.getSemesterGPA(semester)),
+            String.format("%.2f", student.calculateOverallGPA())
         });
         
         // 空行分隔
-        model.addRow(new Object[]{"", "", "", "", "", "", "", ""});
+        model.addRow(new Object[]{"", "", "", "", "", "", "", "",""});
     }
     }
      private void populateSemesters() {
@@ -229,11 +229,11 @@ private String determineAcademicStanding(double termGPA, double overallGPA) {
 
             },
             new String [] {
-                "Term", "Academic Standing", "Course ID", "Course Name", "Grade", "Credits", "Term GPA Points", "Overall GPA Points"
+                "Term", "Academic Standing", "Course ID", "Course Name", "Grade", "Credits", "Course GPA", "Term GPA Points", "Overall GPA Points"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -242,7 +242,7 @@ private String determineAcademicStanding(double termGPA, double overallGPA) {
         });
         jScrollPane1.setViewportView(tblAcademicTranscript);
 
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 1040, 260));
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 1060, 260));
 
         lblTotalCredits.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         lblTotalCredits.setText("Total Credits:0");
