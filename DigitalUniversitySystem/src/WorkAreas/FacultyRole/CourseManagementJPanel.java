@@ -343,7 +343,7 @@ public class CourseManagementJPanel extends javax.swing.JPanel {
         txtAvailable.setEnabled(false);
     }
     
-    // 自动生成已有的semester
+    // Populate semester dropdown with all available semesters
     private void populateSemesters() {
         cmbSemester.removeAllItems();
         
@@ -353,17 +353,23 @@ public class CourseManagementJPanel extends javax.swing.JPanel {
             return;
         }
         
+        // Get all semester keys from the master course catalog
         ArrayList<String> semesters = new ArrayList<>(department.mastercoursecatalog.keySet());
         if (semesters.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No semesters found!", "Info", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         
+        // Add each semester to the dropdown
         for (String semester : semesters) {
             cmbSemester.addItem(semester);
         }
     }
     
+    /**
+     * Populate enrollment status dropdown with available options
+     * Options: "Open" or "Closed"
+     */
     private void populateEnrollmentStatus() {
         cmbEnrollmentStatus.removeAllItems();
         cmbEnrollmentStatus.addItem("Open");
@@ -493,10 +499,10 @@ public class CourseManagementJPanel extends javax.swing.JPanel {
         txtEnrolled.setText(String.valueOf(co.getTotalRegistedStudent()));
         txtAvailable.setText(String.valueOf(co.getTotalEmptySeat()));
         
-        // 显示实际的enrollment status
+        // Display enrollment status
         cmbEnrollmentStatus.setSelectedItem(co.isEnrollmentOpen() ? "Open" : "Closed");
         
-        // 根据学期判断是否可以修改enrollment status
+        // Enable/disable enrollment status modification based on semester
         boolean canModify = isSemesterModifiable(currentSemester);
         cmbEnrollmentStatus.setEnabled(canModify);
     
@@ -517,8 +523,6 @@ public class CourseManagementJPanel extends javax.swing.JPanel {
         txtAvailable.setText("");
         cmbEnrollmentStatus.setSelectedIndex(0);
         
-        // selectedCourseOffer = null;
-        // tblCourseList.clearSelection();
     }
     
     /**
