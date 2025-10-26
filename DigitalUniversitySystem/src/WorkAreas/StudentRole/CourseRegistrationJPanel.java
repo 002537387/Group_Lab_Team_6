@@ -63,7 +63,7 @@ Business business;
         String selectedSemester = (String) cmbSemester.getSelectedItem();
         if (selectedSemester == null) return;
         
-        // 獲取該學期的課程表
+        // get semester schedule
         CourseSchedule schedule = department.getCourseSchedule(selectedSemester);
         if (schedule == null) {
             model.addRow(new Object[]{
@@ -81,26 +81,26 @@ Business business;
             }
         }
         
-        // 顯示所有可選課程
+        // display  schedule
         ArrayList<CourseOffer> courseOffers = schedule.getCourseOffers();
         for (CourseOffer offer : courseOffers) {
             String courseCode = offer.getCourseNumber();
             String courseName = offer.getSubjectCourse().getCourseName();
             int credits = offer.getCreditHours();
             
-            // 獲取教授名稱
+            // get professor name
             String professor = "TBA";
             FacultyProfile faculty = offer.getFacultyProfile();
             if (faculty != null) {
                 professor = faculty.getPerson().getName();
             }
             
-            // 座位信息
+            // get seatRemaining capacity
             int seatsRemaining = offer.getSeatsRemaining();
             int totalSeats = offer.getTotalSeats();
             String seats = seatsRemaining + "/" + totalSeats;
             
-            // 判斷按鈕文字
+            //current register situation
             String action;
             if (registeredCourseNumbers.contains(courseCode)) {
                 action = "Registered";
@@ -122,6 +122,7 @@ Business business;
             });
         }
     }
+    
     
     private void populateMyCourses() {
         DefaultTableModel model = (DefaultTableModel) tblMyCourses.getModel();
@@ -184,7 +185,7 @@ Business business;
     String courseCode = (String) tblAvailableCourses.getValueAt(row, 0);
     String action = (String) tblAvailableCourses.getValueAt(row, 5);
     
-    // 檢查是否已註冊或已滿
+    // check enrollment status
     if (action.equals("Registered")) {
         JOptionPane.showMessageDialog(this,
             "You are already registered for this course.",
@@ -201,7 +202,6 @@ Business business;
         return;
     }
     
-    // 检查enrollment是否关闭
     if (action.equals("Closed")) {
         JOptionPane.showMessageDialog(this,
             "Course enrollment is closed! The instructor has closed enrollment for this course.",
@@ -210,7 +210,7 @@ Business business;
         return;
     }
     
-    // 獲取課程
+    // get course
     CourseSchedule schedule = department.getCourseSchedule(selectedSemester);
     CourseOffer offer = schedule.getCourseOffer(courseCode);
     
@@ -222,7 +222,7 @@ Business business;
         return;
     }
     
-    // 再次验证enrollment status
+    // verify enrollment status
     if (!offer.isEnrollmentOpen()) {
         JOptionPane.showMessageDialog(this,
             "Course enrollment is closed! The instructor has closed enrollment for this course.",
@@ -231,7 +231,7 @@ Business business;
         return;
     }
     
-    // 檢查學分限制（最多 8 學分）
+    // verify semester credit 
     CourseLoad currentLoad = student.getCourseLoadBySemester(selectedSemester);
     int currentCredits = 0;
     if (currentLoad != null) {
@@ -249,7 +249,7 @@ Business business;
         return;
     }
     
-    // 註冊課程
+    // regist course
     if (currentLoad == null) {
         currentLoad = student.newCourseLoad(selectedSemester);
     }
@@ -410,7 +410,7 @@ Business business;
             }
         }
         
-        // 顯示搜索結果數量
+        //display course match
         if (resultCount == 0) {
             model.addRow(new Object[]{
                 "No courses found matching: " + searchText,

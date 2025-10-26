@@ -38,13 +38,13 @@ public class ReportingAndAnalysisJPanel extends javax.swing.JPanel {
         
         initComponents();
         
-        // 初始化下拉框
+        // initialize SemesterComboBoxes
         initializeSemesterComboBoxes();
         
-        // 初始化课程下拉框
+        // initialize CourseComboBoxes
         initializeCourseComboBox();
         
-        // 默认显示所有学期的招生报告
+        // Report all Semester 
         populateEnrollmentReport("All");
         
         // 添加下拉框监听器
@@ -117,7 +117,7 @@ public class ReportingAndAnalysisJPanel extends javax.swing.JPanel {
     }
     
     /**
-     * 生成招生报告 - Enrollment by Department/Course
+     * Enrollment by Department/Course Report
      */
     private void populateEnrollmentReport(String filterSemester) {
         
@@ -130,7 +130,7 @@ public class ReportingAndAnalysisJPanel extends javax.swing.JPanel {
         for (CourseSchedule schedule : schedules) {
             String semester = schedule.getTerm();
             
-            // 如果筛选学期不是"All"，则只显示该学期
+            // report specific semester
             if (!filterSemester.equals("All") && !semester.equals(filterSemester)) {
                 continue;
             }
@@ -144,7 +144,7 @@ public class ReportingAndAnalysisJPanel extends javax.swing.JPanel {
                 int enrolled = offer.getTotalRegistedStudent();
                 int available = offer.getTotalEmptySeat();
                 
-                // 计算注册率
+                // count enrollment rate
                 double enrollmentRate = capacity > 0 ? (enrolled * 100.0 / capacity) : 0;
                 String enrollmentRateStr = String.format("%.1f%%", enrollmentRate);
                 
@@ -164,13 +164,13 @@ public class ReportingAndAnalysisJPanel extends javax.swing.JPanel {
     }
     
     /**
-     * 生成GPA分布报告 - GPA Distribution by Program
+     *  GPA Distribution by Program Report
      */
     private void populateGPAReport(String filterSemester, String filterCourse) {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
         
-        // GPA映射
+        // GPA
         Map<String, Double> gpaMap = new HashMap<>();
         gpaMap.put("A", 4.0);
         gpaMap.put("A-", 3.7);
@@ -182,7 +182,7 @@ public class ReportingAndAnalysisJPanel extends javax.swing.JPanel {
         gpaMap.put("C-", 1.7);
         gpaMap.put("F", 0.0);
         
-        // 初始化成绩分布统计
+        // innitialize grade 
         Map<String, Integer> gradeDistribution = new HashMap<>();
         for (String grade : gpaMap.keySet()) {
             gradeDistribution.put(grade, 0);
@@ -193,11 +193,11 @@ public class ReportingAndAnalysisJPanel extends javax.swing.JPanel {
         
         int totalGradedAssignments = 0;
         
-        // 统计所有课程的成绩分布
+        // grade distribution
         for (CourseSchedule schedule : schedules) {
             String semester = schedule.getTerm();
-            
-            // 学期筛选
+          
+            // filter for Specific Course 
             if (!filterSemester.equals("All") && !semester.equals(filterSemester)) {
                 continue;
             }
@@ -207,11 +207,12 @@ public class ReportingAndAnalysisJPanel extends javax.swing.JPanel {
             for (CourseOffer offer : offers) {
                 String courseNumber = offer.getCourseNumber();
                 
-                // 课程筛选
+                // filter for Specific Course 
                 if (!filterCourse.equals("All") && !courseNumber.equals(filterCourse)) {
                     continue;
                 }
-               
+                
+                //count grade amount
                 ArrayList<SeatAssignment> enrolledStudents = offer.getEnrolledSeatAssignments();
                 
                 for (SeatAssignment sa : enrolledStudents) {
@@ -223,7 +224,7 @@ public class ReportingAndAnalysisJPanel extends javax.swing.JPanel {
                 }
             }
         }
-     // 按成绩顺序显示
+     // display by order
         String[] gradeOrder = {"A", "A-", "B+", "B", "B-", "C+", "C", "C-", "F"};
         
         for (String grade : gradeOrder) {
@@ -241,7 +242,7 @@ public class ReportingAndAnalysisJPanel extends javax.swing.JPanel {
             model.addRow(row);
         }
         
-        // 显示总数信息
+        //error message
         if (totalGradedAssignments == 0) {
             JOptionPane.showMessageDialog(this, 
                 "No graded assignments found for the selected filter.", 

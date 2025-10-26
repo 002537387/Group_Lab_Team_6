@@ -64,7 +64,7 @@ public class TuitionReconciliationJPanel extends javax.swing.JPanel {
             String name = studentProfile.getPerson().getName();
             
             double balance = studentProfile.getBalance();
-            // 計算已支付金額
+            // caculate balance
             totalBalance += balance;    
             
             double tuition = studentProfile.getCurrentCourseLoad().getTuitionFee();
@@ -77,10 +77,10 @@ public class TuitionReconciliationJPanel extends javax.swing.JPanel {
             totalTuitionCollected = totalTuitionCollected + tuition;
             
             
-              // 判斷支付狀態
+              // check pay status
                 String status = (balance <= 0) ? "Paid" : "Unpaid";
                 
-             // 添加到表格
+             // add to table
                 Object[] row = new Object[7];
                 row[0] = Semester;
                 row[1] = ID;
@@ -109,7 +109,7 @@ public class TuitionReconciliationJPanel extends javax.swing.JPanel {
         model.setRowCount(0); // 清空表格
        
                 
-             // 添加到表格
+             // add to table
                 Object[] row = new Object[2];
                 row[0] = tui;
                 row[1] = t;

@@ -46,7 +46,7 @@ public class StudentRegistrationJPanel extends javax.swing.JPanel {
         
         Department department = business.getDepartment();
         
-        // 填充學期下拉框
+        // ComboBoxSemester read from existing data
         Collection<CourseSchedule> schedules = department.getAllCourseSchedule();
         if (schedules == null || schedules.isEmpty()) {
             JOptionPane.showMessageDialog(this,
@@ -60,7 +60,7 @@ public class StudentRegistrationJPanel extends javax.swing.JPanel {
             ComboBoxSemester.addItem(schedule.getSemester());
         }
         
-        // 填充學生下拉框
+        // ComboBoxStudentName read from existing data
         StudentDirectory studentDirectory = department.getStudentDirectory();
         ArrayList<StudentProfile> students = studentDirectory.getStudent();
         for (StudentProfile studentProfile : students) {
@@ -72,7 +72,7 @@ public class StudentRegistrationJPanel extends javax.swing.JPanel {
             updateCourseListBySemester();  // 只加载第一个学期的课程
         }
         
-        // 載入初始表格數據
+        // load existing data
         loadStudentRegistrations();
     }
     
@@ -93,7 +93,7 @@ public class StudentRegistrationJPanel extends javax.swing.JPanel {
         Department department = business.getDepartment();
         StudentDirectory studentDirectory = department.getStudentDirectory();
         
-        // 查找選中的學生
+        // Get Student 
         StudentProfile selectedStudent = null;
         for (StudentProfile sp : studentDirectory.getStudent()) {
             if (sp.getPerson().getName().equals(selectedStudentName)) {
@@ -106,15 +106,15 @@ public class StudentRegistrationJPanel extends javax.swing.JPanel {
             return;
         }
         
-        // 獲取該學生在該學期的課程負載
+        //Get Student Courseload
         CourseLoad courseLoad = selectedStudent.getCourseLoadBySemester(selectedSemester);
         
         if (courseLoad == null || courseLoad.getSeatAssignments().isEmpty()) {
-            // 沒有註冊任何課程
+            // No register any course
             return;
         }
         
-        // 顯示已註冊的課程
+        // display registered course
         for (SeatAssignment sa : courseLoad.getSeatAssignments()) {
             CourseOffer offer = sa.getCourseOffer();
             
@@ -158,7 +158,7 @@ public class StudentRegistrationJPanel extends javax.swing.JPanel {
             
         
    
-        // 辅助方法：根据名字查找学生
+        
 
    
    
@@ -311,12 +311,12 @@ public class StudentRegistrationJPanel extends javax.swing.JPanel {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
-         // 1. 獲取選中值
+         // 1. collect data
         String semester = (String) ComboBoxSemester.getSelectedItem();
         String studentName = (String) ComboBoxStudentName.getSelectedItem();
         String courseNumber = (String) ComboBoxCourseNum.getSelectedItem();
         
-        // 2. 驗證
+        // 2.verify
         if (semester == null || studentName == null || courseNumber == null) {
             JOptionPane.showMessageDialog(this, 
                 "Please select all fields!", 
@@ -329,7 +329,7 @@ public class StudentRegistrationJPanel extends javax.swing.JPanel {
             Department department = business.getDepartment();
             StudentDirectory studentDirectory = department.getStudentDirectory();
             
-            // 3. 查找學生
+            // 3. Get Student
             StudentProfile selectedStudent = null;
             for (StudentProfile sp : studentDirectory.getStudent()) {
                 if (sp.getPerson().getName().equals(studentName)) {
@@ -346,7 +346,7 @@ public class StudentRegistrationJPanel extends javax.swing.JPanel {
                 return;
             }
             
-            // 4. 檢查是否已經註冊過這門課（從系統中檢查，不只是表格）
+            // 4. check if already register course
             CourseLoad courseLoad = selectedStudent.getCourseLoadBySemester(semester);
             if (courseLoad != null) {
                 for (SeatAssignment sa : courseLoad.getSeatAssignments()) {
@@ -363,7 +363,7 @@ public class StudentRegistrationJPanel extends javax.swing.JPanel {
                 }
             }
             
-            // 5. 查找課程
+            // 5. find courseSchedule
             CourseSchedule courseSchedule = department.getCourseSchedule(semester);
             if (courseSchedule == null) {
                 JOptionPane.showMessageDialog(this, 
@@ -382,7 +382,7 @@ public class StudentRegistrationJPanel extends javax.swing.JPanel {
                 return;
             }
             
-            // 6. 檢查課程是否還有座位
+            // 6. check remain SeatAvaliable
             if (courseOffer.getEmptySeat() == null) {
                 JOptionPane.showMessageDialog(this, 
                     "Course is full! No seats available.", 
@@ -391,7 +391,7 @@ public class StudentRegistrationJPanel extends javax.swing.JPanel {
                 return;
             }
             
-            // 检查enrollment是否开放
+            // 7. check enrollment is open or not
             if (!courseOffer.isEnrollmentOpen()) {
                 JOptionPane.showMessageDialog(this, 
                     "Course enrollment is closed! The instructor has closed enrollment for this course.",
@@ -400,7 +400,7 @@ public class StudentRegistrationJPanel extends javax.swing.JPanel {
                 return;
             }
             
-            // 7. 檢查學分限制（最多 8 學分）
+            // 8. check credit hour (no more than 8)
             int currentCredits = 0;
             if (courseLoad != null) {
                 currentCredits = courseLoad.getTotalCredits();
@@ -418,12 +418,12 @@ public class StudentRegistrationJPanel extends javax.swing.JPanel {
                 return;
             }
             
-            // 8. 創建或獲取 CourseLoad
+            // 8. build new CourseLoad
             if (courseLoad == null) {
                 courseLoad = selectedStudent.newCourseLoad(semester);
             }
             
-            // 9. 註冊課程
+            // 9. register course
             SeatAssignment sa = courseOffer.assignEmptySeat(courseLoad);
             
             if (sa == null) {
@@ -434,14 +434,14 @@ public class StudentRegistrationJPanel extends javax.swing.JPanel {
                 return;
             }
             
-            // 10. 更新學費餘額
+            // 10. update Tuition Balance
             double courseTuition = courseOffer.getTuitionFee();
             selectedStudent.setBalance(selectedStudent.getBalance() + courseTuition);
             
-            // 11. 重新載入表格顯示
+            // 11.reload data
             loadStudentRegistrations();
             
-            // 12. 成功消息
+            // 12. Save Successed Message
             JOptionPane.showMessageDialog(this, 
                 "Student registered successfully!\n\n" +
                 "Student: " + studentName + "\n" +
@@ -468,12 +468,12 @@ public class StudentRegistrationJPanel extends javax.swing.JPanel {
 
     private void btnDropActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDropActionPerformed
         // TODO add your handling code here:
-         // 1. 獲取選中的值
+         // 1. collect data
         String semester = (String) ComboBoxSemester.getSelectedItem();
         String studentName = (String) ComboBoxStudentName.getSelectedItem();
         String courseNumber = (String) ComboBoxCourseNum.getSelectedItem();
         
-        // 2. 驗證輸入
+        // 2. verify input
         if (semester == null || studentName == null || courseNumber == null) {
             JOptionPane.showMessageDialog(this, 
                 "Please select semester, student, and course!", 
@@ -482,7 +482,7 @@ public class StudentRegistrationJPanel extends javax.swing.JPanel {
             return;
         }
         
-        // 3. 確認對話框
+        // 3. confirm message
         int confirm = JOptionPane.showConfirmDialog(this,
             "Are you sure you want to drop this course?\n\n" +
             "Student: " + studentName + "\n" +
@@ -500,7 +500,7 @@ public class StudentRegistrationJPanel extends javax.swing.JPanel {
             Department department = business.getDepartment();
             StudentDirectory studentDirectory = department.getStudentDirectory();
             
-            // 4. 查找學生
+            // 4. find student
             StudentProfile selectedStudent = null;
             for (StudentProfile sp : studentDirectory.getStudent()) {
                 if (sp.getPerson().getName().equals(studentName)) {
@@ -517,7 +517,7 @@ public class StudentRegistrationJPanel extends javax.swing.JPanel {
                 return;
             }
             
-            // 5. 獲取課程負載
+            // 5. get CourseLoad
             CourseLoad courseLoad = selectedStudent.getCourseLoadBySemester(semester);
             
             if (courseLoad == null) {
@@ -528,7 +528,7 @@ public class StudentRegistrationJPanel extends javax.swing.JPanel {
                 return;
             }
             
-            // 6. 查找要退的課程
+            // 6. find drop course
             SeatAssignment toRemove = null;
             for (SeatAssignment sa : courseLoad.getSeatAssignments()) {
                 if (sa.getCourseOffer().getCourseNumber().equals(courseNumber)) {
@@ -545,22 +545,22 @@ public class StudentRegistrationJPanel extends javax.swing.JPanel {
                 return;
             }
             
-            // 7. 獲取學費金額（用於退款）
+            // 7. get Tuition
             double refundAmount = toRemove.getCourseOffer().getTuitionFee();
             
-            // 8. 從課程負載中移除
+            // 8. remove courseSchedule
             courseLoad.dropCourse(toRemove);
             
-            // 9. 退還學費
+            // 9. refund Tuition
             selectedStudent.refundForDroppedCourse(toRemove.getCourseOffer());
             
-            // 10. 釋放座位
+            // 10. release Seat
             toRemove.getSeat().releaseSeat();
             
-            // 11. 重新載入表格
+            // 11. reload data
             loadStudentRegistrations();
             
-            // 12. 顯示成功消息
+            // 12. Drop Successed Message
             JOptionPane.showMessageDialog(this, 
                 "Course dropped successfully!\n\n" +
                 "Student: " + studentName + "\n" +
