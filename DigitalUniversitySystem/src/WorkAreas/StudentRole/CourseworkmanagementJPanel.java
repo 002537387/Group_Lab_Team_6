@@ -189,13 +189,10 @@ public class CourseworkmanagementJPanel extends javax.swing.JPanel {
     if (content != null && !content.trim().isEmpty()) {
         a.submit(content);
         
-        // 系統自動評分
-        int autoScore = 80 + (int)(Math.random() * 21);
-        a.setScore(autoScore);
+
         
         JOptionPane.showMessageDialog(this, 
-            "Submitted successfully!\n" +
-            "System Auto-graded Score: " + autoScore + "/" + a.getMaxScore());
+            "Submitted successfully!\n");
         
         loadAssignments();
     }

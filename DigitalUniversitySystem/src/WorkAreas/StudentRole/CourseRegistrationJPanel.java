@@ -104,6 +104,8 @@ Business business;
             String action;
             if (registeredCourseNumbers.contains(courseCode)) {
                 action = "Registered";
+            } else if (!offer.isEnrollmentOpen()) {
+                action = "Closed";
             } else if (seatsRemaining <= 0) {
                 action = "Full";
             } else {
@@ -199,6 +201,15 @@ Business business;
         return;
     }
     
+    // 检查enrollment是否关闭
+    if (action.equals("Closed")) {
+        JOptionPane.showMessageDialog(this,
+            "Course enrollment is closed! The instructor has closed enrollment for this course.",
+            "Enrollment Closed",
+            JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
     // 獲取課程
     CourseSchedule schedule = department.getCourseSchedule(selectedSemester);
     CourseOffer offer = schedule.getCourseOffer(courseCode);
@@ -207,6 +218,15 @@ Business business;
         JOptionPane.showMessageDialog(this,
             "Course not found.",
             "Error",
+            JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+    // 再次验证enrollment status
+    if (!offer.isEnrollmentOpen()) {
+        JOptionPane.showMessageDialog(this,
+            "Course enrollment is closed! The instructor has closed enrollment for this course.",
+            "Enrollment Closed",
             JOptionPane.ERROR_MESSAGE);
         return;
     }
@@ -371,6 +391,8 @@ Business business;
                 String action;
                 if (registeredCourseNumbers.contains(courseCode)) {
                     action = "Registered";
+                } else if (!offer.isEnrollmentOpen()) {
+                    action = "Closed";
                 } else if (seatsRemaining <= 0) {
                     action = "Full";
                 } else {

@@ -67,12 +67,9 @@ public class StudentRegistrationJPanel extends javax.swing.JPanel {
             ComboBoxStudentName.addItem(studentProfile.getPerson().getName());  
         }
         
-        // 填充課程下拉框（所有學期的課程）
-        for (CourseSchedule schedule : schedules) {
-            ArrayList<CourseOffer> offers = schedule.getCourseOffers();
-            for (CourseOffer offer : offers) {
-                ComboBoxCourseNum.addItem(offer.getCourseNumber());
-            }
+        if (ComboBoxSemester.getItemCount() > 0) {
+            ComboBoxSemester.setSelectedIndex(0);
+            updateCourseListBySemester();  // 只加载第一个学期的课程
         }
         
         // 載入初始表格數據
@@ -135,7 +132,10 @@ public class StudentRegistrationJPanel extends javax.swing.JPanel {
      private void updateCourseListBySemester() {
         String selectedSemester = (String) ComboBoxSemester.getSelectedItem();
         
-        if (selectedSemester == null) return;
+        if (selectedSemester == null) {
+            ComboBoxCourseNum.removeAllItems();
+            return;
+        }
         
         ComboBoxCourseNum.removeAllItems();
         
@@ -387,6 +387,15 @@ public class StudentRegistrationJPanel extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, 
                     "Course is full! No seats available.", 
                     "Registration Failed", 
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            // 检查enrollment是否开放
+            if (!courseOffer.isEnrollmentOpen()) {
+                JOptionPane.showMessageDialog(this, 
+                    "Course enrollment is closed! The instructor has closed enrollment for this course.",
+                    "Enrollment Closed", 
                     JOptionPane.ERROR_MESSAGE);
                 return;
             }
