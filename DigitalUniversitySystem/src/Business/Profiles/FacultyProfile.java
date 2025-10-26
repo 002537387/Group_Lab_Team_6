@@ -6,6 +6,7 @@
 package Business.Profiles;
 
 import Business.Person.Person;
+import java.util.ArrayList;
 
 /**
  *
@@ -25,5 +26,7 @@ public class FacultyProfile extends Profile {
     public String getFacultyName() {
         return getPerson().getName();
     }
+    
+    
     
 }

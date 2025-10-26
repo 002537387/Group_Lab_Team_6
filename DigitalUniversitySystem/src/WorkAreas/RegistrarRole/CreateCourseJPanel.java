@@ -10,7 +10,10 @@ import Business.CourseCatalog.CourseCatalog;
 import Business.CourseSchedule.CourseOffer;
 import Business.CourseSchedule.CourseSchedule;
 import Business.Department.Department;
+import Business.Directory.FacultyDirectory;
+import Business.Directory.StudentDirectory;
 import Business.Profiles.FacultyProfile;
+import Business.Profiles.StudentProfile;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.swing.JOptionPane;
@@ -37,6 +40,34 @@ public class CreateCourseJPanel extends javax.swing.JPanel {
         this.CardSequencePanel = jp;
         initComponents();
         
+        
+        Department department = business.getDepartment();
+        Collection<CourseSchedule> schedules = department.getAllCourseSchedule();
+        
+        // 填充學期下拉框
+        ComboBoxSemester.removeAllItems();
+        if (schedules == null || schedules.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                "No semesters available!",
+                "Warning",
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        for (CourseSchedule schedule : schedules) {
+            ComboBoxSemester.addItem(schedule.getSemester());
+        }
+        
+         // 填充老師下拉框
+        FacultyDirectory facultyDirectory = department.getFacultyDirectory();
+        ArrayList<FacultyProfile> faculty = facultyDirectory.getFaculty();
+        
+        for (FacultyProfile facultyProfile : faculty) {
+            ComboBoxFaculty.addItem(facultyProfile.getPerson().getName());  
+        }
+        
+        
+        
         populateTable();
        
         tblCourse.getSelectionModel().addListSelectionListener(e -> {
@@ -54,48 +85,32 @@ public class CreateCourseJPanel extends javax.swing.JPanel {
      * 填充表格数据
      */
     private void populateTable() {
-        
+       
         DefaultTableModel model = (DefaultTableModel) tblCourse.getModel();
-        model.setRowCount(0);
-    
+        model.setRowCount(0); // 清空表格
+        
         Department department = business.getDepartment();
         Collection<CourseSchedule> schedules = department.getAllCourseSchedule();
         
-         // 填充學期下拉框
-        if (schedules == null || schedules.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                "No semesters available!",
-                "Warning",
-                JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
         for (CourseSchedule schedule : schedules) {
-            ComboBoxSemester.addItem(schedule.getSemester());
-        }
-       
-        
-        for (CourseSchedule schedule : schedules) {
-            //String semester = schedule.getTerm();
-             
-            ArrayList<CourseOffer> offers = schedule.getCourseOffers();    
+            ArrayList<CourseOffer> offers = schedule.getCourseOffers();
+            
             for (CourseOffer offer : offers) {
                 Course course = offer.getSubjectCourse();
                 FacultyProfile fp = offer.getFacultyProfile();
-                ComboBoxFaculty.addItem(fp.getFacultyName());
                 
                 Object[] row = new Object[7];
                 row[0] = schedule.getSemester();
                 row[1] = course.getCOurseNumber();
                 row[2] = course.getCourseName();
                 row[3] = course.getCredits();
-                row[4] = fp.getFacultyName(); 
+                row[4] = fp != null ? fp.getPerson().getName() : "TBA"; 
                 row[5] = offer.getTotalSeats();
-                row[6] = offer.getSchedule();
+                row[6] = offer.getSchedule() != null ? offer.getSchedule() : "";
                 
                 model.addRow(row);
             }
-        }
+        } 
     }
    
     /**
@@ -254,8 +269,8 @@ public class CreateCourseJPanel extends javax.swing.JPanel {
                                 .addComponent(btnUpdate))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(24, 24, 24)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1024, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(29, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1035, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -295,95 +310,164 @@ public class CreateCourseJPanel extends javax.swing.JPanel {
                     .addComponent(btnCreate)
                     .addComponent(btnUpdate))
                 .addGap(30, 30, 30)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(116, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         // TODO add your handling code here:
+        // 讀取輸入數據
+        
         String semester = ComboBoxSemester.getSelectedItem().toString();
-        String courseNumber = txtCourseNumber.getText();
-        String courseName = txtCourseName.getText();
-        String credit = txtCredit.getText();
-        String faculty = ComboBoxFaculty.getSelectedItem().toString();
-        String capacity = txtEnrollmentCapacity.getText();
-        String schedule = txtSRoomSchedule.getText();
+        String courseNumber = txtCourseNumber.getText().trim();
+        String courseName = txtCourseName.getText().trim();
+        String creditStr = txtCredit.getText().trim();
+        String facultyName = ComboBoxFaculty.getSelectedItem() != null ? 
+                            ComboBoxFaculty.getSelectedItem().toString().trim() : "";
+        String capacityStr = txtEnrollmentCapacity.getText().trim();
+        String schedule = txtSRoomSchedule.getText().trim();
     
-        // 2. 验证必填字段
+        // 驗證必填字段
         if (courseNumber.isEmpty()) {
-        JOptionPane.showMessageDialog(this, 
-            "Please Enter Course Number！", 
-            "Warnning", 
-            JOptionPane.WARNING_MESSAGE);
-        return;
+            JOptionPane.showMessageDialog(this, 
+                "Please Enter Course Number!", 
+                "Warning", 
+                JOptionPane.WARNING_MESSAGE);
+            return;
         }
         
-        
-        
-        // 3. 创建新行数据
-        DefaultTableModel model = (DefaultTableModel) tblCourse.getModel();
-         for (int i = 0; i < model.getRowCount(); i++) {
-            String existingSemester = model.getValueAt(i, 0).toString();
-            String existingCourseNumber = model.getValueAt(i, 1).toString();
-            
-            if (existingSemester.equals(semester) && existingCourseNumber.equals(courseNumber)) {
-                JOptionPane.showMessageDialog(this, 
-                    "CourseNumber Already Exist！\nSemester: " + semester + "\nCourseNumber: " + courseNumber, 
-                    "Duplicate CourseNumber", 
-                    JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-        }
-         
         if (courseName.isEmpty()) {
-        JOptionPane.showMessageDialog(this, 
-            "Please Enter Course Name！", 
-            "Warnning", 
-            JOptionPane.WARNING_MESSAGE);
-        return;
+            JOptionPane.showMessageDialog(this, 
+                "Please Enter Course Name!", 
+                "Warning", 
+                JOptionPane.WARNING_MESSAGE);
+            return;
         }
-         if (credit.isEmpty()) {
+        
+        if (creditStr.isEmpty()) {
             JOptionPane.showMessageDialog(this, 
                 "Please enter Credit Amount!", 
                 "Input Error", 
                 JOptionPane.ERROR_MESSAGE);
             return;
         }
-         if (capacity.isEmpty()) {
+        
+        if (capacityStr.isEmpty()) {
             JOptionPane.showMessageDialog(this, 
                 "Please enter Enrollment Capacity!", 
                 "Input Error", 
                 JOptionPane.ERROR_MESSAGE);
             return;
         }
-    
-    
-        Object[] row = new Object[7];
-        row[0] = semester;
-        row[1] = courseNumber;
-        row[2] = courseName;
-        row[3] = credit.isEmpty() ? "" : credit;
-        row[4] = faculty.isEmpty() ? "" : faculty;
-        row[5] = capacity.isEmpty() ? "" : capacity;
-        row[6] = schedule.isEmpty() ? "" : schedule;
-    
-    // 4. 添加到表格
-        model.addRow(row);
         
+        if (facultyName.isEmpty()) {
+            JOptionPane.showMessageDialog(this, 
+                "Please select a Faculty!", 
+                "Input Error", 
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // 驗證數字格式
+        int credits;
+        int capacity;
+        try {
+            credits = Integer.parseInt(creditStr);
+            capacity = Integer.parseInt(capacityStr);
+            
+            if (credits <= 0 || capacity <= 0) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, 
+                "Credits and Capacity must be positive numbers!", 
+                "Input Error", 
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        Department department = business.getDepartment();
+        
+        // 檢查課程是否已存在於該學期
+        CourseSchedule courseSchedule = department.getCourseSchedule(semester);
+        if (courseSchedule == null) {
+            JOptionPane.showMessageDialog(this, 
+                "Course schedule not found for semester: " + semester, 
+                "Error", 
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        CourseOffer existingOffer = courseSchedule.getCourseOfferByNumber(courseNumber);
+        if (existingOffer != null) {
+            JOptionPane.showMessageDialog(this, 
+                "Course already exists in this semester!\nSemester: " + semester + 
+                "\nCourse Number: " + courseNumber, 
+                "Duplicate Course", 
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        // 在CourseCatalog中查找或創建課程
+        CourseCatalog catalog = department.getCourseCatalog();
+        Course course = catalog.getCourseByNumber(courseNumber);
+        
+        if (course == null) {
+            // 如果課程不存在於catalog中，創建新課程
+            course = catalog.newCourse(courseName, courseNumber, credits);
+        } else {
+            // 如果課程已存在，更新課程信息
+            course.setCourseName(courseName);
+        }
+        
+        // 創建CourseOffer
+        CourseOffer newOffer = courseSchedule.newCourseOffer(courseNumber);
+        if (newOffer == null) {
+            JOptionPane.showMessageDialog(this, 
+                "Failed to create course offer!", 
+                "Error", 
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // 設置課程容量和時間表
+        newOffer.generateSeats(capacity);
+        if (schedule != null && !schedule.isEmpty()) {
+            newOffer.setSchedule(schedule);
+        }
+        
+        // 分配Faculty
+        FacultyDirectory facultyDirectory = department.getFacultyDirectory();
+        FacultyProfile selectedFaculty = null;
+        
+        for (FacultyProfile fp : facultyDirectory.getFaculty()) {
+            if (fp.getPerson().getName().equals(facultyName)) {
+                selectedFaculty = fp;
+                break;
+            }
+        }
+        
+        if (selectedFaculty != null) {
+            newOffer.AssignAsTeacher(selectedFaculty);
+        }
+        
+        // 刷新表格
+        populateTable();
+        
+        // 清空輸入框
         txtCourseNumber.setText("");
         txtCourseName.setText("");
         txtCredit.setText("");
+        ComboBoxFaculty.setSelectedIndex(0);
         txtEnrollmentCapacity.setText("");
         txtSRoomSchedule.setText("");
         
-         // 6. 显示成功消息
+        // 顯示成功消息
         JOptionPane.showMessageDialog(this, 
-            "Course Created Successfully!", 
+            "Course Created Successfully!\nFaculty can now manage this course.", 
             "Success", 
-            JOptionPane.INFORMATION_MESSAGE);
-                                             
-        
+            JOptionPane.INFORMATION_MESSAGE);    
     }//GEN-LAST:event_btnCreateActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -398,8 +482,7 @@ public class CreateCourseJPanel extends javax.swing.JPanel {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        
-         // 1. 检查是否选择了表格行
+        // 檢查是否選擇了表格行
         int selectedRow = tblCourse.getSelectedRow();
         
         if (selectedRow < 0) {
@@ -410,16 +493,17 @@ public class CreateCourseJPanel extends javax.swing.JPanel {
             return;
         }
         
-        // 2. 读取输入框的数据
+        // 讀取輸入框的數據
         String semester = ComboBoxSemester.getSelectedItem().toString().trim();
         String courseNumber = txtCourseNumber.getText().trim();
         String courseName = txtCourseName.getText().trim();
-        String credit = txtCredit.getText().trim();
-        String faculty = ComboBoxFaculty.getSelectedItem().toString();
-        String capacity = txtEnrollmentCapacity.getText().trim();
+        String creditStr = txtCredit.getText().trim();
+        String facultyName = ComboBoxFaculty.getSelectedItem() != null ? 
+                            ComboBoxFaculty.getSelectedItem().toString().trim() : "";
+        String capacityStr = txtEnrollmentCapacity.getText().trim();
         String schedule = txtSRoomSchedule.getText().trim();
         
-        // 3. 验证必填字段
+        // 驗證必填字段
         if (courseNumber.isEmpty() || courseName.isEmpty()) {
             JOptionPane.showMessageDialog(this, 
                 "Please enter Course Number and Course Name!", 
@@ -428,39 +512,120 @@ public class CreateCourseJPanel extends javax.swing.JPanel {
             return;
         }
         
-        if (capacity.isEmpty()) {
+        if (creditStr.isEmpty() || capacityStr.isEmpty()) {
             JOptionPane.showMessageDialog(this, 
-                "Please enter Enrollment Capacity!", 
+                "Please enter Credit and Enrollment Capacity!", 
                 "Input Error", 
                 JOptionPane.ERROR_MESSAGE);
             return;
         }
         
-        // 4. 更新表格中选中行的数据
-        DefaultTableModel model = (DefaultTableModel) tblCourse.getModel();
+        // 驗證數字格式
+        int credits;
+        int capacity;
+        try {
+            credits = Integer.parseInt(creditStr);
+            capacity = Integer.parseInt(capacityStr);
+            
+            if (credits <= 0 || capacity <= 0) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, 
+                "Credits and Capacity must be positive numbers!", 
+                "Input Error", 
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         
-        model.setValueAt(semester, selectedRow, 0);
-        model.setValueAt(courseNumber, selectedRow, 1);
-        model.setValueAt(courseName, selectedRow, 2);
-        model.setValueAt(credit.isEmpty() ? "" : credit, selectedRow, 3);
-        model.setValueAt(faculty.isEmpty() ? "" : faculty, selectedRow, 4);
-        model.setValueAt(capacity.isEmpty() ? "" : capacity, selectedRow, 5);
-        model.setValueAt(schedule.isEmpty() ? "" : schedule, selectedRow, 6);
+        Department department = business.getDepartment();
         
-        // 5. 清空输入框
+        // 獲取原始課程號碼（從表格選中行）
+        String originalCourseNumber = tblCourse.getValueAt(selectedRow, 1).toString();
+        String originalSemester = tblCourse.getValueAt(selectedRow, 0).toString();
+        
+        // 獲取CourseSchedule和CourseOffer
+        CourseSchedule courseSchedule = department.getCourseSchedule(originalSemester);
+        if (courseSchedule == null) {
+            JOptionPane.showMessageDialog(this, 
+                "Course schedule not found!", 
+                "Error", 
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        CourseOffer courseOffer = courseSchedule.getCourseOfferByNumber(originalCourseNumber);
+        if (courseOffer == null) {
+            JOptionPane.showMessageDialog(this, 
+                "Course offer not found!", 
+                "Error", 
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // 更新Course信息
+        Course course = courseOffer.getSubjectCourse();
+        course.setCourseName(courseName);
+        
+        // 更新CourseOffer信息
+        if (schedule != null && !schedule.isEmpty()) {
+            courseOffer.setSchedule(schedule);
+        }
+        
+        // 更新容量
+        int currentEnrolled = courseOffer.getTotalRegistedStudent();
+        if (capacity < currentEnrolled) {
+            JOptionPane.showMessageDialog(this, 
+                "New capacity (" + capacity + ") cannot be less than\n" +
+                "currently enrolled students (" + currentEnrolled + ")!", 
+                "Invalid Capacity", 
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        boolean capacityUpdated = courseOffer.updateCapacity(capacity);
+        if (!capacityUpdated) {
+            JOptionPane.showMessageDialog(this, 
+                "Failed to update capacity!", 
+                "Error", 
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // 更新Faculty分配
+        if (!facultyName.isEmpty()) {
+            FacultyDirectory facultyDirectory = department.getFacultyDirectory();
+            FacultyProfile selectedFaculty = null;
+            
+            for (FacultyProfile fp : facultyDirectory.getFaculty()) {
+                if (fp.getPerson().getName().equals(facultyName)) {
+                    selectedFaculty = fp;
+                    break;
+                }
+            }
+            
+            if (selectedFaculty != null) {
+                courseOffer.AssignAsTeacher(selectedFaculty);
+            }
+        }
+        
+        // 刷新表格
+        populateTable();
+        
+        // 清空輸入框
         txtCourseNumber.setText("");
         txtCourseName.setText("");
         txtCredit.setText("");
-        //txtFaculty.setText("");
+        ComboBoxFaculty.setSelectedIndex(0);
         txtEnrollmentCapacity.setText("");
         txtSRoomSchedule.setText("");
-    
         
-        // 6. 显示成功消息
+        // 顯示成功消息
         JOptionPane.showMessageDialog(this, 
             "Course Updated Successfully!", 
             "Success", 
-            JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.INFORMATION_MESSAGE);                                         
+
                                              
     }//GEN-LAST:event_btnUpdateActionPerformed
 
