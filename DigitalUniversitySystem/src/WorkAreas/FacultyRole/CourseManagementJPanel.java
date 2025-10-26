@@ -476,6 +476,7 @@ public class CourseManagementJPanel extends javax.swing.JPanel {
      */
     private void displayCourseDetails(CourseOffer co) {
         Course course = co.getSubjectCourse();
+        String currentSemester = (String) cmbSemester.getSelectedItem();
         
         // Basic info (read-only)
         txtCourseNumber.setText(course.getCOurseNumber());
@@ -492,8 +493,13 @@ public class CourseManagementJPanel extends javax.swing.JPanel {
         txtEnrolled.setText(String.valueOf(co.getTotalRegistedStudent()));
         txtAvailable.setText(String.valueOf(co.getTotalEmptySeat()));
         
-        // Enrollment status
-        // cmbEnrollmentStatus.setSelectedItem(co.isEnrollmentOpen() ? "Open" : "Closed");
+        // 显示实际的enrollment status
+        cmbEnrollmentStatus.setSelectedItem(co.isEnrollmentOpen() ? "Open" : "Closed");
+        
+        // 根据学期判断是否可以修改enrollment status
+        boolean canModify = isSemesterModifiable(currentSemester);
+        cmbEnrollmentStatus.setEnabled(canModify);
+    
     }
     
     /**
@@ -527,6 +533,8 @@ public class CourseManagementJPanel extends javax.swing.JPanel {
             return;
         }
         
+        String currentSemester = (String) cmbSemester.getSelectedItem();
+        
         // Get new values from form
         String newDescription = txtCourseDescription.getText();
         String newSchedule = txtCourseSchedule.getText();
@@ -557,6 +565,23 @@ public class CourseManagementJPanel extends javax.swing.JPanel {
                 return;
             }
             
+            // Only can change future semesters' enrollment status
+            if (isSemesterModifiable(currentSemester)) {
+                selectedCourseOffer.setEnrollmentOpen(enrollmentStatus.equals("Open"));
+            } else {
+                boolean currentStatus = selectedCourseOffer.isEnrollmentOpen();
+                boolean wantsToChange = (enrollmentStatus.equals("Open") != currentStatus);
+            
+                if (wantsToChange) {
+                    JOptionPane.showMessageDialog(this, 
+                        "Cannot modify enrollment status for this semester!\n" +
+                        "Reason: This semester has already started.",
+                        "Cannot Modify Enrollment",
+                        JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+            }
+            
             // Update course details
             course.setDescription(newDescription);
             selectedCourseOffer.setSchedule(newSchedule);
@@ -575,9 +600,7 @@ public class CourseManagementJPanel extends javax.swing.JPanel {
                 }
             }
             
-            // Update enrollment status
-            selectedCourseOffer.setEnrollmentOpen(enrollmentStatus.equals("Open"));
-            
+                        
             JOptionPane.showMessageDialog(this, 
                 "Course details updated successfully!",
                 "Success",
@@ -597,6 +620,18 @@ public class CourseManagementJPanel extends javax.swing.JPanel {
         }
     }
     
+    /**
+     * Fall2023 already started, close course enrollment, cannot change status
+     * Spring2024 not start yet, open course enrollment, allowed to change status
+     */
+    private boolean isSemesterModifiable(String semester) {
+        // Simple set: Fall2023 already started, cannot change status
+        if (semester.equals("Fall2023")) {
+            return false;
+        }
+
+        return true;
+    }
     
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         // TODO add your handling code here:
