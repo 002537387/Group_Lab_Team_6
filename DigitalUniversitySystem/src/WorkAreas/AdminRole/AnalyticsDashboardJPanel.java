@@ -182,9 +182,9 @@ public class AnalyticsDashboardJPanel extends javax.swing.JPanel {
         for (UserAccount ua : students) {
             StudentProfile student = (StudentProfile) ua.getAssociatedPersonProfile();
             
-            // Calculate tuition (assume $1000 per credit)
+            // Calculate tuition
             double creditsEnrolled = student.getCourseList().size() * 4; // 4 credits per course
-            double tuitionOwed = creditsEnrolled * 1000;
+            double tuitionOwed = creditsEnrolled * 1500;
             
             // Get balance (negative means they owe money)
             double balance = student.getBalance();
