@@ -127,17 +127,7 @@ public class CourseworkmanagementJPanel extends javax.swing.JPanel {
         for (SeatAssignment sa : student.getCurrentCourseLoad().getSeatAssignments()) {
             cmbCourse.addItem(sa.toString());
             
-            if (sa.getAssignments().isEmpty()) {
-                java.util.Calendar cal = java.util.Calendar.getInstance();
-                for (int i = 1; i <= 4; i++) {
-                    cal.add(java.util.Calendar.DAY_OF_MONTH, 7);
-                    sa.addAssignment("Assignment " + i, "Complete assignment " + i, cal.getTime(), 100);
-                }
-                sa.getAssignments().get(0).submit("Work 1");
-                sa.getAssignments().get(0).setScore(85);
-                sa.getAssignments().get(1).submit("Work 2");
-                sa.getAssignments().get(1).setScore(90);
-            }
+           
         }
         
         if (cmbCourse.getItemCount() > 0) {
