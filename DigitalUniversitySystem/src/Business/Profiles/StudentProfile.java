@@ -31,7 +31,7 @@ public class StudentProfile extends Profile {
         transcript = new Transcript(this);
     }
     
-    // ========== Transcript 方法 ==========
+    // ========== Transcript method ==========
     
     public Transcript getTranscript() {
         return transcript;
@@ -55,7 +55,7 @@ public class StudentProfile extends Profile {
         return transcript.getCourseList();
     }
     
-    // ========== 财务方法 ==========
+    // ========== Financial method ==========
     
     public double getBalance() {
         return balance;
@@ -93,7 +93,7 @@ public class StudentProfile extends Profile {
     }
     
     /**
-     * 计算所有学期的Overall GPA（只计算有letter grade的课程）
+     * 
      * Calculate overall GPA across all semesters (only includes graded courses)
      * @return Overall GPA
      */
@@ -101,7 +101,7 @@ public class StudentProfile extends Profile {
         double totalGradePoints = 0.0;
         int totalCredits = 0;
     
-        // 遍历所有学期
+        // Go through All Semester
         for (CourseLoad cl : transcript.getCourseloadlist().values()) {
             for (SeatAssignment sa : cl.getSeatAssignments()) {
                 // 只计算有letter grade的课程
@@ -112,12 +112,12 @@ public class StudentProfile extends Profile {
             }
         }
     
-        // 如果没有已评分课程，返回0.0
+        // No rated Course，return 0.0
         return totalCredits == 0 ? 0.0 : totalGradePoints / totalCredits;
     }
 
     /**
-     * 获取所有学期已评分的总学分数
+     * 
      * Get total graded credits across all semesters
      */
     public int getTotalGradedCredits() {
@@ -133,10 +133,10 @@ public class StudentProfile extends Profile {
     }
 
     /**
-     * 获取特定学期的GPA
+     * 
      * Get GPA for a specific semester
-     * @param semester 学期名称
-     * @return 学期GPA
+     * @param semester 
+     * @return GPA
      */
     public double getSemesterGPA(String semester) {
         CourseLoad cl = transcript.getCourseLoadBySemester(semester);
@@ -145,7 +145,7 @@ public class StudentProfile extends Profile {
     }
    
     
-    // ========== Override 方法 ==========
+    // ========== Override method==========
     
     @Override
     public String getRole() {

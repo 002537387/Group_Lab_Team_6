@@ -23,7 +23,8 @@ public class GraduationAuditJPanel extends javax.swing.JPanel {
     JPanel CardSequencePanel;
     Department department;
     Degree degree;
-    // 畢業要求常數
+    
+    // credit requirement
     private static final int TOTAL_CREDITS_REQUIRED = 32;
     private static final int CORE_CREDITS_REQUIRED = 8;
     private static final int ELECTIVE_CREDITS_REQUIRED = 24;
@@ -42,10 +43,10 @@ public class GraduationAuditJPanel extends javax.swing.JPanel {
         populateGraduationAudit();
     }
      private void populateGraduationAudit() {
-        // 獲取學生所有已完成的課程
+        // course has completed
         ArrayList<SeatAssignment> completedCourses = student.getCourseList();
         
-        // 計算總學分
+        // count total credit
         int totalCreditsCompleted = 0;
         for (SeatAssignment sa : completedCourses) {
             if (sa.getLetterGrade() != null) {
@@ -53,16 +54,16 @@ public class GraduationAuditJPanel extends javax.swing.JPanel {
             }
         }
         
-        // 更新 Summary
+        // update Summary
         updateSummary(totalCreditsCompleted);
         
-        // 填充必修課表格
+        // populate CoreCourses
         populateCoreCourses(completedCourses);
         
-        // 填充選修課表格
+        //  populate ElectiveCourses
         populateElectiveCourses(completedCourses);
         
-        // 更新選修課統計
+        // update ElectiveStats
         updateElectiveStats(completedCourses);
     }
     
@@ -70,18 +71,18 @@ public class GraduationAuditJPanel extends javax.swing.JPanel {
         int creditsRemaining = TOTAL_CREDITS_REQUIRED - totalCreditsCompleted;
         if (creditsRemaining < 0) creditsRemaining = 0;
         
-        // 更新標籤
+        
         lblTotalRequired.setText("Total Credits Required: " + TOTAL_CREDITS_REQUIRED);
         lblCompleted.setText("Credits Completed: " + totalCreditsCompleted);
         lblRemaining.setText("Credits Remaining: " + creditsRemaining);
         
-        // 更新進度條
+        
         int progressPercentage = (int) ((totalCreditsCompleted * 100.0) / TOTAL_CREDITS_REQUIRED);
         if (progressPercentage > 100) progressPercentage = 100;
         progressBar.setValue(progressPercentage);
         lblProgress.setText("Progress: " + progressPercentage + "%");
         
-        // 更新畢業狀態
+        // update graduate status
         if (totalCreditsCompleted >= TOTAL_CREDITS_REQUIRED) {
             lblStatus.setText("Graduation Status: ✓ Ready to Graduate!");
             lblStatus.setForeground(new java.awt.Color(0, 128, 0)); // 綠色
@@ -98,7 +99,7 @@ public class GraduationAuditJPanel extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tblCoreCourses.getModel();
         model.setRowCount(0);
         
-        // 獲取所有必修課
+        // get coreCourses
         ArrayList<Course> coreCourses = degree.getCoreCourses();
         
         if (coreCourses == null || coreCourses.isEmpty()) {
@@ -108,13 +109,13 @@ public class GraduationAuditJPanel extends javax.swing.JPanel {
             return;
         }
         
-        // 創建已完成課程的映射
+        // Arraylist for completedCourseNumbers
         ArrayList<String> completedCourseNumbers = new ArrayList<>();
         for (SeatAssignment sa : completedCourses) {
             completedCourseNumbers.add(sa.getCourseOffer().getCourseNumber());
         }
         
-        // 顯示每門必修課的狀態
+        // display course status
         for (Course course : coreCourses) {
             String courseCode = course.getCOurseNumber();
             String courseName = course.getCourseName();
@@ -123,7 +124,7 @@ public class GraduationAuditJPanel extends javax.swing.JPanel {
             String status;
             String grade = "-";
             
-            // 檢查是否已完成
+            // check if is Completed
             boolean isCompleted = false;
             for (SeatAssignment sa : completedCourses) {
                 if (sa.getCourseOffer().getCourseNumber().equals(courseCode)) {
@@ -149,16 +150,16 @@ public class GraduationAuditJPanel extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tblElectives.getModel();
         model.setRowCount(0);
         
-        // 獲取所有選修課
+   
         ArrayList<Course> electiveCourses = degree.getElectiveCourses();
         ArrayList<String> coreCourseCodes = new ArrayList<>();
         
-        // 獲取必修課代碼列表
+        
         for (Course c : degree.getCoreCourses()) {
             coreCourseCodes.add(c.getCOurseNumber());
         }
         
-        // 顯示學生已修的選修課
+        // display Electives course
         boolean hasElectives = false;
         for (SeatAssignment sa : completedCourses) {
             String courseCode = sa.getCourseOffer().getCourseNumber();
@@ -190,7 +191,7 @@ public class GraduationAuditJPanel extends javax.swing.JPanel {
     }
     
     private void updateElectiveStats(ArrayList<SeatAssignment> completedCourses) {
-        // 計算已完成的選修課學分
+        // caculate Completed elective Credits amount
         int electiveCreditsCompleted = 0;
         
         ArrayList<String> coreCourseCodes = new ArrayList<>();
@@ -201,7 +202,7 @@ public class GraduationAuditJPanel extends javax.swing.JPanel {
         for (SeatAssignment sa : completedCourses) {
             String courseCode = sa.getCourseOffer().getCourseNumber();
             
-            // 如果不是必修課，計入選修學分
+            // if not corecourse count to elective course
             if (!coreCourseCodes.contains(courseCode)) {
                 if (sa.getLetterGrade() != null) {
                     electiveCreditsCompleted += sa.getCreditHours();

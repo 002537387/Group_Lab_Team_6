@@ -20,7 +20,7 @@ public class PaymentRecord {
     }
     
     /**
-     * 取得格式化的日期
+     * format date
      */
     public String getDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -28,14 +28,14 @@ public class PaymentRecord {
     }
     
     /**
-     * 取得缴费金额
+     * get Paid Amount
      */
     public double getAmount() {
         return amount;
     }
     
     /**
-     * 取得学期
+     * get semester
      */
     public String getSemester() {
         return semester;
