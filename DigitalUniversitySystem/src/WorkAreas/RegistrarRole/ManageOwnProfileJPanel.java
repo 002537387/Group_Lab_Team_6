@@ -30,10 +30,10 @@ public class ManageOwnProfileJPanel extends javax.swing.JPanel {
          this.registrar = rp;
          
          initComponents();
-          // 載入當前 Registrar 的資料
+          // load Registrar data
          loadRegistrarProfile();
         
-        // 設置 Name 欄位為唯讀（灰色顯示）
+        // set Name to read only
          txtRName.setEditable(false);
     }
   
@@ -49,14 +49,14 @@ public class ManageOwnProfileJPanel extends javax.swing.JPanel {
         
         Person person = registrar.getPerson();
         
-        // 填充欄位
+        //get exisiting data
         txtRName.setText(person.getName());
         txtEmail.setText(registrar.getEmail());
         txtPhone.setText(registrar.getPhone());
         txtOffice.setText(registrar.getOffice());
         txtOfficeHours.setText(registrar.getOfficeHours());
         
-        // 更新表格顯示
+      
         //updateTable();
     }
            
@@ -217,14 +217,14 @@ public class ManageOwnProfileJPanel extends javax.swing.JPanel {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here: 
-        // 獲取輸入值
+        //Step 1: collect text from the field
         String name = txtRName.getText().trim();
         String email = txtEmail.getText().trim();
         String phone = txtPhone.getText().trim();
         String office = txtOffice.getText().trim();
         String officeHours = txtOfficeHours.getText().trim();
         
-        // 驗證必填欄位
+        // Step2 : verify 
         if (name.isEmpty()) {
             JOptionPane.showMessageDialog(this,
                 "Name cannot be empty!",
@@ -243,7 +243,7 @@ public class ManageOwnProfileJPanel extends javax.swing.JPanel {
             return;
         }
         
-        // Email 格式驗證
+        // Step3 : Email type in check
         if (!email.contains("@") || !email.contains(".")) {
             JOptionPane.showMessageDialog(this,
                 "Please enter a valid email address!\n" +
@@ -254,7 +254,7 @@ public class ManageOwnProfileJPanel extends javax.swing.JPanel {
             return;
         }
         
-        // 電話號碼格式驗證（可選）
+        //  Step4 : PhoneNumber type in check
         if (!phone.isEmpty() && !phone.matches("[0-9-()+ ]+")) {
             JOptionPane.showMessageDialog(this,
                 "Please enter a valid phone number!\n" +
@@ -266,14 +266,14 @@ public class ManageOwnProfileJPanel extends javax.swing.JPanel {
         }
         
         try {
-            // 保存資料到 RegistrarProfile
+            // 
             registrar.setEmail(email);
             registrar.setPhone(phone);
             registrar.setOffice(office);
             registrar.setOfficeHours(officeHours);
             
             
-            // 顯示成功消息
+            
             JOptionPane.showMessageDialog(this,
                 "Profile saved successfully!\n\n" +
                 "Name: " + name + "\n" +
@@ -305,7 +305,7 @@ public class ManageOwnProfileJPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         
         
-        
+        //retrace previous data 
         int confirm = JOptionPane.showConfirmDialog(this,
             "This will discard any unsaved changes.\n" +"Are you sure you want to refresh?",
             "Confirm Refresh",
