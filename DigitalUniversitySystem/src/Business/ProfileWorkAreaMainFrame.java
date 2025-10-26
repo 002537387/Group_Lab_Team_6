@@ -18,6 +18,7 @@ import WorkAreas.AdminRole.AdminRoleWorkAreaJPanel;
 import WorkAreas.FacultyRole.FacultyWorkAreaJPanel;
 import WorkAreas.RegistrarRole.RegistrarWorkAreaJPanel;
 import WorkAreas.StudentRole.StudentWorkAreaJPanel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -138,6 +139,11 @@ public class ProfileWorkAreaMainFrame extends javax.swing.JFrame {
         UserAccount useraccount = uad.AuthenticateUser(un, pw);
         
         if (useraccount == null) {
+            JOptionPane.showMessageDialog(this, 
+                "Login failed!\n" +
+                "Invalid username or password.",
+                "Authentication Failed",
+                JOptionPane.ERROR_MESSAGE);
             return;
         }       
         StudentWorkAreaJPanel studentworkarea;
