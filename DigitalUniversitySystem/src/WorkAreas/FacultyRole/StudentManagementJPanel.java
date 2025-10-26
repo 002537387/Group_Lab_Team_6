@@ -360,6 +360,7 @@ public class StudentManagementJPanel extends javax.swing.JPanel {
         txtAssignmentAvg.setEnabled(false);
     }
     
+    // Populate semesters
     private void populateSemesters() {
         cmbSemester.removeAllItems();
         
@@ -466,7 +467,7 @@ public class StudentManagementJPanel extends javax.swing.JPanel {
             double avgScore = sa.getAssignmentAverageScore();
             String grade = sa.getLetterGrade() != null ? sa.getLetterGrade() : "Not Graded";
             
-            // 获得该学生当前学期的GPA
+            // Get selected student' GPA for selected semester
             double semesterGPA = sp.getSemesterGPA(currentSemester);
             String gpa = String.format("%.2f", semesterGPA);
             
@@ -619,7 +620,7 @@ public class StudentManagementJPanel extends javax.swing.JPanel {
         
         Assignment assignment = selectedStudentSeat.getAssignments().get(selectedRow);
         
-        // 检查作业是否已提交
+        // check if the assignment is sumitted
         if (!assignment.isSubmitted()) {
             JOptionPane.showMessageDialog(this, 
                 "Cannot grade this assignment!\n\n" +

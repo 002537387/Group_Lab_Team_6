@@ -207,7 +207,7 @@ public class FacultyProfileManagementJPanel extends javax.swing.JPanel {
             return;
         }
         
-        // Optional: Email validation (basic)
+        // Email validation
         if (!newEmail.isEmpty() && !newEmail.contains("@")) {
             JOptionPane.showMessageDialog(this, 
                 "Please enter a valid email address!",

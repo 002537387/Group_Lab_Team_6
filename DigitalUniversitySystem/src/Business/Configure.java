@@ -36,10 +36,10 @@ class Configure {
     static Business initialize() {
         Business business = new Business("Information Systems");
         
-        // ========== 1. 建立 Department ==========
+        // ========== 1. Create Department ==========
         Department department = new Department("Information Systems");
         
-        // ========== 2. 建立课程 ==========
+        // ========== 2. Create Courses ==========
         CourseCatalog courseCatalog = department.getCourseCatalog();
         
         Course info5100 = courseCatalog.newCourse("Application Engineering", "INFO5100", 4);
@@ -48,14 +48,14 @@ class Configure {
         Course info5001 = courseCatalog.newCourse("Application Design", "INFO5001", 4);
         Course csye6225 = courseCatalog.newCourse("Cloud Computing", "CSYE6225", 4);
         
-        // 设定必修和选修
-        department.addCoreCourse(info5100);  // INFO 5100 是必修
+        // Designate core (required) and elective courses
+        department.addCoreCourse(info5100);  // NFO 5100 is a core course
         department.addElectiveCourse(info6205);
         department.addElectiveCourse(damg7245);
         department.addElectiveCourse(info5001);
         department.addElectiveCourse(csye6225);
         
-        // ========== 3. 建立学期课表 ==========
+        // ========== 3. Create Semester Course Schedules ==========
         CourseSchedule fall2023 = department.newCourseSchedule("Fall2023");
         CourseSchedule spring2024 = department.newCourseSchedule("Spring2024");
         
@@ -67,7 +67,7 @@ class Configure {
         CourseOffer info5100offer2 = spring2024.newCourseOffer("INFO5100");
         CourseOffer csye6225offer2 = spring2024.newCourseOffer("CSYE6225");
         
-        // ========== 4. 建立 Person ==========
+        // ========== 4. Create Person Objects ==========
         PersonDirectory persondirectory = department.getPersonDirectory();
         
         Person adminPerson = persondirectory.newPerson("1","Admin");
@@ -107,7 +107,7 @@ class Configure {
         Person staff7Person = persondirectory.newPerson("29", "Staff Member 7");
         Person staff8Person = persondirectory.newPerson("30", "Staff Member 8");
         
-        // ========== 5. 建立 Profile ==========
+        // ========== 5. Create Profiles ==========
         
         // Admin
         EmployeeDirectory employeedirectory = department.getEmployeeDirectory();
@@ -143,7 +143,7 @@ class Configure {
         RegistrarDirectory registrardirectory = department.getRegistrarDirectory();
         RegistrarProfile registrar = registrardirectory.newRegistrarProfile(registrarPerson);
         
-        // ========== 6. 指派教授 ==========
+        // ========== 6. Assign Faculty to Courses ==========
         info5100offer.AssignAsTeacher(faculty1);
         info6205offer.AssignAsTeacher(faculty2);
         damg7245offer.AssignAsTeacher(faculty1);
@@ -152,7 +152,7 @@ class Configure {
         info5100offer2.AssignAsTeacher(faculty1);
         csye6225offer2.AssignAsTeacher(faculty1);
         
-        // ========== 7. 产生座位 ==========
+        // ========== 7. Generate Seats for Course Offerings ==========
         info5100offer.generateSeats(25);
         info6205offer.generateSeats(25);
         damg7245offer.generateSeats(25);
@@ -161,7 +161,7 @@ class Configure {
         info5100offer2.generateSeats(10);
         csye6225offer2.generateSeats(10);
         
-        // ========== 8.新增timeschedule ==========
+        // ========== 8. Set Course Time Schedules ==========
         info5100offer.setSchedule("Mon/Wed 9:00-10:30");
         info6205offer.setSchedule("Tue/Thu 10:00-11:30");
         damg7245offer.setSchedule("Mon/Wed 14:00-15:30");
@@ -171,23 +171,24 @@ class Configure {
         csye6225offer2.setSchedule("Fri 13:00-16:00");
 
         
-        // ========== 8. 学生选课==========
+        // ========== 9. Student Course Enrollment and Grades ==========
         
         // Student 1 (Adam) - Fall 2023
         CourseLoad student1Fall2023 = student1.newCourseLoad("Fall2023");
         SeatAssignment sa1 = info5100offer.assignEmptySeat(student1Fall2023);
         SeatAssignment sa2 = info6205offer.assignEmptySeat(student1Fall2023);
         
-        // 设定成绩
-        // 若不手动设定，会自动根据作业成绩算出，需要这门课至少有一个作业
+        // Set grades manually
+        // If not set manually, grades will be calculated automatically from assignment scores
+        // (requires at least one assignment for the course)
         sa1.setGrade("A");
         sa2.setGrade("B+");
         
-        //為 INFO5100 創建作業
+        // Create assignments for INFO5100
         java.util.Date now = new java.util.Date();
         java.util.Calendar cal = java.util.Calendar.getInstance();
         
-        // Assignment 1 - 已完成
+        // Assignment 1 - Completed (score: 85/100)
         cal.set(2023, 9, 30);  // 10/30
         Assignment a1 = sa1.addAssignment(
             "Midterm Exam", 
@@ -198,7 +199,7 @@ class Configure {
         a1.setScore(85);
         a1.submit("Completed midterm exam");
         
-        // Assignment 2 - 已完成
+        // Assignment 2 - Completed (score: 90/100)
         cal.set(2023, 10, 6);  // 11/06
         Assignment a2 = sa1.addAssignment(
             "Final Project", 
@@ -209,7 +210,7 @@ class Configure {
         a2.setScore(90);
         a2.submit("Submitted final project");
         
-        // Assignment 3 - 待完成
+        // Assignment 3 - Pending (not yet completed)
         cal.set(2023, 10, 13);  // 11/13
         sa1.addAssignment(
             "Homework 3", 
@@ -218,7 +219,7 @@ class Configure {
             100
         );
         
-        // Assignment 4 - 待完成
+        // Assignment 4 - Pending (not yet completed)
         cal.set(2023, 10, 20);  // 11/20
         sa1.addAssignment(
             "Lab Assignment 5", 
@@ -257,6 +258,7 @@ class Configure {
         SeatAssignment sa9 = csye6225offer2.assignEmptySeat(student7Spring2024);
         SeatAssignment sa10 = info5100offer2.assignEmptySeat(student7Spring2024);
         
+        // CSYE6225 Assignment 1 - Completed (score: 85/100)
         cal.set(2024, 2, 15);
         Assignment a5 = sa9.addAssignment(
             "Midterm Exam", 
@@ -267,6 +269,7 @@ class Configure {
         a5.setScore(85);
         a5.submit("Completed midterm exam");
         
+        // CSYE6225 Assignment 2 - Completed (score: 40/50)
         cal.set(2024, 3, 1);
         Assignment a6 = sa9.addAssignment(
             "Quiz1", 
@@ -277,6 +280,7 @@ class Configure {
         a6.setScore(40);
         a6.submit("Completed quiz 1");
         
+        // INFO5100 Assignment 1 - Not yet completed
         cal.set(2024, 2, 15);
         Assignment a7 = sa10.addAssignment(
             "Midterm Exam 1", 
@@ -285,6 +289,7 @@ class Configure {
             100
         );
 
+        // INFO5100 Assignment 2 - Not yet completed
         cal.set(2024, 3, 15);
         Assignment a8 = sa10.addAssignment(
             "Quiz2", 
@@ -304,7 +309,7 @@ class Configure {
         SeatAssignment sa13 = damg7245offer.assignEmptySeat(student10Fall2023);
         sa13.setGrade("A-");  
         
-        // ========== 9. 建立 UserAccount ==========
+        // ========== 10. Create User Accounts for System Access ==========
         UserAccountDirectory uadirectory = department.getUserAccountDirectory();
         uadirectory.newUserAccount(adminProfile, "admin", "****");
         uadirectory.newUserAccount(student1, "student", "****");
@@ -329,7 +334,7 @@ class Configure {
         uadirectory.newUserAccount(faculty10, "faculty10", "****");
         uadirectory.newUserAccount(registrar, "registrar", "****");
         
-        // ========== 10. 设定财务余额 ==========
+        // ========== 11. Set Student Financial Balances ==========
         student1.setBalance(0);  
         student2.setBalance(0);
         student3.setBalance(0);

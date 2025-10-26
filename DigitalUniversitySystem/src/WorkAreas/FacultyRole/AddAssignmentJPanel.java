@@ -104,7 +104,7 @@ public class AddAssignmentJPanel extends javax.swing.JPanel {
             Calendar cal = Calendar.getInstance();
             cal.set(year, month - 1, day);
             
-            // Try to get the time - this will throw exception if date is invalid
+            // Try to get the time
             Date dueDate = cal.getTime();
             
             return dueDate;
@@ -116,7 +116,7 @@ public class AddAssignmentJPanel extends javax.swing.JPanel {
                 JOptionPane.ERROR_MESSAGE);
             return null;
         } catch (IllegalArgumentException e) {
-            // This catches invalid dates like Feb 30, Apr 31, etc.
+            // This catches invalid dates like Feb 30
             JOptionPane.showMessageDialog(this, 
                 "Invalid date! Please check!",
                 "Invalid Date",
