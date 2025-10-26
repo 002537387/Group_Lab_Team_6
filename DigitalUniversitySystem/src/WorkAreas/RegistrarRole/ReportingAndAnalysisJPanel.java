@@ -120,6 +120,7 @@ public class ReportingAndAnalysisJPanel extends javax.swing.JPanel {
      * 生成招生报告 - Enrollment by Department/Course
      */
     private void populateEnrollmentReport(String filterSemester) {
+        
         DefaultTableModel model = (DefaultTableModel) tblSemester.getModel();
         model.setRowCount(0);
         

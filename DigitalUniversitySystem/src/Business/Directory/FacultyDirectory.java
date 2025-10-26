@@ -7,6 +7,7 @@ package Business.Directory;
 
 import Business.Person.Person;
 import Business.Profiles.FacultyProfile;
+import Business.Profiles.StudentProfile;
 
 import java.util.ArrayList;
 
@@ -43,4 +44,7 @@ public class FacultyDirectory {
             return null; //not found after going through the whole list
          }
     
+       public ArrayList<FacultyProfile> getFaculty() {
+        return facultylist;
+    }
 }

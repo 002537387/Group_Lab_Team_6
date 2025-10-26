@@ -44,7 +44,7 @@ public class StudentRegistrationJPanel extends javax.swing.JPanel {
         initComponents();
         
         
-          Department department = business.getDepartment();
+        Department department = business.getDepartment();
         
         // 填充學期下拉框
         Collection<CourseSchedule> schedules = department.getAllCourseSchedule();
@@ -82,6 +82,7 @@ public class StudentRegistrationJPanel extends javax.swing.JPanel {
     
         
     private void loadStudentRegistrations() {
+        
         String selectedSemester = (String) ComboBoxSemester.getSelectedItem();
         String selectedStudentName = (String) ComboBoxStudentName.getSelectedItem();
         
