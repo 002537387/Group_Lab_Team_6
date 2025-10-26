@@ -54,10 +54,10 @@ public class TranscriptReviewJPanel extends javax.swing.JPanel {
     
     String selectedSemester = (String) cmbSemester.getSelectedItem();
     
-    // 獲取所有學期的課程記錄
+    // get all CourseLoad
     HashMap<String, CourseLoad> courseLoadMap = student.getTranscript().getCourseloadlist();
     
-    // 計算 Overall GPA（所有學期累計）
+    // caculate Overall GPA for all semester
     double overallTotalGradePoints = 0;
     int overallTotalCredits = 0;
     
@@ -72,19 +72,19 @@ public class TranscriptReviewJPanel extends javax.swing.JPanel {
     
     double overallGPA = overallTotalCredits > 0 ? overallTotalGradePoints / overallTotalCredits : 0;
     
-    // 累計的 Overall GPA Points（用於顯示）
+    // cumulativeGPAPoints (Overall GPA Points)
     double cumulativeGPAPoints = 0;
     
     // 按學期顯示
     for (String semester : courseLoadMap.keySet()) {
-        // 如果選擇了特定學期，只顯示該學期
+    
         if (!"All Semesters".equals(selectedSemester) && !semester.equals(selectedSemester)) {
             continue;
         }
         
         CourseLoad cl = courseLoadMap.get(semester);
         
-        // 計算該學期的 Term GPA
+        //  Term GPA for a semester
         double termTotalGradePoints = 0;
         int termTotalCredits = 0;
         
@@ -98,17 +98,17 @@ public class TranscriptReviewJPanel extends javax.swing.JPanel {
         
         double termGPA = termTotalCredits > 0 ? termTotalGradePoints / termTotalCredits : 0;
         
-        // 判斷 Academic Standing
+        // check Academic Standing
         String academicStanding = determineAcademicStanding(termGPA, overallGPA);
         
-        // 顯示該學期的課程
+        // display course
         for (SeatAssignment sa : seats) {
             String courseCode = sa.getCourseOffer().getCourseNumber();
             String courseName = sa.getCourseOffer().getSubjectCourse().getCourseName();
             int credits = sa.getCreditHours();
             String grade = sa.getLetterGrade() != null ? sa.getLetterGrade() : "N/A";
             
-            // 計算該課程的 Term GPA Points
+            // caculate Term GPA Points for a course
             double courseGPAPoints = sa.getGPA() * credits;
             cumulativeGPAPoints += courseGPAPoints;
             
@@ -123,7 +123,7 @@ public class TranscriptReviewJPanel extends javax.swing.JPanel {
             });
         }
         
-        // 添加該學期小計
+        // add termTotalCredits
         model.addRow(new Object[]{
             semester + " Total",
             "",
@@ -136,7 +136,7 @@ public class TranscriptReviewJPanel extends javax.swing.JPanel {
             String.format("%.2f", student.calculateOverallGPA())
         });
         
-        // 空行分隔
+        
         model.addRow(new Object[]{"", "", "", "", "", "", "", "",""});
     }
     }
@@ -149,7 +149,7 @@ public class TranscriptReviewJPanel extends javax.swing.JPanel {
         cmbSemester.addItem(semester);
     }
     
-    // 默認選擇 "All Semesters"
+    //  "All Semesters"
     cmbSemester.setSelectedIndex(0);
 }
 
