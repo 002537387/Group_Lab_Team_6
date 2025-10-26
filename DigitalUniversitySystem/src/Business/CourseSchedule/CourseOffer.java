@@ -21,7 +21,7 @@ public class CourseOffer {
     ArrayList<Seat> seatlist;
     FacultyAssignment facultyassignment;
     private String schedule;  // "Mon/Wed 9:00-10:30"
-    private boolean enrollmentOpen = true;  // 默认开放注册
+    private boolean enrollmentOpen = true;  // Default: enrollment is open
 
     public CourseOffer(Course c) {
         
@@ -94,14 +94,14 @@ public class CourseOffer {
         return course.getCredits();
     }
     /**
-     * 取得学费
+     * Get the tuition fee for this course
      */
     public int getTuitionFee() {
         return course.getCoursePrice();
     }
     
     /**
-     * 取得教授名字
+     * Get the name of the assigned faculty member
      */
     public String getFaculty() {
         if (facultyassignment == null) return "TBA";
@@ -109,7 +109,7 @@ public class CourseOffer {
     }
     
     /**
-     * 取得剩余座位数
+     * Get the number of remaining empty seats
      */
     public int getTotalEmptySeat() {
         int count = 0;
@@ -119,7 +119,7 @@ public class CourseOffer {
             return count;
         }
     /**
-     * 取得已注册学生数
+     * Get the number of students currently enrolled
      */
     public int getTotalRegistedStudent() {
         int count = 0;
@@ -129,14 +129,14 @@ public class CourseOffer {
         return count;
     }
     /**
-     * 獲取剩餘座位數（別名方法）
+     * Get the number of remaining empty seats
      */
     public int getSeatsRemaining() {
         return getTotalEmptySeat();
     }
     
     /**
-     * 獲取總座位數
+     * Get the total seat capacity for this course offering
      */
     public int getTotalSeats() {
         return seatlist.size();
@@ -151,42 +151,40 @@ public class CourseOffer {
     }
     
     /**
-    * 获取注册状态
+    * Check if enrollment is currently open for this course
     */
     public boolean isEnrollmentOpen() {
         return enrollmentOpen;
     }
 
     /**
-    * 开放注册
+    * Open enrollment for this course offer
     */
     public void openEnrollment() {
         this.enrollmentOpen = true;
     }
 
     /**
-    * 关闭注册
+    * Close enrollment for this course offer
     */
     public void closeEnrollment() {
         this.enrollmentOpen = false;
     }
 
     /**
-    * 设置注册状态
+    * Set the enrollment status for this course offer
     */
     public void setEnrollmentOpen(boolean open) {
         this.enrollmentOpen = open;
     }
 
     /**
-    * 修改容量
-    * @param newCapacity 新容量
-    * @return 是否成功
+    * Update the seat capacity for this course offer
     */
     public boolean updateCapacity(int newCapacity) {
         int currentEnrolled = getTotalRegistedStudent();
     
-        // 验证：新容量不能小于已注册学生数
+        // Validation: new capacity cannot be less than enrolled student count
         if (newCapacity < currentEnrolled) {
             return false;
         }
@@ -194,17 +192,17 @@ public class CourseOffer {
         int currentCapacity = seatlist.size();
     
         if (newCapacity > currentCapacity) {
-            // 增加座位
+            // Increase capacity by adding new seats
             for (int i = currentCapacity; i < newCapacity; i++) {
                 seatlist.add(new Seat(this, i));
             }
         } else if (newCapacity < currentCapacity) {
-            // 减少座位 - 只移除空座位
+            // Decrease capacity by removing empty seats from the end
             for (int i = seatlist.size() - 1; i >= newCapacity; i--) {
                 if (!seatlist.get(i).isOccupied()) {
                     seatlist.remove(i);
                 } else {
-                    return false; // 不能移除已占用的座位
+                    return false; // Cannot remove occupied seats
                 }
             }
         }
@@ -213,27 +211,26 @@ public class CourseOffer {
     }
 
     /**
-    * 获取所有已注册学生的SeatAssignment
+    * Get all seat assignments for enrolled students
     */
     public ArrayList<SeatAssignment> getEnrolledSeatAssignments() {
         ArrayList<SeatAssignment> enrolled = new ArrayList<>();
         for (Seat s : seatlist) {
             if (s.isOccupied()) {
-                enrolled.add(s.getSeatAssignment());  // ⚠️ 需要Seat有这个方法
+                enrolled.add(s.getSeatAssignment());
             }
         }
         return enrolled;
     }
     
     /**
-     * 获取按成绩排名的学生列表（从高到低）
+     * Get students ranked by their assignment scores (highest to lowest)
      */
     public ArrayList<SeatAssignment> getRankedStudents() {
         // Step 1: Get all enrolled students
         ArrayList<SeatAssignment> allEnrolledStudents = getEnrolledSeatAssignments();
     
         // Step 2: Sort by assignment average score (highest to lowest)
-        // lambda表达式，需要改简单点！
         allEnrolledStudents.sort((student1, student2) -> Double.compare(
             student2.getAssignmentAverageScore(),  // Higher score first
             student1.getAssignmentAverageScore()
@@ -243,7 +240,7 @@ public class CourseOffer {
     }
 
     /**
-     * 获取班级平均GPA
+     * Calculate the class average GPA for this course offer
      */
     public double getClassAverageGPA() {
         // Get all enrolled students
@@ -269,14 +266,12 @@ public class CourseOffer {
         }
     
     /**
-     * 获取成绩分布
-     * Get grade distribution for this course
-     * @return HashMap with grade as key and count as value
+     * Get grade distribution for this course offer
      */
     public HashMap<String, Integer> getGradeDistribution() {
         HashMap<String, Integer> distribution = new HashMap<>();
     
-        // 初始化所有可能的成绩
+        // Initialize all possible grades with count of 0
         distribution.put("A", 0);
         distribution.put("A-", 0);
         distribution.put("B+", 0);
@@ -286,9 +281,9 @@ public class CourseOffer {
         distribution.put("C", 0);
         distribution.put("C-", 0);
         distribution.put("F", 0);
-        distribution.put("Not Graded", 0);  // 未评分
+        distribution.put("Not Graded", 0);  // Students without grades yet
     
-        // 统计每个成绩的学生数
+        // Count the number of students for each grade
         ArrayList<SeatAssignment> enrolled = getEnrolledSeatAssignments();
         for (SeatAssignment sa : enrolled) {
             String grade = sa.getLetterGrade();

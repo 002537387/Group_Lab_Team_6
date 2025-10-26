@@ -99,7 +99,7 @@ public class SeatAssignment {
         return assignments;
     }
      
-    // 目前交了几个作业
+    // Get assignment submission progress
     public String getAssignmentProgress() {
         if (assignments.isEmpty()) return "0/0";
         int submitted = 0;
@@ -109,7 +109,7 @@ public class SeatAssignment {
         return submitted + "/" + assignments.size();
     }
     
-    // 所有作业的平均分，百分制
+    // Calculate average score across all assignments
     public double getAssignmentAverageScore() {
         if (assignments.isEmpty()) return 0;
         double total = 0;
@@ -122,7 +122,7 @@ public class SeatAssignment {
     }
     
     /**
-    * 根据作业平均分自动计算字母成绩
+    * Calculate final letter grade based on assignment average score
     */
     public String calculateFinalGrade() {
         if (assignments.isEmpty()) {
@@ -142,7 +142,7 @@ public class SeatAssignment {
     }
 
     /**
-    * 自动从作业成绩设置最终成绩
+    * Automatically set the final grade based on assignment scores
     */
     public void autoSetGradeFromAssignments() {
         if (!assignments.isEmpty()) {

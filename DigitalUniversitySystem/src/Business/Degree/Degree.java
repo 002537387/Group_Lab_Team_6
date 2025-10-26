@@ -111,14 +111,14 @@ public class Degree {
     }
     
     /**
-     * 獲取所有必修課
+     * Get all core courses
      */
     public ArrayList<Course> getCoreCourses() {
         return corelist;
     }
     
     /**
-     * 獲取所有選修課
+     * Get all elective courses
      */
     public ArrayList<Course> getElectiveCourses() {
         return electives;

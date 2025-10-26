@@ -59,7 +59,7 @@ public class Assignment {
     }
     
     /**
-     * 提交作业
+     * Submit assignments
      */
     public boolean submit(String content) {
         if (content == null || content.trim().isEmpty()) {
