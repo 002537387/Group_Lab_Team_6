@@ -34,14 +34,14 @@ public class ProfileManagementJPanel extends javax.swing.JPanel {
         // ========== Personal Information ==========
         Person person = student.getPerson();
     
-    // 姓名和學號都是用 getPersonId()
+    
     txtName.setText(person.getName());
     txtStudentID.setText(person.getPersonId());
     
-    // 專業/系所
+    
     txtDepartment.setText(business.getDepartment().getName());
     
-    // 主修
+ 
     txtMajor.setText("MSIS");
     
      // ========== Contact Information ========== 
@@ -50,7 +50,7 @@ public class ProfileManagementJPanel extends javax.swing.JPanel {
     
     // ========== Academic Status ==========
     
-    // 計算總學分和 GPA
+    // caculate total credit and  GPA
     ArrayList<SeatAssignment> allCourses = student.getCourseList();
     int totalCredits = 0;
     double totalGradePoints = 0;
@@ -62,23 +62,23 @@ public class ProfileManagementJPanel extends javax.swing.JPanel {
         }
     }
     
-    // 顯示總學分
+    // totalCredits
     txtTotalCredits.setText(String.valueOf(totalCredits));
     
-    // 計算並顯示 GPA
+    //  GPA
     double cumulativeGPA = totalCredits > 0 ? totalGradePoints / totalCredits : 0;
     txtGPA.setText(String.format("%.2f", cumulativeGPA));
     
-    // 註冊狀態
+    // Enrollment status
     String status = totalCredits > 0 ? "Active" : "New Student";
     txtEnrollment.setText(status);
 }
     private void saveProfile() {
-    // 獲取用戶輸入
+    
     String email = txtEmail.getText().trim();
     String phone = txtPhone.getText().trim();
     
-    // Email 驗證
+    // Email verify
     if (!email.isEmpty() && !email.contains("@")) {
         JOptionPane.showMessageDialog(this,
             "Please enter a valid email address.",
@@ -87,7 +87,7 @@ public class ProfileManagementJPanel extends javax.swing.JPanel {
         return;
     }
     
-    // 保存更改
+    // save change
     student.setEmail(email);
     student.setContact(phone);
     

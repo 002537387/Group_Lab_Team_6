@@ -42,7 +42,7 @@ Business business;
         refreshCourses();
     }
      private void populateSemesters() {
-        // 添加可選學期
+        // add avaliable semester
         cmbSemester.removeAllItems();
         cmbSemester.addItem("Fall2023");
         cmbSemester.addItem("Spring2024");
@@ -72,7 +72,7 @@ Business business;
             return;
         }
         
-        // 獲取學生已註冊的課程
+        // get student register course
         ArrayList<String> registeredCourseNumbers = new ArrayList<>();
         CourseLoad currentLoad = student.getCourseLoadBySemester(selectedSemester);
         if (currentLoad != null) {
@@ -291,7 +291,7 @@ Business business;
         CourseLoad courseLoad = student.getCourseLoadBySemester(selectedSemester);
         if (courseLoad == null) return;
         
-        // 找到對應的 SeatAssignment
+        // get correspond SeatAssignment
         SeatAssignment toRemove = null;
         for (SeatAssignment sa : courseLoad.getSeatAssignments()) {
             if (sa.getCourseOffer().getCourseNumber().equals(courseCode)) {
@@ -330,7 +330,7 @@ Business business;
         CourseSchedule schedule = department.getCourseSchedule(selectedSemester);
         if (schedule == null) return;
         
-        // 獲取學生已註冊的課程
+        // get registeredCourseNumbers
         ArrayList<String> registeredCourseNumbers = new ArrayList<>();
         CourseLoad currentLoad = student.getCourseLoadBySemester(selectedSemester);
         if (currentLoad != null) {
@@ -339,22 +339,22 @@ Business business;
             }
         }
         
-        // 根據選擇的搜索類型進行搜索
+        // selected specific courese information
         ArrayList<CourseOffer> courseOffers = schedule.getCourseOffers();
         int resultCount = 0;
         
         for (CourseOffer offer : courseOffers) {
             boolean matchFound = false;
             
-            // 判斷搜索類型
+            
             if (rbCourseId.isSelected()) {
-                // 按 Course ID 搜索
+                // Search by Course ID 
                 String courseCode = offer.getCourseNumber().toLowerCase();
                 if (courseCode.contains(searchText)) {
                     matchFound = true;
                 }
             } else if (rbTeacher.isSelected()) {
-                // 按 Teacher 搜索
+                // Search by Teacher 
                 String professor = "TBA";
                 FacultyProfile faculty = offer.getFacultyProfile();
                 if (faculty != null) {
@@ -364,14 +364,14 @@ Business business;
                     matchFound = true;
                 }
             } else if (rbCourseName.isSelected()) {
-                // 按 Course Name 搜索
+                // Search by Course Name 
                 String courseName = offer.getSubjectCourse().getCourseName().toLowerCase();
                 if (courseName.contains(searchText)) {
                     matchFound = true;
                 }
             }
             
-            // 如果找到匹配，添加到表格
+            // add to Table
             if (matchFound) {
                 resultCount++;
                 String courseCode = offer.getCourseNumber();
@@ -712,10 +712,10 @@ Business business;
         int row = tblAvailableCourses.rowAtPoint(evt.getPoint());
     int col = tblAvailableCourses.columnAtPoint(evt.getPoint());
     
-    // 檢查是否點擊了 Action 列（第5列）
+    
     if (col == 5 && row >= 0) {
         handleRegisterCourse(row);
-    }
+      }
     }//GEN-LAST:event_tblAvailableCoursesMouseClicked
 
     private void tblMyCoursesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMyCoursesMouseClicked
@@ -723,7 +723,7 @@ Business business;
         int row = tblMyCourses.rowAtPoint(evt.getPoint());
     int col = tblMyCourses.columnAtPoint(evt.getPoint());
     
-    // 檢查是否點擊了 Action 列（第5列）
+    
     if (col == 5 && row >= 0) {
         handleDropCourse(row);
     }//GEN-LAST:event_tblMyCoursesMouseClicked

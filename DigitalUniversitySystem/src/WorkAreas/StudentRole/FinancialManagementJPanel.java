@@ -35,24 +35,24 @@ public class FinancialManagementJPanel extends javax.swing.JPanel {
     private void populateFinancialInfo() {
         // ========== Account Summary ==========
         
-        // 顯示當前餘額（欠款）
+        // display current balance
         double balance = student.getBalance();
         lblCurrentBalance.setText("Current Balance: $" + String.format("%.2f", balance));
         
-        // 如果有欠款，顯示為紅色
+        
         if (balance > 0) {
             lblCurrentBalance.setForeground(new java.awt.Color(255, 0, 0));
         } else {
             lblCurrentBalance.setForeground(new java.awt.Color(0, 128, 0));
         }
         
-        // 顯示當前學期
+        // display current semester
         CourseLoad currentLoad = student.getCurrentCourseLoad();
         if (currentLoad != null) {
             String semester = currentLoad.getSemester();
             lblCurrentSemester.setText("Current Semester: " + semester);
             
-            // 計算學期學費
+            // count semester tuition
             double tuition = currentLoad.getTuitionFee();
             lblSemesterTuition.setText("Semester Tuition: $" + String.format("%.2f", tuition));
         } else {
@@ -67,16 +67,16 @@ public class FinancialManagementJPanel extends javax.swing.JPanel {
     
     ArrayList<PaymentRecord> history = student.getPaymentHistory();
     
-    // 顯示繳費記錄（最新的在前）
+    //display payment Record in order
     for (int i = history.size() - 1; i >= 0; i--) {
         PaymentRecord record = history.get(i);
         
-        // 直接使用 getDate()，因為它已經返回格式化的字符串
+        //  getDate() method
         String date = record.getDate();
         String amount = "$" + String.format("%.2f", record.getAmount());
         String semester = record.getSemester();
         
-        // 計算該次繳費後的餘額
+        // caculate amount after pay
         double balanceAfter = student.getBalance();
         for (int j = history.size() - 1; j > i; j--) {
             balanceAfter += history.get(j).getAmount();
@@ -91,7 +91,7 @@ public class FinancialManagementJPanel extends javax.swing.JPanel {
         });
     }
     
-    // 如果沒有繳費記錄
+    // if no payment history
     if (history.isEmpty()) {
         model.addRow(new Object[]{
             "No payment history yet",
@@ -375,7 +375,7 @@ public class FinancialManagementJPanel extends javax.swing.JPanel {
     private void btnMakePaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMakePaymentActionPerformed
         // TODO add your handling code here:
         try {
-        // 獲取輸入的金額
+        // collect data
         String amountStr = txtPaymentAmount.getText().trim();
         
         if (amountStr.isEmpty()) {
@@ -388,7 +388,7 @@ public class FinancialManagementJPanel extends javax.swing.JPanel {
         
         double amount = Double.parseDouble(amountStr);
         
-        // 驗證金額
+        // verify
         if (amount <= 0) {
             JOptionPane.showMessageDialog(this, 
                 "Payment amount must be greater than zero.", 
@@ -414,7 +414,7 @@ public class FinancialManagementJPanel extends javax.swing.JPanel {
             return;
         }
         
-        // 執行繳費
+        // pay
         boolean success = student.payTuition(amount);
         
         if (success) {
@@ -424,10 +424,10 @@ public class FinancialManagementJPanel extends javax.swing.JPanel {
                 "Payment Successful", 
                 JOptionPane.INFORMATION_MESSAGE);
             
-            // 清空輸入框
+            // clean text
             txtPaymentAmount.setText("");
             
-            // 刷新顯示
+            // refresh data
             refreshFinancialInfo();
         } else {
             JOptionPane.showMessageDialog(this, 
