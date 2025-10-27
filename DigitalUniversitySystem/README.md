@@ -21,6 +21,7 @@ The Digital University System is a comprehensive, Java-based desktop application
 - Role-based access control for tailored user experiences.
 - Comprehensive user and profile management.
 - Course and semester management.
+- Student coursework management.
 - Student enrollment and registration system.
 - Financial tracking and tuition reconciliation.
 - In-depth analytics and reporting dashboard.
@@ -36,7 +37,7 @@ The Digital University System is a comprehensive, Java-based desktop application
 
 1.  **Clone the Repository:**
     ```bash
-    git clone https://github.com/Group_Lab_Team_6/DigitalUniversitySystem.git
+    git clone https://github.com/002537387/Group_Lab_Team_6.git
     cd DigitalUniversitySystem
     ```
 
@@ -68,7 +69,8 @@ Authorization is role-based, meaning that the functionalities a user can access 
 | **User & Profile Management** | Ing-Ruei | Admins can register new users, create and update user accounts, and manage profiles for all roles. | 
 | **Course & Semester Management** | Shuai, Wanyu | Faculty can manage course offerings, and registrars can create new courses. | 
 | **Student Enrollment System** | Hao-Chun | Students can register for available courses each semester. | 
-| **Financial Management** | Hao-Chun, Wanyu | Students can view their tuition and payment history. Registrars can reconcile tuition payments. | 
+| **Student Coursework Management** | Shuai, Hao-Chun | Faculty can manage students' assignments and grades, and report course-level performance. Students can manage coursework. | 
+| **Financial Management** | Shuai, Hao-Chun, Wanyu | Faculty can view tuition collected from courses. Students can view their tuition and payment history. Registrars can reconcile tuition payments. | 
 | **Analytics Dashboard** | Ing-Ruei | Admins can view analytics on user roles, course enrollment, and tuition revenue. | 
 | **UI/UX Enhancements** | Ing-Ruei | Implemented a modern, tabbed navigation for the admin panel and improved overall UI consistency. | 
 
@@ -83,6 +85,7 @@ Authorization is role-based, meaning that the functionalities a user can access 
 ### Example Scenarios
 -   **Admin:** To add a new student, navigate to `User Management > Register Person`, fill in the details with the "Student" role, then go to `Manage User Accounts` to create a login for that student.
 -   **Student:** To register for a course, log in, go to `Course Registration`, select a semester, and enroll in an available course.
+-   **Faculty:** To update course details, log in, go to `Course Management`, select a semester and a course, view it, and update its details
 
 ## 8. Testing Guide
 
@@ -95,6 +98,7 @@ Authorization is role-based, meaning that the functionalities a user can access 
 3.  **Functionality Testing:**
     -   **Admin:** Create, update, and delete a user for each role. Verify that the changes are reflected in the user tables.
     -   **Student:** Register for a course and verify that it appears in your coursework.
+    -   **Faculty:** Set a final grade for a student in `Course Management` and verify that it appears in `Performance Reporting`.
 
 ## 9. Challenges & Solutions
 
@@ -118,5 +122,5 @@ Authorization is role-based, meaning that the functionalities a user can access 
 | --- | --- |
 | Ing-Ruei | - Project management and coordination.<br>- Admin role development and UI/UX optimization.<br>- Bug fixing and documentation. |
 | Hao-Chun | - Student role development.<br>- Implemented student enrollment and financial management features.<br>- Contributed to testing. |
-| Shuai | - Faculty role development.<br>- Implemented course and semester management features.<br>- Contributed to testing. |
+| Shuai | - Faculty role development.<br>- Implemented course and student assignment management features.<br>- Contributed to testing. |
 | Wanyu | - Registrar role development.<br>- Implemented tuition reconciliation and course creation features.<br>- Contributed to testing. |

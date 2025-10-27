@@ -48,8 +48,8 @@ public class CourseLoad {
             return seatassignments;
         }
         
-        /**
-     * 取得课程清单
+    /**
+     * Get list of all course offerings in this course load
      */
     public ArrayList<CourseOffer> getCourseOfferList() {
         ArrayList<CourseOffer> list = new ArrayList<>();
@@ -59,7 +59,7 @@ public class CourseLoad {
         return list;
     }
     /**
-     * 计算学费总额
+     * Calculate total tuition fees for all courses in this course load
      */
     public double getTuitionFee() {
         double sum = 0;
@@ -70,7 +70,7 @@ public class CourseLoad {
     }
             
     /**
-     * 计算平均 GPA
+     * Calculate weighted average GPA for all courses in this course load
      */
     public String getAverageGPA() {
         double sum = 0;
@@ -83,7 +83,7 @@ public class CourseLoad {
         return String.format("%.2f", sum / totalCredits);
     }
     /**
-     * 计算总学分
+     * Calculate total credit hours for all courses in this course load
      */
     public int getTotalCredits() {
         int sum = 0;
@@ -94,56 +94,53 @@ public class CourseLoad {
     }
     
     /**
-     * 取得学期名称
+     * Get the semester name for this course load
      */
     public String getSemester() {
         return semester;
     }
     
     /**
-     * 退课
+     * Drop a course from this course load
      */
     public void dropCourse(SeatAssignment sa) {
         seatassignments.remove(sa);
     }
     
     /**
-    * 获取学生档案
+    * Get the student profile associated with this course load
     */
     public StudentProfile getStudent() {
         return student;
     }
 
     /**
-    * 设置学生档案
+    * Set the student profile for this course load
     */
     public void setStudent(StudentProfile student) {
         this.student = student;
     }
     
     /**
-     * 计算本学期GPA（只计算有letter grade的课程）
      * Calculate semester GPA (only includes courses with letter grades)
-     * @return 学期GPA，如果没有已评分课程则返回0.0
      */
     public double calculateSemesterGPA() {
         double totalGradePoints = 0.0;
         int totalCredits = 0;
     
         for (SeatAssignment sa : seatassignments) {
-            // 只计算有letter grade的课程
+            // Only calculate GPA for courses with letter grades
             if (sa.getLetterGrade() != null) {
                 totalGradePoints += sa.getGPA() * sa.getCreditHours();
                 totalCredits += sa.getCreditHours();
             }
         }
     
-        // 如果没有已评分课程，返回0.0
+        // Return 0.0 if no graded courses exist
         return totalCredits == 0 ? 0.0 : totalGradePoints / totalCredits;
     }
 
     /**
-     * 获取本学期已评分的学分数
      * Get total graded credits for this semester
      */
     public int getGradedCredits() {
